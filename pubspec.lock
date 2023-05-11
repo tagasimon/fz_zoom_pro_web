@@ -41,6 +41,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
+  cloud_firestore:
+    dependency: transitive
+    description:
+      name: cloud_firestore
+      sha256: "89d0786dd45eb4a058fe34de621ba2404a32f782b1d4055dbaedfb40f2fda74a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.7.0"
+  cloud_firestore_platform_interface:
+    dependency: transitive
+    description:
+      name: cloud_firestore_platform_interface
+      sha256: be88dc57bbe36a8dc672d96651e8e946e7c480bdbdc5ca254cb87e22b337dea4
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.14.0"
+  cloud_firestore_web:
+    dependency: transitive
+    description:
+      name: cloud_firestore_web
+      sha256: f43b2fba735086e6746177edcb326a9991e9334b2ec0a121514c5f13b5cacf43
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.5.0"
   collection:
     dependency: transitive
     description:
@@ -113,6 +137,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.5.0"
+  firebase_storage:
+    dependency: transitive
+    description:
+      name: firebase_storage
+      sha256: e69bea73474dc827f0cfe22d80aa6aa3e9d4a095e12939c049abab59fc9884b4
+      url: "https://pub.dev"
+    source: hosted
+    version: "11.2.0"
+  firebase_storage_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_storage_platform_interface
+      sha256: "97cf21feb184ae8d53396d74d215baca01363c513fca3b4496089c3f2701ae5a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.4.0"
+  firebase_storage_web:
+    dependency: transitive
+    description:
+      name: firebase_storage_web
+      sha256: "6b07626eaff386e1822d327f80ba19a7a3b2599b1fcc9fa14bb8cd2767c28271"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.6.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -160,6 +208,21 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "10.4.0"
+  fz_hooks:
+    dependency: "direct main"
+    description:
+      path: "../fz_hooks"
+      relative: true
+    source: path
+    version: "0.0.1"
+  http:
+    dependency: transitive
+    description:
+      name: http
+      sha256: "5895291c13fa8a3bd82e76d5627f69e0d85ca6a30dcac95c4ea19a5d555879c2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.13.6"
   http_parser:
     dependency: transitive
     description:

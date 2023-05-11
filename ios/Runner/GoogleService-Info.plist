@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>791210247900-3rg0g7q38cmebtm982ahk2hl6fvj2043.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.791210247900-3rg0g7q38cmebtm982ahk2hl6fvj2043</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>791210247900-oi4qd052cnv6kfpps3jch2h367669a92.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBwYXCSxBYzWPQa3zmjil0fYLLl-DNJTss</string>
+	<key>GCM_SENDER_ID</key>
+	<string>791210247900</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>simonsayz.pro.fieldZoomProWeb</string>
+	<key>PROJECT_ID</key>
+	<string>field-zoom</string>
+	<key>STORAGE_BUCKET</key>
+	<string>field-zoom.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:791210247900:ios:f5c5359c2534c1932e5619</string>
+</dict>
+</plist>

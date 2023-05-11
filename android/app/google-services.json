@@ -1,0 +1,142 @@
+{
+  "project_info": {
+    "project_number": "791210247900",
+    "project_id": "field-zoom",
+    "storage_bucket": "field-zoom.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791210247900:android:9cab2ecd31dacdb82e5619",
+        "android_client_info": {
+          "package_name": "simmonsayz.xyz.field_zoom_ultra"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "791210247900-r18t52lbb6rj1tb4nrap3jvi7slp2k8d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7a3vlcFGOAi_rl1be0dhkcyi9jghwsDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "791210247900-r18t52lbb6rj1tb4nrap3jvi7slp2k8d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791210247900:android:fb3e96e20b37306c2e5619",
+        "android_client_info": {
+          "package_name": "simonsayz.pro.field_zoom_pro_web"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "791210247900-r18t52lbb6rj1tb4nrap3jvi7slp2k8d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7a3vlcFGOAi_rl1be0dhkcyi9jghwsDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "791210247900-r18t52lbb6rj1tb4nrap3jvi7slp2k8d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791210247900:android:a18df762f9359b8d2e5619",
+        "android_client_info": {
+          "package_name": "xyz.simonsayz.fieldzoom.field_zoom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "791210247900-oi4qd052cnv6kfpps3jch2h367669a92.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "xyz.simonsayz.fieldzoom.field_zoom",
+            "certificate_hash": "441da6fde67699e240f32652d440f52e33d8107a"
+          }
+        },
+        {
+          "client_id": "791210247900-ui9eti3n24d52c6vfpor0fmubjh1gi75.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "xyz.simonsayz.fieldzoom.field_zoom",
+            "certificate_hash": "7e511a033a3f048947bf8d2fcf3365517f3b1d23"
+          }
+        },
+        {
+          "client_id": "791210247900-r18t52lbb6rj1tb4nrap3jvi7slp2k8d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7a3vlcFGOAi_rl1be0dhkcyi9jghwsDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "791210247900-r18t52lbb6rj1tb4nrap3jvi7slp2k8d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791210247900:android:f6cc4eec6256442d2e5619",
+        "android_client_info": {
+          "package_name": "xyz.simonsayz.fieldzoompro.field_zoom_pro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "791210247900-r18t52lbb6rj1tb4nrap3jvi7slp2k8d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7a3vlcFGOAi_rl1be0dhkcyi9jghwsDQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "791210247900-r18t52lbb6rj1tb4nrap3jvi7slp2k8d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

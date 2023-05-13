@@ -11,3 +11,10 @@ final allRegionProvider = FutureProvider<List<RegionModel>>((ref) async {
       .watch(regionsProvider)
       .getAllCompanyRegionsFuture(companyId: user.companyId);
 });
+
+final getRegionByCompanyIdProvider =
+    FutureProvider.family<RegionModel, String>((ref, regionId) async {
+  final user = ref.watch(filterNotifierProvider).user!;
+  return ref.watch(regionsProvider).getRegionByCompanyIdAndRegionId(
+      companyId: user.companyId, regionId: regionId);
+});

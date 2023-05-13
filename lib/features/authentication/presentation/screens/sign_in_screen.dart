@@ -1,9 +1,8 @@
 import 'package:field_zoom_pro_web/core/extensions/context_extesions.dart';
 import 'package:field_zoom_pro_web/features/authentication/repositories/auth_repository.dart';
-import 'package:field_zoom_pro_web/features/authentication/screens/forgot_password_screen.dart';
+import 'package:field_zoom_pro_web/features/authentication/presentation/screens/forgot_password_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class SignInScreen extends StatefulWidget {
   static const String routeName = "sign_in_screen";
@@ -95,21 +94,13 @@ class _SignInScreenState extends State<SignInScreen> {
                               } on FirebaseAuthException catch (e) {
                                 setState(() => loadingOpacity = 0.0);
                                 if (e.code == 'user-not-found') {
-                                  Fluttertoast.showToast(msg: "User not Found");
-                                  // ScaffoldMessenger.of(context).showSnackBar(
-                                  //   const SnackBar(
-                                  //     content: Text("User not Found"),
-                                  //     backgroundColor: Colors.teal,
-                                  //   ),
-                                  // );
+                                  context.showSnackBar("User not Found");
                                 } else if (e.code == 'wrong-password') {
-                                  Fluttertoast.showToast(msg: "Wrong Password");
-                                  // ScaffoldMessenger.of(context).showSnackBar(
-                                  //   const SnackBar(
-                                  //     backgroundColor: Colors.teal,
-                                  //     content: Text("Wrong Password"),
-                                  //   ),
-                                  // );
+                                  context.showSnackBar("Wrong Password");
+                                } else if (e.code == 'invalid-email') {
+                                  context.showSnackBar("Invalid Email");
+                                } else {
+                                  context.showSnackBar("Something went wrong");
                                 }
                               }
                             }

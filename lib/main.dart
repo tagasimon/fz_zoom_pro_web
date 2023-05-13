@@ -1,4 +1,4 @@
-import 'package:field_zoom_pro_web/features/authentication/widgets/auth_widget.dart';
+import 'package:field_zoom_pro_web/features/authentication/presentation/widgets/auth_widget.dart';
 import 'package:field_zoom_pro_web/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

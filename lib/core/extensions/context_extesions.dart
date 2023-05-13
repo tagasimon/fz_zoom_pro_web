@@ -35,4 +35,19 @@ extension NavigationExtension on BuildContext {
     Navigator.of(this).pushNamedAndRemoveUntil(routeName, (route) => false,
         arguments: arguments);
   }
+
+  // scaffold messenger extension
+  void showSnackBar(String message) {
+    ScaffoldMessenger.of(this).showSnackBar(
+      SnackBar(
+        content: Text(
+          message,
+          style: const TextStyle(color: Colors.white),
+          textAlign: TextAlign.center,
+        ),
+        backgroundColor: Colors.green,
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
 }

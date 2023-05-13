@@ -1,6 +1,7 @@
 import 'package:field_zoom_pro_web/core/presentation/screens/home_screen.dart';
 import 'package:field_zoom_pro_web/core/providers/filter_notifier_provider.dart';
 import 'package:field_zoom_pro_web/features/authentication/providers/user_provider.dart';
+import 'package:field_zoom_pro_web/features/users/presentation/screens/user_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -34,9 +35,6 @@ class _NavigationRailWidgetState extends ConsumerState<NavigationRailWidget> {
             selectedIndex: _selectedIndex,
             onDestinationSelected: (int index) {
               setState(() => _selectedIndex = index);
-              ref
-                  .read(filterNotifierProvider.notifier)
-                  .updateFilter(region: "Deafult");
             },
             labelType: NavigationRailLabelType.none,
             leading: IconButton(
@@ -79,7 +77,7 @@ class _NavigationRailWidgetState extends ConsumerState<NavigationRailWidget> {
               NavigationRailDestination(
                 icon: Icon(Icons.person_3_outlined),
                 selectedIcon: Icon(Icons.person),
-                label: Text('SALES ASSOCIATES'),
+                label: Text('USERS'),
               ),
               NavigationRailDestination(
                 icon: Icon(FontAwesomeIcons.earthAfrica),
@@ -94,7 +92,7 @@ class _NavigationRailWidgetState extends ConsumerState<NavigationRailWidget> {
               index: _selectedIndex,
               children: const [
                 HomeScreen(),
-                Center(child: Text('SALES ASSOCIATES')),
+                UserScreen(),
                 Center(child: Text('CUSTOMERS'))
               ],
             ),

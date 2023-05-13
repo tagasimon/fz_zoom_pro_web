@@ -58,8 +58,11 @@ class _SignInScreenState extends State<SignInScreen> {
                       border: OutlineInputBorder(),
                     ),
                     validator: (val) {
-                      if (val!.trim().split("@")[1] != "nice.co.ug") {
-                        return "Invalid Email, Only NHOP emails are Permitted!!";
+                      //  email validation
+                      if (val!.isEmpty) {
+                        return "Please Enter Your Email";
+                      } else if (!val.contains("@")) {
+                        return "Please Enter a Valid Email";
                       }
                       return null;
                     },

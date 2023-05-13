@@ -1,10 +1,9 @@
-import 'dart:developer';
-
 import 'package:field_zoom_pro_web/core/presentation/screens/home_screen.dart';
 import 'package:field_zoom_pro_web/core/providers/filter_notifier_provider.dart';
 import 'package:field_zoom_pro_web/features/authentication/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class NavigationRailWidget extends ConsumerStatefulWidget {
   const NavigationRailWidget({super.key});
@@ -16,6 +15,7 @@ class NavigationRailWidget extends ConsumerStatefulWidget {
 
 class _NavigationRailWidgetState extends ConsumerState<NavigationRailWidget> {
   int _selectedIndex = 0;
+  bool isExtended = false;
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +24,11 @@ class _NavigationRailWidgetState extends ConsumerState<NavigationRailWidget> {
         ref.read(filterNotifierProvider.notifier).updateFilter(user: user);
       });
     });
-    final filter = ref.watch(filterNotifierProvider);
     return Scaffold(
       body: Row(
         children: [
           NavigationRail(
-            extended: true,
+            extended: isExtended,
             useIndicator: true,
             indicatorColor: Theme.of(context).primaryColorLight,
             selectedIndex: _selectedIndex,
@@ -38,10 +37,31 @@ class _NavigationRailWidgetState extends ConsumerState<NavigationRailWidget> {
               ref
                   .read(filterNotifierProvider.notifier)
                   .updateFilter(region: "Deafult");
-              log(filter.toString());
             },
             labelType: NavigationRailLabelType.none,
-            leading: const FlutterLogo(),
+            leading: IconButton(
+                onPressed: () => setState(() => isExtended = !isExtended),
+                icon: const Icon(Icons.menu_sharp)),
+            // Consumer(
+            //   builder: (context, ref, _) {
+            //     final companyInfoProv = ref.watch(companyInfoProvider);
+            //     return companyInfoProv.when(
+            //         data: (data) => Image.network(
+            //               data.logoUrl,
+            //               height: 100,
+            //               width: 100,
+            //               errorBuilder: (context, error, stackTrace) =>
+            //                   const SizedBox.shrink(),
+            //               loadingBuilder: (context, child, loadingProgress) =>
+            //                   loadingProgress == null
+            //                       ? child
+            //                       : const CircularProgressIndicator(),
+            //               fit: BoxFit.contain,
+            //             ),
+            //         error: (error, stackTrace) => const Text("Error"),
+            //         loading: () => const CircularProgressIndicator());
+            //   },
+            // ),
             selectedLabelTextStyle: TextStyle(
               color: Theme.of(context).colorScheme.primary,
               fontWeight: FontWeight.bold,
@@ -62,8 +82,8 @@ class _NavigationRailWidgetState extends ConsumerState<NavigationRailWidget> {
                 label: Text('SALES ASSOCIATES'),
               ),
               NavigationRailDestination(
-                icon: Icon(Icons.people_alt_outlined),
-                selectedIcon: Icon(Icons.people_alt_rounded),
+                icon: Icon(FontAwesomeIcons.earthAfrica),
+                selectedIcon: Icon(FontAwesomeIcons.earthOceania),
                 label: Text('CUSTOMERS'),
               ),
             ],

@@ -1,3 +1,4 @@
+import 'package:field_zoom_pro_web/core/providers/app_theme_provider.dart';
 import 'package:field_zoom_pro_web/features/authentication/presentation/widgets/auth_widget.dart';
 import 'package:field_zoom_pro_web/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,18 +19,15 @@ Future main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        // useMaterial3: true,
-      ),
+      theme: ref.watch(appThemeProvider),
       home: const AuthWidget(),
     );
   }

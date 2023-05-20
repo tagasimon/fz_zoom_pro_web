@@ -4,16 +4,16 @@ import 'package:field_zoom_pro_web/features/users/providers/users_provider.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class UserScreen extends ConsumerStatefulWidget {
+class UsersScreen extends ConsumerStatefulWidget {
   static const routeName = "usersScreen";
 
-  const UserScreen({Key? key}) : super(key: key);
+  const UsersScreen({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<UserScreen> createState() => _UsersScreenState();
+  ConsumerState<UsersScreen> createState() => _UsersScreenState();
 }
 
-class _UsersScreenState extends ConsumerState<UserScreen> {
+class _UsersScreenState extends ConsumerState<UsersScreen> {
   String? selectedUserId;
   @override
   Widget build(BuildContext context) {
@@ -42,8 +42,8 @@ class _UsersScreenState extends ConsumerState<UserScreen> {
                 showRegionFilter: true,
                 showRouteFilter: false,
                 showAssociateFilter: false,
-                showEndDateFilter: false,
-                showStartDateFilter: false,
+                showEndDateFilter: true,
+                showStartDateFilter: true,
               ),
               data.isEmpty
                   ? const Center(child: Text("No users found"))
@@ -90,10 +90,7 @@ class _UsersScreenState extends ConsumerState<UserScreen> {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) {
-          debugPrint(error.toString());
-          return const Center(child: Text("Error"));
-        },
+        error: (error, stack) => const Center(child: Text("Error")),
       ),
     );
   }

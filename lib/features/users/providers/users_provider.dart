@@ -2,9 +2,9 @@ import 'package:field_zoom_pro_web/core/providers/filter_notifier_provider.dart'
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
-final userRepoProvider = Provider<UsersRepository>((ref) {
-  return UsersRepository();
-});
+final userRepoProvider = Provider<UsersRepository>(
+  (ref) => UsersRepository(),
+);
 
 final getUsersByCompanyAndRegionProvider =
     StreamProvider<List<UserModel>>((ref) {

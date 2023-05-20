@@ -4,7 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
 class FilterNotifier extends StateNotifier<FilterModel> {
-  FilterNotifier() : super(FilterModel());
+  FilterNotifier()
+      : super(FilterModel(
+          startDate: DateHelpers.startOfTodayDate(),
+          endDate: DateHelpers.endOfTodayDate(),
+        ));
 
   void updateFilter({
     UserModel? user,
@@ -19,7 +23,6 @@ class FilterNotifier extends StateNotifier<FilterModel> {
       user: user,
       region: region,
       route: route,
-      associate: associate,
       startDate: startDate,
       endDate: endDate,
     );

@@ -16,7 +16,7 @@ dependencies:
   fluttertoast: ^8.2.1
   fz_hooks:
     path: ../fz_hooks
-  intl: ^0.18.1
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

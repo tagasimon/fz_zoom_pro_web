@@ -1,33 +1,17 @@
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:nhop_hooks/nhop_hooks.dart'
-//     show CustomerModel, CustomersRepository;
-// import 'package:nice_admin_web/core/providers/filter_notifier_provider.dart';
+import 'package:field_zoom_pro_web/core/providers/filter_notifier_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fz_hooks/fz_hooks.dart';
 
-// final customersRepoProvider =
-//     Provider<CustomersRepository>((ref) => CustomersRepository());
+final customersRepoProvider =
+    Provider<CustomersRepository>((ref) => CustomersRepository());
 
-// final agentCustomersProvider = StreamProvider<List<CustomerModel>>((ref) {
-//   final region = ref.watch(filterNotifierProvider).region;
-//   final agent = ref.watch(filterNotifierProvider).agent;
-//   final route = ref.watch(filterNotifierProvider).route ?? "";
-
-//   if (agent != "" && route == "") {
-//     return ref.watch(customersRepoProvider).watchAgentCustomers(agent: agent!);
-//   }
-
-//   if (agent == "" && route != "") {
-//     return ref
-//         .watch(customersRepoProvider)
-//         .watchCustomersByRegionAndRoute(region: region!, route: route);
-//   }
-
-//   if (agent != "" && route != "") {
-//     return ref.watch(customersRepoProvider).watchCustomersByRegionAgentRoute(
-//         region: region!, route: route, agent: agent!);
-//   }
-
-//   /// If agent == "" && route == "" then wactch all customers by region
-//   return ref
-//       .watch(customersRepoProvider)
-//       .watchAllRegionCustomersByRegion(region: region!);
-// });
+final customersProviderProvider = FutureProvider<List<CustomerModel>>((ref) {
+  final filter = ref.watch(filterNotifierProvider);
+  if (filter.region == null || filter.region == "") {
+    return ref
+        .watch(customersRepoProvider)
+        .getAllCompanyCustomers(companyId: filter.user!.companyId);
+  }
+  return ref.watch(customersRepoProvider).getCompanyCustomersByRegionId(
+      companyId: filter.user!.companyId, regionId: filter.region!);
+});

@@ -8,14 +8,12 @@ class FilterModel {
   final UserModel? user;
   final String? region;
   final String? route;
-  final String? associate;
   final DateTime? startDate;
   final DateTime? endDate;
   FilterModel({
     this.user,
     this.region,
     this.route,
-    this.associate,
     this.startDate,
     this.endDate,
   });
@@ -24,7 +22,6 @@ class FilterModel {
     UserModel? user,
     String? region,
     String? route,
-    String? associate,
     DateTime? startDate,
     DateTime? endDate,
   }) {
@@ -32,7 +29,6 @@ class FilterModel {
       user: user ?? this.user,
       region: region ?? this.region,
       route: route ?? this.route,
-      associate: associate ?? this.associate,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
     );
@@ -43,7 +39,6 @@ class FilterModel {
       'user': user?.toMap(),
       'region': region,
       'route': route,
-      'associate': associate,
       'startDate': startDate?.millisecondsSinceEpoch,
       'endDate': endDate?.millisecondsSinceEpoch,
     };
@@ -56,7 +51,6 @@ class FilterModel {
           : null,
       region: map['region'] != null ? map['region'] as String : null,
       route: map['route'] != null ? map['route'] as String : null,
-      associate: map['associate'] != null ? map['associate'] as String : null,
       startDate: map['startDate'] != null
           ? DateTime.fromMillisecondsSinceEpoch(map['startDate'] as int)
           : null,
@@ -73,7 +67,7 @@ class FilterModel {
 
   @override
   String toString() {
-    return 'FilterModel(user: $user, region: $region, route: $route, associate: $associate, startDate: $startDate, endDate: $endDate)';
+    return 'FilterModel(user: $user, region: $region, route: $route, startDate: $startDate, endDate: $endDate)';
   }
 
   @override
@@ -83,7 +77,6 @@ class FilterModel {
     return other.user == user &&
         other.region == region &&
         other.route == route &&
-        other.associate == associate &&
         other.startDate == startDate &&
         other.endDate == endDate;
   }
@@ -93,7 +86,6 @@ class FilterModel {
     return user.hashCode ^
         region.hashCode ^
         route.hashCode ^
-        associate.hashCode ^
         startDate.hashCode ^
         endDate.hashCode;
   }

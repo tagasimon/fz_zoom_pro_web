@@ -1,7 +1,9 @@
 import 'package:field_zoom_pro_web/core/presentation/screens/home_screen.dart';
+import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widget.dart';
 import 'package:field_zoom_pro_web/core/providers/filter_notifier_provider.dart';
 import 'package:field_zoom_pro_web/features/authentication/providers/user_provider.dart';
-import 'package:field_zoom_pro_web/features/users/presentation/screens/user_screen.dart';
+import 'package:field_zoom_pro_web/features/customers/presentation/screens/customer_universe.dart';
+import 'package:field_zoom_pro_web/features/users/presentation/screens/users_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -40,6 +42,7 @@ class _NavigationRailWidgetState extends ConsumerState<NavigationRailWidget> {
             leading: IconButton(
                 onPressed: () => setState(() => isExtended = !isExtended),
                 icon: const Icon(Icons.menu_sharp)),
+            trailing: const CustomSwitchWidget(),
             // Consumer(
             //   builder: (context, ref, _) {
             //     final companyInfoProv = ref.watch(companyInfoProvider);
@@ -92,8 +95,8 @@ class _NavigationRailWidgetState extends ConsumerState<NavigationRailWidget> {
               index: _selectedIndex,
               children: const [
                 HomeScreen(),
-                UserScreen(),
-                Center(child: Text('CUSTOMERS'))
+                UsersScreen(),
+                CustomerUniverse(),
               ],
             ),
           )

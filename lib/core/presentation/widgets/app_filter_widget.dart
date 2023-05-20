@@ -1,3 +1,4 @@
+import 'package:field_zoom_pro_web/core/presentation/widgets/date_filter_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/region_filter_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -39,12 +40,12 @@ class AppFilterWidget extends ConsumerWidget {
                   // const VerticalDivider(),
                   // if (stockTypeFilter) const StockTypeFilterWidget(),
                   // const VerticalDivider(),
-                  // if (showStartDateFilter)
-                  //   const DateFilterWidget(isStartDate: true),
-                  // const VerticalDivider(),
-                  // if (showStartDateFilter)
-                  //   const DateFilterWidget(isStartDate: false),
-                  // const VerticalDivider(),
+                  if (showStartDateFilter)
+                    const DateFilterWidget(isStartDate: true),
+                  const VerticalDivider(),
+                  if (showStartDateFilter)
+                    const DateFilterWidget(isStartDate: false),
+                  const VerticalDivider(),
                 ],
               ),
             ),

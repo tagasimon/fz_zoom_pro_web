@@ -1,3 +1,4 @@
+import 'package:field_zoom_pro_web/features/customers/presentation/widgets/customers_bottom_sheet_widget.dart';
 import 'package:field_zoom_pro_web/features/customers/presentation/widgets/table_action_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,8 +16,22 @@ class CustomersTableActionsWidget extends ConsumerWidget {
         const VerticalDivider(),
         TableActionWidget(
           title: "insights",
-          child:
-              IconButton(onPressed: () {}, icon: const Icon(Icons.bar_chart)),
+          child: IconButton(
+              onPressed: () async {
+                await showModalBottomSheet(
+                  isScrollControlled: true,
+                  isDismissible: false,
+                  showDragHandle: true,
+                  enableDrag: false,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  context: context,
+                  builder: (builder) =>
+                      CustomersBottomSheetWidget(customers: customers),
+                );
+              },
+              icon: const Icon(Icons.bar_chart)),
         ),
         const VerticalDivider(),
         TableActionWidget(

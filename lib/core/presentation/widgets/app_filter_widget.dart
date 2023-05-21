@@ -22,7 +22,7 @@ class AppFilterWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.9,
+        width: double.infinity,
         child: Column(
           children: [
             SingleChildScrollView(

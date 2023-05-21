@@ -21,6 +21,8 @@ class AuthRepository {
     return _userFromFirebase(authResult.user);
   }
 
+  // sigin in with email and password
+
   Future<void> signOut() async {
     return FirebaseAuth.instance.signOut();
   }

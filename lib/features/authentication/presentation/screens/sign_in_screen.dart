@@ -1,5 +1,4 @@
 import 'package:field_zoom_pro_web/core/extensions/context_extesions.dart';
-import 'package:field_zoom_pro_web/features/authentication/repositories/auth_repository.dart';
 import 'package:field_zoom_pro_web/features/authentication/presentation/screens/forgot_password_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -88,20 +87,29 @@ class _SignInScreenState extends State<SignInScreen> {
                               try {
                                 setState(() => loadingOpacity = 1.0);
                                 // TODO Use a Controller for this
-                                await AuthRepository()
+                                await FirebaseAuth.instance
                                     .signInWithEmailAndPassword(
                                         email: _email!, password: _password!);
+
+                                // AuthRepository()
+                                //     .signInWithEmailAndPassword(
+                                //         email: _email!, password: _password!);
+                                // Fix these error Codes
                               } on FirebaseAuthException catch (e) {
+                                debugPrint("CODE: ${e.code}");
                                 setState(() => loadingOpacity = 0.0);
-                                if (e.code == 'user-not-found') {
-                                  context.showSnackBar("User not Found");
-                                } else if (e.code == 'wrong-password') {
-                                  context.showSnackBar("Wrong Password");
-                                } else if (e.code == 'invalid-email') {
-                                  context.showSnackBar("Invalid Email");
-                                } else {
-                                  context.showSnackBar("Something went wrong");
-                                }
+                                final errorMsg = switch (e.code) {
+                                  'user-disabled' => "User Disabled",
+                                  'user-not-found' => "User not Found",
+                                  'wrong-password' => "Wrong Password",
+                                  'invalid-email' => "Invalid Email",
+                                  _ =>
+                                    "Couldn't Sign In, Check Your Credentials",
+                                };
+                                context.showSnackBar(errorMsg);
+                              } catch (e) {
+                                setState(() => loadingOpacity = 0.0);
+                                context.showSnackBar(e.toString());
                               }
                             }
                           },

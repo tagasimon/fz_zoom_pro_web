@@ -18,7 +18,7 @@ class CustomSwitchWidget extends ConsumerWidget {
       inactiveTrackColor: Theme.of(context).colorScheme.secondaryContainer,
       thumbIcon: MaterialStateProperty.all(
         Icon(
-          Icons.nightlight_round,
+          Icons.sunny,
           color: ref.watch(appThemeProvider).brightness == Brightness.dark
               ? Colors.white
               : Colors.black,

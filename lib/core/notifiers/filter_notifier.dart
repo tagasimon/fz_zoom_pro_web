@@ -1,5 +1,4 @@
 import 'package:field_zoom_pro_web/core/models/filter_model.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
@@ -26,6 +25,6 @@ class FilterNotifier extends StateNotifier<FilterModel> {
       startDate: startDate,
       endDate: endDate,
     );
-    debugPrint(state.toString());
+    // debugPrint(state.toString());
   }
 }

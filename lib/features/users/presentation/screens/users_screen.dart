@@ -1,6 +1,7 @@
+import 'package:field_zoom_pro_web/core/extensions/async_value_extensions.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/app_filter_widget.dart';
 import 'package:field_zoom_pro_web/features/users/models/users_data_source_model.dart';
-import 'package:field_zoom_pro_web/features/users/providers/users_provider.dart';
+import 'package:field_zoom_pro_web/features/users/providers/user_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,6 +19,11 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
   @override
   Widget build(BuildContext context) {
     final niceTwoUsersProv = ref.watch(getUsersByCompanyAndRegionProvider);
+    final state = ref.watch(userNotifierProvider);
+    ref.listen(
+      userNotifierProvider,
+      (_, state) => state.showSnackBarOnError(context),
+    );
     return Scaffold(
       appBar: AppBar(
         title: const Text("USERS"),
@@ -35,6 +41,11 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
               }
               setState(() => selectedUserId = null);
             },
+            onSwitchChanged: (val, id) async {
+              ref
+                  .read(userNotifierProvider.notifier)
+                  .updateUserStatus(isActive: val, id: id);
+            },
           );
           return Column(
             children: [
@@ -45,6 +56,7 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
                 showEndDateFilter: true,
                 showStartDateFilter: true,
               ),
+              if (state.isLoading) const LinearProgressIndicator(),
               data.isEmpty
                   ? const Center(child: Text("No users found"))
                   : SingleChildScrollView(

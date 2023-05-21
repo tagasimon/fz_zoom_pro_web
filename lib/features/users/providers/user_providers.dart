@@ -1,4 +1,5 @@
 import 'package:field_zoom_pro_web/core/providers/filter_notifier_provider.dart';
+import 'package:field_zoom_pro_web/features/users/presentation/controllers/users_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
@@ -16,4 +17,9 @@ final getUsersByCompanyAndRegionProvider =
   return ref
       .watch(userRepoProvider)
       .getAllCompanyUsersByRegionId(companyId: companyId, regionId: region);
+});
+
+final userNotifierProvider =
+    StateNotifierProvider<UsersController, AsyncValue>((ref) {
+  return UsersController();
 });

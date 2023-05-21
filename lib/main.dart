@@ -25,7 +25,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'FZ PRO',
       debugShowCheckedModeBanner: false,
       theme: ref.watch(appThemeProvider),
       home: const AuthWidget(),

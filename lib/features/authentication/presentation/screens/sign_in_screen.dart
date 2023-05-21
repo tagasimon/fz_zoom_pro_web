@@ -36,6 +36,10 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text("FZ PRO"),
+        elevation: 0,
+      ),
       body: SafeArea(
         child: Center(
           child: Form(

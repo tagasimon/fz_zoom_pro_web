@@ -1,5 +1,6 @@
 import 'package:field_zoom_pro_web/core/extensions/async_value_extensions.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/app_filter_widget.dart';
+import 'package:field_zoom_pro_web/core/providers/company_info_provider.dart';
 import 'package:field_zoom_pro_web/features/users/models/users_data_source_model.dart';
 import 'package:field_zoom_pro_web/features/users/providers/user_providers.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,15 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
     );
     return Scaffold(
       appBar: AppBar(
-        title: const Text("USERS"),
+        title: Consumer(
+          builder: (context, ref, _) {
+            final companyInfoProv = ref.watch(companyInfoProvider);
+            return companyInfoProv.when(
+                data: (data) => Text(data.companyName),
+                error: (error, stackTrace) => const Text("Error"),
+                loading: () => const Text("Loading ..."));
+          },
+        ),
         centerTitle: true,
       ),
       body: niceTwoUsersProv.when(
@@ -104,6 +113,11 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stack) => const Center(child: Text("Error")),
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {},
+        label: const Text("Add User"),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

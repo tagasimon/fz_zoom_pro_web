@@ -80,7 +80,7 @@ class _NavigationRailWidgetState extends ConsumerState<NavigationRailWidget> {
               NavigationRailDestination(
                 icon: Icon(Icons.person_3_outlined),
                 selectedIcon: Icon(Icons.person),
-                label: Text('USERS'),
+                label: Text('FIELD FORCE'),
               ),
               NavigationRailDestination(
                 icon: Icon(FontAwesomeIcons.earthAfrica),

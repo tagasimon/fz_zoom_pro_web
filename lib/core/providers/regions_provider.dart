@@ -18,3 +18,16 @@ final getRegionByCompanyIdProvider =
   return ref.watch(regionsProvider).getRegionByCompanyIdAndRegionId(
       companyId: user.companyId, regionId: regionId);
 });
+
+final companyRegionsProv = StreamProvider.autoDispose<List<RegionModel>>((ref) {
+  final companyId = ref.watch(filterNotifierProvider).user!.companyId;
+  return ref.watch(regionsProvider).getAllCompanyRegions(companyId: companyId);
+});
+
+final getRegionByCompanyIdAndRouteIdProvider =
+    FutureProvider.family.autoDispose<RegionModel, String>((ref, id) {
+  final companyId = ref.watch(filterNotifierProvider).user!.companyId;
+  return ref
+      .watch(regionsProvider)
+      .getRegionByCompanyIdAndRegionId(companyId: companyId, regionId: id);
+});

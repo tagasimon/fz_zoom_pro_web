@@ -23,3 +23,18 @@ final userNotifierProvider =
     StateNotifierProvider<UsersController, AsyncValue>((ref) {
   return UsersController();
 });
+
+final companyUsersProvider = StreamProvider.autoDispose<List<UserModel>>((ref) {
+  final companyId = ref.watch(filterNotifierProvider).user!.companyId;
+  return ref.watch(userRepoProvider).getAllCompanyUsers(companyId: companyId);
+});
+
+final watchUserProvider =
+    StreamProvider.autoDispose.family<UserModel, String>((ref, id) {
+  return ref.watch(userRepoProvider).watchUser(id: id);
+});
+
+final usersControllerProvider =
+    StateNotifierProvider.autoDispose<UsersController, AsyncValue>(
+  (ref) => UsersController(),
+);

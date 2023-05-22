@@ -11,27 +11,29 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cUser = ref.watch(filterNotifierProvider).user;
     return Scaffold(
-        appBar: AppBar(
-          title: cUser?.companyId == null
-              ? const Text("Home Screen")
-              : Consumer(
-                  builder: (context, ref, _) {
-                    final companyInfoProv = ref.watch(companyInfoProvider);
-                    return companyInfoProv.when(
-                        data: (data) => Text(data.companyName),
-                        error: (error, stackTrace) => const Text("Error"),
-                        loading: () => const Text("Loading ..."));
-                  },
-                ),
-        ),
-        body: const Column(
-          children: [
-            AppFilterWidget(
-              showRegionFilter: true,
-              showStartDateFilter: true,
-              showEndDateFilter: true,
-            ),
-          ],
-        ));
+      appBar: AppBar(
+        title: cUser?.companyId == null
+            ? const Text("Home Screen")
+            : Consumer(
+                builder: (context, ref, _) {
+                  final companyInfoProv = ref.watch(companyInfoProvider);
+                  return companyInfoProv.when(
+                      data: (data) => Text(data.companyName),
+                      error: (error, stackTrace) => const Text("Error"),
+                      loading: () => const Text("Loading ..."));
+                },
+              ),
+      ),
+      body: const Column(
+        children: [
+          AppFilterWidget(
+            showRegionFilter: true,
+            showStartDateFilter: true,
+            showEndDateFilter: true,
+          ),
+          Text("Home Screen")
+        ],
+      ),
+    );
   }
 }

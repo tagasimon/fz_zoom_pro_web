@@ -1,4 +1,3 @@
-import 'package:field_zoom_pro_web/core/extensions/async_value_extensions.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/app_filter_widget.dart';
 import 'package:field_zoom_pro_web/core/providers/company_info_provider.dart';
 import 'package:field_zoom_pro_web/features/users/models/users_data_source_model.dart';
@@ -6,6 +5,7 @@ import 'package:field_zoom_pro_web/features/users/presentation/screens/register_
 import 'package:field_zoom_pro_web/features/users/providers/user_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fz_hooks/fz_hooks.dart';
 
 class UsersScreen extends ConsumerStatefulWidget {
   static const routeName = "usersScreen";
@@ -32,9 +32,10 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
           builder: (context, ref, _) {
             final companyInfoProv = ref.watch(companyInfoProvider);
             return companyInfoProv.when(
-                data: (data) => Text(data.companyName),
-                error: (error, stackTrace) => const Text("Error"),
-                loading: () => const Text("Loading ..."));
+              data: (data) => Text(data.companyName),
+              error: (error, stackTrace) => const Text("Error"),
+              loading: () => const Text("Loading ..."),
+            );
           },
         ),
         centerTitle: true,
@@ -117,18 +118,9 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
         error: (error, stack) => const Center(child: Text("Error")),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              fullscreenDialog: true,
-              builder: (_) {
-                return const RegisterUserScreen();
-              },
-            ),
-          );
-        },
-        label: const Text("Add User"),
+        onPressed: () =>
+            context.push(const RegisterUserScreen(), fullscreenDialog: true),
+        label: const Text("ADD USER"),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

@@ -3,6 +3,7 @@ import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widge
 import 'package:field_zoom_pro_web/core/providers/filter_notifier_provider.dart';
 import 'package:field_zoom_pro_web/features/authentication/providers/user_provider.dart';
 import 'package:field_zoom_pro_web/features/customers/presentation/screens/customer_universe.dart';
+import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/products_screen.dart';
 import 'package:field_zoom_pro_web/features/users/presentation/screens/users_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -87,6 +88,11 @@ class _NavigationRailWidgetState extends ConsumerState<NavigationRailWidget> {
                 selectedIcon: Icon(FontAwesomeIcons.earthOceania),
                 label: Text('CUSTOMERS'),
               ),
+              NavigationRailDestination(
+                icon: Icon(Icons.shopping_bag_outlined),
+                selectedIcon: Icon(Icons.shopping_bag_sharp),
+                label: Text('PRODUCTS'),
+              ),
             ],
           ),
           const VerticalDivider(thickness: 1, width: 1),
@@ -97,6 +103,7 @@ class _NavigationRailWidgetState extends ConsumerState<NavigationRailWidget> {
                 HomeScreen(),
                 UsersScreen(),
                 CustomerUniverse(),
+                ProductsScreen()
               ],
             ),
           )

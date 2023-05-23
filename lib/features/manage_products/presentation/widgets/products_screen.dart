@@ -1,5 +1,5 @@
 import 'package:field_zoom_pro_web/core/extensions/context_extesions.dart';
-import 'package:field_zoom_pro_web/core/providers/company_info_provider.dart';
+import 'package:field_zoom_pro_web/core/presentation/widgets/company_title_widget.dart';
 import 'package:field_zoom_pro_web/features/customers/presentation/widgets/table_action_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/models/product_data_source_model.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/product_details_screen.dart';
@@ -17,7 +17,7 @@ class ProductsScreen extends ConsumerStatefulWidget {
 
 class _ProductsScreenState extends ConsumerState<ProductsScreen> {
   String? selectedProductId;
-  double initWidth = 0.9;
+  double mainContentWidth = 0.7;
   bool animationEnded = false;
   @override
   Widget build(BuildContext context) {
@@ -30,44 +30,34 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
           onSelected: (product) {
             if (selectedProductId == null) {
               setState(() {
-                initWidth = 0.4;
+                mainContentWidth = 0.3;
                 selectedProductId = product;
               });
               return;
             }
             setState(() {
               animationEnded = !animationEnded;
-              initWidth = 0.9;
+              mainContentWidth = 0.7;
               selectedProductId = null;
             });
           },
         );
         return Scaffold(
-          appBar: AppBar(
-            title: Consumer(
-              builder: (context, ref, _) {
-                final companyInfoProv = ref.watch(companyInfoProvider);
-                return companyInfoProv.when(
-                    data: (data) => Text(data.companyName),
-                    error: (error, stackTrace) => const Text("Error"),
-                    loading: () => const Text("Loading ..."));
-              },
-            ),
-          ),
+          appBar: AppBar(title: const CompanyTitleWidget()),
           body: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SingleChildScrollView(
                 child: AnimatedContainer(
                   onEnd: () => setState(() {
-                    if (initWidth == 0.9) {
+                    if (mainContentWidth == 0.7) {
                       animationEnded = false;
                     } else {
                       animationEnded = true;
                     }
                   }),
                   duration: const Duration(milliseconds: 500),
-                  width: MediaQuery.of(context).size.width * initWidth,
+                  width: MediaQuery.of(context).size.width * mainContentWidth,
                   child: PaginatedDataTable(
                     columns: const [
                       DataColumn(label: Text("NAME")),
@@ -75,7 +65,7 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                       DataColumn(label: Text("SUB CARTEGORY")),
                       DataColumn(label: Text("VAR")),
                       DataColumn(label: Text("SELLING PRICE")),
-                      DataColumn(label: Text("IS ACTIVE")),
+                      DataColumn(label: Text("IMG")),
                     ],
                     source: myData,
                     header: const Text("PRODUCTS"),
@@ -85,7 +75,7 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                     actions: selectedProductId != null
                         ? [
                             TableActionWidget(
-                              title: "COPY",
+                              title: "DUPLICATE",
                               child: IconButton(
                                   onPressed: () {},
                                   icon: const Icon(Icons.copy)),
@@ -115,26 +105,31 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                 const Center(child: Icon(Icons.question_mark)),
               if (selectedProductId != null && animationEnded)
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  child: ProductDetailsScreen(
-                    id: selectedProductId!,
-                    isDone: (val) {
-                      if (val) {
-                        setState(() {
-                          animationEnded = false;
-                          initWidth = 0.9;
-                          selectedProductId = null;
-                        });
-                        context.showSnackBar(
-                            "Product details updated successfully");
-                      } else {
-                        setState(() {
-                          selectedProductId = null;
-                        });
-                      }
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return SizedBox(
+                        width: constraints.maxWidth * 0.8,
+                        child: ProductDetailsScreen(
+                          id: selectedProductId!,
+                          isDone: (val) {
+                            if (val) {
+                              setState(() {
+                                animationEnded = false;
+                                mainContentWidth = 0.7;
+                                selectedProductId = null;
+                              });
+                              context.showSnackBar(
+                                  "Product details updated successfully");
+                            } else {
+                              setState(() => selectedProductId = null);
+                            }
+                          },
+                        ),
+                      );
                     },
                   ),
-                )
+                ),
             ],
           ),
         );

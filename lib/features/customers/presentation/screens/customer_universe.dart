@@ -1,5 +1,5 @@
 import 'package:field_zoom_pro_web/core/presentation/widgets/app_filter_widget.dart';
-import 'package:field_zoom_pro_web/core/providers/company_info_provider.dart';
+import 'package:field_zoom_pro_web/core/presentation/widgets/company_title_widget.dart';
 import 'package:field_zoom_pro_web/features/customers/models/customer_data_source_model.dart';
 import 'package:field_zoom_pro_web/features/customers/presentation/widgets/customers_table_actions_widget.dart';
 import 'package:field_zoom_pro_web/features/customers/providers/customer_provider.dart';
@@ -22,15 +22,7 @@ class CustomerUniverse extends ConsumerWidget {
         );
         return Scaffold(
             appBar: AppBar(
-              title: Consumer(
-                builder: (context, ref, _) {
-                  final companyInfoProv = ref.watch(companyInfoProvider);
-                  return companyInfoProv.when(
-                      data: (data) => Text(data.companyName),
-                      error: (error, stackTrace) => const Text("Error"),
-                      loading: () => const Text("Loading ..."));
-                },
-              ),
+              title: const CompanyTitleWidget(),
             ),
             body: SingleChildScrollView(
               child: Column(

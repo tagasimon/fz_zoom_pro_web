@@ -54,7 +54,11 @@ class ProductDataSourceModel extends DataTableSource {
         ),
         DataCell(Text(data[index].productVar)),
         DataCell(Text(data[index].sellingPrice.toString())),
-        DataCell(Text(data[index].isActive.toString())),
+        DataCell(
+          CircleAvatar(
+            backgroundImage: NetworkImage(data[index].productImg!),
+          ),
+        )
       ],
       selected: selectedProductId == data[index].id,
       onSelectChanged: (val) {

@@ -14,6 +14,12 @@ Future main() async {
   ]);
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  /// Using fast_cached_network_image package to cache images
+  // String storageLocation = (await getApplicationDocumentsDirectory()).path;
+  // await FastCachedImageConfig.init(
+  //     subDir: storageLocation, clearCacheAfter: const Duration(days: 15));
+
   runApp(const ProviderScope(child: MyApp()));
 }
 

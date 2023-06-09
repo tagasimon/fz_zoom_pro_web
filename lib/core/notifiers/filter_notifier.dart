@@ -5,18 +5,15 @@ import 'package:fz_hooks/fz_hooks.dart';
 class FilterNotifier extends StateNotifier<FilterModel> {
   FilterNotifier()
       : super(FilterModel(
-          startDate: DateHelpers.startOfTodayDate(),
-          endDate: DateHelpers.endOfTodayDate(),
-        ));
+            startDate: DateHelpers.startOfTodayDate(),
+            endDate: DateHelpers.endOfTodayDate()));
 
   void updateFilter({
     UserModel? user,
     String? region,
     String? route,
-    String? associate,
     DateTime? startDate,
     DateTime? endDate,
-    String? stockType,
   }) {
     state = state.copyWith(
       user: user,
@@ -25,6 +22,14 @@ class FilterNotifier extends StateNotifier<FilterModel> {
       startDate: startDate,
       endDate: endDate,
     );
-    // debugPrint(state.toString());
+  }
+
+  // reset filter
+  void resetFilter() {
+    state = FilterModel(
+      user: state.user,
+      startDate: DateHelpers.startOfTodayDate(),
+      endDate: DateHelpers.endOfTodayDate(),
+    );
   }
 }

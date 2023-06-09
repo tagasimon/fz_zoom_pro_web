@@ -9,7 +9,6 @@ class RegionFilterWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final regionsProv = ref.watch(allRegionProvider);
-    final region = ref.watch(filterNotifierProvider).region;
     return regionsProv.when(
       data: (regionsList) {
         return Row(
@@ -18,7 +17,7 @@ class RegionFilterWidget extends ConsumerWidget {
             const SizedBox(width: 8),
             DropdownButton<String>(
                 hint: const Text('Select Region'),
-                value: region,
+                value: ref.watch(filterNotifierProvider).region,
                 onChanged: (String? value) {
                   if (value == null) return;
                   ref

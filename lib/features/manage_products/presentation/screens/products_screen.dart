@@ -6,6 +6,7 @@ import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets
 import 'package:field_zoom_pro_web/features/manage_products/providers/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ProductsScreen extends ConsumerStatefulWidget {
   const ProductsScreen({Key? key}) : super(key: key);
@@ -88,25 +89,32 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                       : [
                           const VerticalDivider(),
                           TableActionWidget(
-                            title: "NEW CARTEGORY",
+                            title: "PRODUCT",
                             child: IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                // TODO add product
+                                Fluttertoast.showToast(msg: "TODO");
+                              },
                               icon: const Icon(Icons.add),
                             ),
                           ),
                           const VerticalDivider(),
                           TableActionWidget(
-                            title: "NEW SUB CARTEOGORY",
+                            title: "SUB CARTEOGORY",
                             child: IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Fluttertoast.showToast(msg: "TODO");
+                              },
                               icon: const Icon(Icons.add),
                             ),
                           ),
                           const VerticalDivider(),
                           TableActionWidget(
-                            title: "NEW PRODUCT",
+                            title: "CARTEGORY",
                             child: IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Fluttertoast.showToast(msg: "TODO");
+                              },
                               icon: const Icon(Icons.add),
                             ),
                           ),

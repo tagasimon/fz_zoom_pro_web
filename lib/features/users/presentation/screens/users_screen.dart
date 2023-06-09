@@ -7,6 +7,7 @@ import 'package:field_zoom_pro_web/features/users/presentation/screens/new_user_
 import 'package:field_zoom_pro_web/features/users/providers/user_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
 class UsersScreen extends ConsumerStatefulWidget {
@@ -113,7 +114,9 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
                                 TableActionWidget(
                                   title: "INSIGHTS",
                                   child: IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Fluttertoast.showToast(msg: "TODO");
+                                    },
                                     icon: const Icon(Icons.insights),
                                   ),
                                 ),

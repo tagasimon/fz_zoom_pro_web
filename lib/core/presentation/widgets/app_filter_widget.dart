@@ -1,5 +1,6 @@
 import 'package:field_zoom_pro_web/core/presentation/widgets/date_filter_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/region_filter_widget.dart';
+import 'package:field_zoom_pro_web/core/providers/filter_notifier_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -32,20 +33,22 @@ class AppFilterWidget extends ConsumerWidget {
                 children: [
                   if (showRegionFilter) const RegionFilterWidget(),
                   const VerticalDivider(),
-                  // if (showAgentFilter) const AgentFilterWidget(),
-                  // const VerticalDivider(),
-                  // if (showRouteFilter) const RouteFilterWidget(),
-                  // const VerticalDivider(),
-                  // if (showAssociateFilter) const AssociateFilterWidget(),
-                  // const VerticalDivider(),
-                  // if (stockTypeFilter) const StockTypeFilterWidget(),
-                  // const VerticalDivider(),
                   if (showStartDateFilter)
                     const DateFilterWidget(isStartDate: true),
                   const VerticalDivider(),
                   if (showStartDateFilter)
                     const DateFilterWidget(isStartDate: false),
                   const VerticalDivider(),
+                  TextButton.icon(
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.redAccent,
+                    ),
+                    onPressed: () {
+                      ref.read(filterNotifierProvider.notifier).resetFilter();
+                    },
+                    label: const Text("Reset"),
+                    icon: const Icon(Icons.refresh),
+                  )
                 ],
               ),
             ),

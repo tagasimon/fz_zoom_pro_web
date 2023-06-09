@@ -17,13 +17,15 @@ class HomeScreen extends ConsumerWidget {
             : const CompanyTitleWidget(),
       ),
       body: const Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           AppFilterWidget(
             showRegionFilter: true,
             showStartDateFilter: true,
             showEndDateFilter: true,
           ),
-          Text("Home Screen")
+          Center(child: Text("Home Screen")),
+          SizedBox.shrink(),
         ],
       ),
     );

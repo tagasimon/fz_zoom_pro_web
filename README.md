@@ -1,4 +1,4 @@
-# field_zoom_pro_web
+# Fz Pro
 
 A new Flutter project.
 

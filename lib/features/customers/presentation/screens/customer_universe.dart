@@ -24,6 +24,7 @@ class CustomerUniverse extends ConsumerWidget {
             appBar: AppBar(title: const CompanyTitleWidget()),
             body: SingleChildScrollView(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const AppFilterWidget(
                     showRegionFilter: true,

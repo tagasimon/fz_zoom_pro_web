@@ -75,7 +75,7 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
               data.isEmpty
                   ? const Center(child: Text("No users found"))
                   : SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.6,
+                      width: MediaQuery.of(context).size.width * 0.8,
                       child: PaginatedDataTable(
                         columns: const [
                           DataColumn(label: Text("NAME")),
@@ -92,20 +92,20 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
                             ? [
                                 const VerticalDivider(),
                                 TableActionWidget(
-                                  title: "NEW REGION",
+                                  title: "NEW USER",
                                   child: IconButton(
                                     onPressed: () => context.push(
-                                        const NewRegionScreen(),
+                                        const NewUserScreen(),
                                         fullscreenDialog: true),
                                     icon: const Icon(Icons.add),
                                   ),
                                 ),
                                 const VerticalDivider(),
                                 TableActionWidget(
-                                  title: "NEW USER",
+                                  title: "NEW REGION",
                                   child: IconButton(
                                     onPressed: () => context.push(
-                                        const NewUserScreen(),
+                                        const NewRegionScreen(),
                                         fullscreenDialog: true),
                                     icon: const Icon(Icons.add),
                                   ),

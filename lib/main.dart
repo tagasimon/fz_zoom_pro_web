@@ -30,13 +30,13 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final deviceWidth = MediaQuery.of(context).size.width;
     return MaterialApp(
-      title: 'FZ PRO',
+      title: 'Fz Pro',
       debugShowCheckedModeBanner: false,
       theme: ref.watch(appThemeProvider),
       home: deviceWidth < 600
           ? Scaffold(
               appBar: AppBar(
-                title: const Text("FZ PRO"),
+                title: const Text("Fz Pro"),
               ),
               body: const Center(
                 child: Text(

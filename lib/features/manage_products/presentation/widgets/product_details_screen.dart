@@ -54,6 +54,36 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           TextFormField(
+                            enabled: false,
+                            controller: _cartController,
+                            decoration: const InputDecoration(
+                              labelText: "Category Id",
+                              border: OutlineInputBorder(),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please enter a valid var";
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          TextFormField(
+                            enabled: false,
+                            controller: _subCartController,
+                            decoration: const InputDecoration(
+                              labelText: "Sub Category Id",
+                              border: OutlineInputBorder(),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please enter a valid var";
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          TextFormField(
                             controller: _nameController,
                             decoration: const InputDecoration(
                               labelText: "Name",
@@ -98,36 +128,6 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                               return null;
                             },
                           ),
-                          const SizedBox(height: 20),
-                          TextFormField(
-                            enabled: false,
-                            controller: _cartController,
-                            decoration: const InputDecoration(
-                              labelText: "Category Id",
-                              border: OutlineInputBorder(),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please enter a valid var";
-                              }
-                              return null;
-                            },
-                          ),
-                          const SizedBox(height: 20),
-                          TextFormField(
-                            enabled: false,
-                            controller: _subCartController,
-                            decoration: const InputDecoration(
-                              labelText: "Sub Category Id",
-                              border: OutlineInputBorder(),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please enter a valid var";
-                              }
-                              return null;
-                            },
-                          ),
                           const SizedBox(height: 10),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
@@ -142,7 +142,6 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                     if (!_key.currentState!.validate()) {
                                       return;
                                     }
-                                    widget.isDone(true);
                                     final success = await ref
                                         .read(
                                             productsControllerProvider.notifier)
@@ -203,7 +202,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                               Positioned(
                                 top: 0,
                                 right: 0,
-                                child: IconButton(
+                                child: TextButton.icon(
                                   onPressed: () async {
                                     // final success = await ref
                                     //     .read(
@@ -215,10 +214,8 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                     //   widget.isDone(true);
                                     // }
                                   },
-                                  icon: const Icon(
-                                    Icons.edit,
-                                    color: Colors.teal,
-                                  ),
+                                  label: const Text("edit"),
+                                  icon: const Icon(Icons.attach_file),
                                 ),
                               ),
                             ],

@@ -21,38 +21,24 @@ class AppFilterWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Card(
-      child: SizedBox(
-        width: double.infinity,
-        child: Column(
-          children: [
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  if (showRegionFilter) const RegionFilterWidget(),
-                  const VerticalDivider(),
-                  if (showStartDateFilter)
-                    const DateFilterWidget(isStartDate: true),
-                  const VerticalDivider(),
-                  if (showStartDateFilter)
-                    const DateFilterWidget(isStartDate: false),
-                  const VerticalDivider(),
-                  TextButton.icon(
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.redAccent,
-                    ),
-                    onPressed: () =>
-                        ref.read(filterNotifierProvider.notifier).resetFilter(),
-                    label: const Text("Reset"),
-                    icon: const Icon(Icons.refresh),
-                  )
-                ],
-              ),
-            ),
-          ],
-        ),
+    return SizedBox(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (showRegionFilter) const RegionFilterWidget(),
+          const VerticalDivider(),
+          if (showStartDateFilter) const DateFilterWidget(isStartDate: true),
+          const VerticalDivider(),
+          if (showStartDateFilter) const DateFilterWidget(isStartDate: false),
+          const VerticalDivider(),
+          TextButton.icon(
+            style: TextButton.styleFrom(foregroundColor: Colors.redAccent),
+            onPressed: () =>
+                ref.read(filterNotifierProvider.notifier).resetFilter(),
+            label: const Text("Reset"),
+            icon: const Icon(Icons.refresh),
+          )
+        ],
       ),
     );
   }

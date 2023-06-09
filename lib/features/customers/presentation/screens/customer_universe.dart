@@ -21,9 +21,7 @@ class CustomerUniverse extends ConsumerWidget {
           onSelected: (cust) {},
         );
         return Scaffold(
-            appBar: AppBar(
-              title: const CompanyTitleWidget(),
-            ),
+            appBar: AppBar(title: const CompanyTitleWidget()),
             body: SingleChildScrollView(
               child: Column(
                 children: [
@@ -31,20 +29,22 @@ class CustomerUniverse extends ConsumerWidget {
                     showRegionFilter: true,
                     showRouteFilter: false,
                     showAssociateFilter: false,
-                    showEndDateFilter: true,
-                    showStartDateFilter: true,
+                    showEndDateFilter: false,
+                    showStartDateFilter: false,
                   ),
                   PaginatedDataTable(
+                    showCheckboxColumn: false,
                     columns: const [
+                      DataColumn(label: Text("")),
                       DataColumn(label: Text("CONTACT NAME")),
                       DataColumn(label: Text("BUSINESS NAME")),
                       DataColumn(label: Text("BUSINESS TYPE")),
-                      // DataColumn(label: Text("REGION")),
-                      // DataColumn(label: Text("ROUTE")),
+                      DataColumn(label: Text("REGION")),
+                      DataColumn(label: Text("ROUTE")),
                       DataColumn(label: Text("PHONE 1")),
-                      DataColumn(label: Text("PHONE 2")),
                       DataColumn(label: Text("DISTRICT")),
-                      DataColumn(label: Text("LOC")),
+                      DataColumn(label: Text("GPS")),
+                      DataColumn(label: Text("DESC")),
                     ],
                     source: myData,
                     header: const Text("CUSTOMERS"),

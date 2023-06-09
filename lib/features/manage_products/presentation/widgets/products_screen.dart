@@ -93,7 +93,7 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                                 shape: const StadiumBorder(),
                               ),
                               onPressed: () {},
-                              label: const Text("ADD NEW PRODUCT"),
+                              label: const Text("ADD NEW"),
                               icon: const Icon(Icons.add),
                             ),
                           ],

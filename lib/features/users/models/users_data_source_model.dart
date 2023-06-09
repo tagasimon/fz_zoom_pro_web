@@ -1,7 +1,6 @@
-import 'package:field_zoom_pro_web/core/providers/regions_provider.dart';
+import 'package:field_zoom_pro_web/core/presentation/widgets/get_region_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
 class UsersDataSourceModel extends DataTableSource {
@@ -24,23 +23,7 @@ class UsersDataSourceModel extends DataTableSource {
         DataCell(Text(data[index].email)),
         DataCell(SelectableText(data[index].phoneNumber)),
         DataCell(Text(data[index].role)),
-        DataCell(
-          Consumer(builder: (context, ref, _) {
-            String? regionId = data[index].regionId;
-            if (regionId == null || regionId.isEmpty) {
-              return const Text('Not Found');
-            }
-            final regionProv =
-                ref.watch(getRegionByCompanyIdProvider(regionId));
-            return regionProv.when(
-              data: (region) {
-                return Text(region.name);
-              },
-              loading: () => const CircularProgressIndicator(),
-              error: (error, stackTrace) => Text('Error: $error'),
-            );
-          }),
-        ),
+        DataCell(GetRegionWidget(regionId: data[index].regionId!)),
         DataCell(
           CupertinoSwitch(
             value: data[index].isActive,

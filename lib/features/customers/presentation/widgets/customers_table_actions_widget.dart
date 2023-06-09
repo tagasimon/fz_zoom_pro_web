@@ -2,7 +2,6 @@ import 'package:field_zoom_pro_web/features/customers/presentation/widgets/custo
 import 'package:field_zoom_pro_web/features/customers/presentation/widgets/table_action_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
 class CustomersTableActionsWidget extends ConsumerWidget {
@@ -17,31 +16,35 @@ class CustomersTableActionsWidget extends ConsumerWidget {
         TableActionWidget(
           title: "insights",
           child: IconButton(
-              onPressed: () async {
-                await showModalBottomSheet(
-                  isScrollControlled: true,
-                  isDismissible: false,
-                  showDragHandle: true,
-                  enableDrag: false,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  context: context,
-                  builder: (builder) =>
-                      CustomersBottomSheetWidget(customers: customers),
-                );
-              },
-              icon: const Icon(Icons.bar_chart)),
+            onPressed: () async {
+              await showModalBottomSheet(
+                isScrollControlled: true,
+                isDismissible: false,
+                showDragHandle: true,
+                enableDrag: false,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                context: context,
+                builder: (builder) =>
+                    CustomersBottomSheetWidget(customers: customers),
+              );
+            },
+            icon: Icon(
+              Icons.bar_chart,
+              color: Theme.of(context).primaryColorDark,
+            ),
+          ),
         ),
         const VerticalDivider(),
-        TableActionWidget(
-          title: 'download',
-          child: IconButton(
-              onPressed: () {
-                Fluttertoast.showToast(msg: 'Coming Soon!');
-              },
-              icon: const Icon(Icons.download)),
-        ),
+        // TableActionWidget(
+        //   title: 'download',
+        //   child: IconButton(
+        //       onPressed: () {
+        //         Fluttertoast.showToast(msg: 'Coming Soon!');
+        //       },
+        //       icon: const Icon(Icons.download)),
+        // ),
       ],
     );
   }

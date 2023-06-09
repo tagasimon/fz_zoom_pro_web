@@ -15,7 +15,7 @@ class RegionFilterWidget extends ConsumerWidget {
           children: [
             const Text('REGION:'),
             const SizedBox(width: 8),
-            DropdownButton<String>(
+            DropdownButton<String?>(
                 hint: const Text('Select Region'),
                 value: ref.watch(filterNotifierProvider).region,
                 onChanged: (String? value) {
@@ -27,14 +27,16 @@ class RegionFilterWidget extends ConsumerWidget {
                 items: regionsList
                     .map(
                       (e) => DropdownMenuItem<String>(
-                          value: e.id, child: Text(e.name)),
+                        value: e.id,
+                        child: Text(e.name),
+                      ),
                     )
                     .toList()),
           ],
         );
       },
       loading: () => const CircularProgressIndicator(),
-      error: (error, stackTrace) => Text('Error: $error'),
+      error: (error, stackTrace) => const SizedBox.shrink(),
     );
   }
 }

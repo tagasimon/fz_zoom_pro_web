@@ -28,11 +28,28 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final deviceWidth = MediaQuery.of(context).size.width;
     return MaterialApp(
       title: 'FZ PRO',
       debugShowCheckedModeBanner: false,
       theme: ref.watch(appThemeProvider),
-      home: const AuthWidget(),
+      home: deviceWidth < 600
+          ? Scaffold(
+              appBar: AppBar(
+                title: const Text("FZ PRO"),
+              ),
+              body: const Center(
+                child: Text(
+                  "Consider using a device with a larger screen to view this app.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            )
+          : const AuthWidget(),
     );
   }
 }

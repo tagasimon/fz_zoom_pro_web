@@ -43,9 +43,8 @@ class AppFilterWidget extends ConsumerWidget {
                     style: TextButton.styleFrom(
                       foregroundColor: Colors.redAccent,
                     ),
-                    onPressed: () {
-                      ref.read(filterNotifierProvider.notifier).resetFilter();
-                    },
+                    onPressed: () =>
+                        ref.read(filterNotifierProvider.notifier).resetFilter(),
                     label: const Text("Reset"),
                     icon: const Icon(Icons.refresh),
                   )

@@ -25,8 +25,10 @@ class RegionFilterWidget extends ConsumerWidget {
                       .updateFilter(region: value);
                 },
                 items: regionsList
-                    .map((e) => DropdownMenuItem<String>(
-                        value: e.id, child: Text(e.name)))
+                    .map(
+                      (e) => DropdownMenuItem<String>(
+                          value: e.id, child: Text(e.name)),
+                    )
                     .toList()),
           ],
         );

@@ -15,7 +15,7 @@ class GetRegionWidget extends ConsumerWidget {
     return regionProv.when(
       data: (region) => Text(region.name),
       loading: () => const CircularProgressIndicator(),
-      error: (error, stackTrace) => Text('Error: $error'),
+      error: (error, stackTrace) => const Text('Error'),
     );
   }
 }

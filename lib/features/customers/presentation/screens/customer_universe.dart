@@ -32,28 +32,31 @@ class CustomerUniverse extends ConsumerWidget {
                     showEndDateFilter: false,
                     showStartDateFilter: false,
                   ),
-                  PaginatedDataTable(
-                    showCheckboxColumn: false,
-                    columns: const [
-                      DataColumn(label: Text("")),
-                      DataColumn(label: Text("CONTACT NAME")),
-                      DataColumn(label: Text("BUSINESS NAME")),
-                      DataColumn(label: Text("BUSINESS TYPE")),
-                      DataColumn(label: Text("REGION")),
-                      DataColumn(label: Text("ROUTE")),
-                      DataColumn(label: Text("PHONE 1")),
-                      DataColumn(label: Text("DISTRICT")),
-                      DataColumn(label: Text("GPS")),
-                      DataColumn(label: Text("DESC")),
-                    ],
-                    source: myData,
-                    header: const Text("CUSTOMERS"),
-                    rowsPerPage: 10,
-                    sortColumnIndex: 0,
-                    sortAscending: false,
-                    actions: [
-                      CustomersTableActionsWidget(customers: customers)
-                    ],
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: PaginatedDataTable(
+                      showCheckboxColumn: false,
+                      columns: const [
+                        DataColumn(label: Text("")),
+                        DataColumn(label: Text("CONTACT NAME")),
+                        DataColumn(label: Text("BUSINESS NAME")),
+                        DataColumn(label: Text("BUSINESS TYPE")),
+                        DataColumn(label: Text("REGION")),
+                        DataColumn(label: Text("ROUTE")),
+                        DataColumn(label: Text("PHONE 1")),
+                        DataColumn(label: Text("DISTRICT")),
+                        DataColumn(label: Text("GPS")),
+                        DataColumn(label: Text("DESC")),
+                      ],
+                      source: myData,
+                      header: const Text("CUSTOMERS"),
+                      rowsPerPage: 10,
+                      sortColumnIndex: 0,
+                      sortAscending: false,
+                      actions: [
+                        CustomersTableActionsWidget(customers: customers)
+                      ],
+                    ),
                   )
                 ],
               ),

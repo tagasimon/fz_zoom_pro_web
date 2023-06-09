@@ -1,5 +1,4 @@
 import 'package:field_zoom_pro_web/core/presentation/widgets/get_region_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
@@ -25,9 +24,11 @@ class UsersDataSourceModel extends DataTableSource {
         DataCell(Text(data[index].role)),
         DataCell(GetRegionWidget(regionId: data[index].regionId!)),
         DataCell(
-          CupertinoSwitch(
+          Switch(
             value: data[index].isActive,
             onChanged: (val) => onSwitchChanged(val, data[index].id),
+            activeColor: Colors.green,
+            inactiveThumbColor: Colors.red,
           ),
         ),
       ],

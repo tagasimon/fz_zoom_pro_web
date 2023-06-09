@@ -7,14 +7,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
-class RegisterUserScreen extends ConsumerStatefulWidget {
-  const RegisterUserScreen({Key? key}) : super(key: key);
+class NewUserScreen extends ConsumerStatefulWidget {
+  const NewUserScreen({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<RegisterUserScreen> createState() => _RegisterUserScreenState();
+  ConsumerState<NewUserScreen> createState() => _NewUserScreenState();
 }
 
-class _RegisterUserScreenState extends ConsumerState<RegisterUserScreen> {
+class _NewUserScreenState extends ConsumerState<NewUserScreen> {
   String _name = "";
   String _email = "";
   String _phoneNumber = "";
@@ -37,7 +37,7 @@ class _RegisterUserScreenState extends ConsumerState<RegisterUserScreen> {
       child: Focus(
         autofocus: true,
         child: Scaffold(
-          appBar: AppBar(title: const Text("Register User"), centerTitle: true),
+          appBar: AppBar(title: const Text("REGISTER USER"), centerTitle: true),
           body: regionsProv.when(
             data: (data) {
               return Center(
@@ -77,7 +77,7 @@ class _RegisterUserScreenState extends ConsumerState<RegisterUserScreen> {
                                     onChanged: (String val) => _name = val,
                                     validator: (String? val) {
                                       if (val == null || val.isEmpty) {
-                                        return 'Customer Name Missing';
+                                        return 'Name Missing';
                                       }
                                       return null;
                                     },
@@ -114,7 +114,7 @@ class _RegisterUserScreenState extends ConsumerState<RegisterUserScreen> {
                                     keyboardType: TextInputType.phone,
                                     validator: (String? val) {
                                       if (val == null || val.isEmpty) {
-                                        return 'Customer Phone Number Missing';
+                                        return 'Phone Number Missing';
                                       } else if (val.length < 10) {
                                         return "Phone Number too Short!!";
                                       }

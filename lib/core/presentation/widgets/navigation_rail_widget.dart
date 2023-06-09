@@ -19,7 +19,7 @@ class NavigationRailWidget extends ConsumerStatefulWidget {
 
 class _NavigationRailWidgetState extends ConsumerState<NavigationRailWidget> {
   int _selectedIndex = 0;
-  bool isExtended = true;
+  bool isExtended = false;
 
   @override
   Widget build(BuildContext context) {

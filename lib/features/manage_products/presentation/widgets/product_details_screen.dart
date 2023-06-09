@@ -88,7 +88,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                           TextFormField(
                             controller: _varController,
                             decoration: const InputDecoration(
-                              labelText: "Var",
+                              labelText: "var",
                               border: OutlineInputBorder(),
                             ),
                             validator: (value) {
@@ -103,7 +103,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                             enabled: false,
                             controller: _cartController,
                             decoration: const InputDecoration(
-                              labelText: "Category ID",
+                              labelText: "Category Id",
                               border: OutlineInputBorder(),
                             ),
                             validator: (value) {
@@ -118,7 +118,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                             enabled: false,
                             controller: _subCartController,
                             decoration: const InputDecoration(
-                              labelText: "Sub Category ID",
+                              labelText: "Sub Category Id",
                               border: OutlineInputBorder(),
                             ),
                             validator: (value) {
@@ -166,45 +166,63 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                         ],
                       ),
                     ),
+                    const SizedBox(width: 5),
                     Expanded(
+                      flex: 1,
                       child: Column(
                         children: [
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(10),
+                          Stack(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey),
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(10),
+                                  ),
+                                ),
+                                child: Image.network(
+                                  product.productImg!,
+                                  height: 250,
+                                  width: 250,
+                                  fit: BoxFit.cover,
+                                  loadingBuilder: (context, child,
+                                          loadingProgress) =>
+                                      loadingProgress == null
+                                          ? child
+                                          : const Center(
+                                              child:
+                                                  CircularProgressIndicator()),
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      const Text(
+                                    "Something went wrong :(",
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ),
                               ),
-                            ),
-                            child: Image.network(
-                              product.productImg!,
-                              height: 200,
-                              width: 200,
-                              fit: BoxFit.cover,
-                              loadingBuilder: (context, child,
-                                      loadingProgress) =>
-                                  loadingProgress == null
-                                      ? child
-                                      : const Center(
-                                          child: CircularProgressIndicator()),
-                              errorBuilder: (context, error, stackTrace) =>
-                                  const Text(
-                                "Something went wrong :(",
-                                style: TextStyle(color: Colors.red),
+                              Positioned(
+                                top: 0,
+                                right: 0,
+                                child: IconButton(
+                                  onPressed: () async {
+                                    // final success = await ref
+                                    //     .read(
+                                    //         productsControllerProvider.notifier)
+                                    //     .deleteProduct(
+                                    //       productId: widget.id,
+                                    //     );
+                                    // if (success) {
+                                    //   widget.isDone(true);
+                                    // }
+                                  },
+                                  icon: const Icon(
+                                    Icons.edit,
+                                    color: Colors.teal,
+                                  ),
+                                ),
                               ),
-                            ),
+                            ],
                           ),
-                          const SizedBox(height: 10),
-                          OutlinedButton.icon(
-                            style: OutlinedButton.styleFrom(
-                              minimumSize: Size(
-                                  MediaQuery.of(context).size.width * 0.1, 50),
-                            ),
-                            onPressed: () {},
-                            icon: const Icon(Icons.attach_file),
-                            label: const Text("EDIT"),
-                          )
                         ],
                       ),
                     )

@@ -47,62 +47,77 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
           body: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SingleChildScrollView(
-                child: AnimatedContainer(
-                  onEnd: () => setState(() {
-                    if (mainContentWidth == 0.7) {
-                      animationEnded = false;
-                    } else {
-                      animationEnded = true;
-                    }
-                  }),
-                  duration: const Duration(milliseconds: 500),
-                  width: MediaQuery.of(context).size.width * mainContentWidth,
-                  child: PaginatedDataTable(
-                    columns: const [
-                      DataColumn(label: Text("NAME")),
-                      DataColumn(label: Text("CARTEGORY")),
-                      DataColumn(label: Text("SUB CARTEGORY")),
-                      DataColumn(label: Text("VAR")),
-                      DataColumn(label: Text("SELLING PRICE")),
-                      DataColumn(label: Text("IMG")),
-                    ],
-                    source: myData,
-                    header: const Text("PRODUCTS"),
-                    rowsPerPage: 10,
-                    sortColumnIndex: 0,
-                    sortAscending: false,
-                    actions: selectedProductId != null
-                        ? [
-                            TableActionWidget(
-                              title: "DUPLICATE",
-                              child: IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.copy)),
-                            ),
-                            TableActionWidget(
-                              title: "DELETE",
-                              child: IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.delete)),
-                            )
-                          ]
-                        : [
-                            ElevatedButton.icon(
-                              style: ElevatedButton.styleFrom(
-                                shape: const StadiumBorder(),
-                              ),
+              AnimatedContainer(
+                onEnd: () => setState(() {
+                  if (mainContentWidth == 0.7) {
+                    animationEnded = false;
+                  } else {
+                    animationEnded = true;
+                  }
+                }),
+                duration: const Duration(milliseconds: 500),
+                width: MediaQuery.of(context).size.width * mainContentWidth,
+                child: PaginatedDataTable(
+                  columns: const [
+                    DataColumn(label: Text("NAME")),
+                    DataColumn(label: Text("CARTEGORY")),
+                    DataColumn(label: Text("SUB CARTEGORY")),
+                    DataColumn(label: Text("VAR")),
+                    DataColumn(label: Text("SELLING PRICE")),
+                    DataColumn(label: Text("IMG")),
+                  ],
+                  source: myData,
+                  header: const Text("PRODUCTS"),
+                  rowsPerPage: 10,
+                  sortColumnIndex: 0,
+                  sortAscending: false,
+                  actions: selectedProductId != null
+                      ? [
+                          TableActionWidget(
+                            title: "DUPLICATE",
+                            child: IconButton(
+                                onPressed: () {}, icon: const Icon(Icons.copy)),
+                          ),
+                          TableActionWidget(
+                            title: "DELETE",
+                            child: IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.delete)),
+                          )
+                        ]
+                      : [
+                          const VerticalDivider(),
+                          TableActionWidget(
+                            title: "NEW CARTEGORY",
+                            child: IconButton(
                               onPressed: () {},
-                              label: const Text("ADD NEW"),
                               icon: const Icon(Icons.add),
                             ),
-                          ],
-                  ),
+                          ),
+                          const VerticalDivider(),
+                          TableActionWidget(
+                            title: "NEW SUB CARTEOGORY",
+                            child: IconButton(
+                              onPressed: () {},
+                              icon: const Icon(Icons.add),
+                            ),
+                          ),
+                          const VerticalDivider(),
+                          TableActionWidget(
+                            title: "NEW PRODUCT",
+                            child: IconButton(
+                              onPressed: () {},
+                              icon: const Icon(Icons.add),
+                            ),
+                          ),
+                        ],
                 ),
               ),
               const VerticalDivider(),
               if (selectedProductId == null)
-                const Center(child: Icon(Icons.question_mark)),
+                const Center(
+                  child: Icon(Icons.question_mark),
+                ),
               if (selectedProductId != null && animationEnded)
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.5,

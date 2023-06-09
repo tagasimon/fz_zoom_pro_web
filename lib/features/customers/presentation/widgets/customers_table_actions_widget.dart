@@ -2,6 +2,7 @@ import 'package:field_zoom_pro_web/features/customers/presentation/widgets/custo
 import 'package:field_zoom_pro_web/features/customers/presentation/widgets/table_action_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
 class CustomersTableActionsWidget extends ConsumerWidget {
@@ -14,7 +15,15 @@ class CustomersTableActionsWidget extends ConsumerWidget {
       children: [
         const VerticalDivider(),
         TableActionWidget(
-          title: "insights",
+          title: "NEW ROUTE",
+          child: IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.add),
+          ),
+        ),
+        const VerticalDivider(),
+        TableActionWidget(
+          title: "INSIGHTS",
           child: IconButton(
             onPressed: () async {
               await showModalBottomSheet(
@@ -30,21 +39,18 @@ class CustomersTableActionsWidget extends ConsumerWidget {
                     CustomersBottomSheetWidget(customers: customers),
               );
             },
-            icon: Icon(
-              Icons.bar_chart,
-              color: Theme.of(context).primaryColorDark,
-            ),
+            icon: const Icon(Icons.insights),
           ),
         ),
         const VerticalDivider(),
-        // TableActionWidget(
-        //   title: 'download',
-        //   child: IconButton(
-        //       onPressed: () {
-        //         Fluttertoast.showToast(msg: 'Coming Soon!');
-        //       },
-        //       icon: const Icon(Icons.download)),
-        // ),
+        TableActionWidget(
+          title: 'DOWNLOAD',
+          child: IconButton(
+              onPressed: () {
+                Fluttertoast.showToast(msg: 'Coming Soon!');
+              },
+              icon: const Icon(Icons.download)),
+        ),
       ],
     );
   }

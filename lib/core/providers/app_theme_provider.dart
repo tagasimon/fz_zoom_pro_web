@@ -11,7 +11,7 @@ class AppThemeProvider extends StateNotifier<ThemeData> {
   AppThemeProvider() : super(_lightTheme);
 
   static final _lightTheme = ThemeData(
-    colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+    colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
     // useMaterial3: true,
   );
 

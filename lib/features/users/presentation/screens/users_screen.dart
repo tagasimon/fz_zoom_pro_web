@@ -1,7 +1,9 @@
 import 'package:field_zoom_pro_web/core/presentation/widgets/app_filter_widget.dart';
 import 'package:field_zoom_pro_web/core/providers/company_info_provider.dart';
+import 'package:field_zoom_pro_web/features/customers/presentation/widgets/table_action_widget.dart';
 import 'package:field_zoom_pro_web/features/users/models/users_data_source_model.dart';
-import 'package:field_zoom_pro_web/features/users/presentation/screens/register_user_screen.dart';
+import 'package:field_zoom_pro_web/features/users/presentation/screens/new_region_screen.dart';
+import 'package:field_zoom_pro_web/features/users/presentation/screens/new_user_screen.dart';
 import 'package:field_zoom_pro_web/features/users/providers/user_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -53,74 +55,88 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
               setState(() => selectedUserId = null);
             },
             onSwitchChanged: (val, id) async {
-              ref
+              await ref
                   .read(userNotifierProvider.notifier)
                   .updateUserStatus(isActive: val, id: id);
             },
           );
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                const AppFilterWidget(
-                  showRegionFilter: true,
-                  showRouteFilter: false,
-                  showAssociateFilter: false,
-                  showEndDateFilter: true,
-                  showStartDateFilter: true,
-                ),
-                if (state.isLoading) const LinearProgressIndicator(),
-                data.isEmpty
-                    ? const Center(child: Text("No users found"))
-                    : SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: PaginatedDataTable(
-                          columns: const [
-                            DataColumn(label: Text("NAME")),
-                            DataColumn(label: Text("EMAIL")),
-                            DataColumn(label: Text("PHONE")),
-                            DataColumn(label: Text("ROLE")),
-                            DataColumn(label: Text("REGION")),
-                            DataColumn(label: Text("STATUS")),
-                          ],
-                          source: userData,
-                          header: const Text("ALL USERS"),
-                          rowsPerPage: 10,
-                          actions: selectedUserId == null
-                              ? [
-                                  const Text(
-                                    "Select a user to view actions",
-                                    style: TextStyle(
-                                        color: Colors.teal,
-                                        fontWeight: FontWeight.w300,
-                                        fontSize: 16),
-                                  )
-                                ]
-                              : [
-                                  // NiceTwoTableActionsWidget(
-                                  //     selectedUserId: selectedUserId!),
-                                  // TextButton.icon(
-                                  //   onPressed: () {
-                                  //     setState(() => selectedUserId = null);
-                                  //   },
-                                  //   icon: const Icon(Icons.clear),
-                                  //   label: const Text('Clear Selection'),
-                                  //   style: TextButton.styleFrom(
-                                  //       foregroundColor: Colors.red),
-                                  // ),
-                                ],
-                        ),
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const AppFilterWidget(
+                showRegionFilter: true,
+                showRouteFilter: false,
+                showAssociateFilter: false,
+                showEndDateFilter: true,
+                showStartDateFilter: true,
+              ),
+              if (state.isLoading) const LinearProgressIndicator(),
+              data.isEmpty
+                  ? const Center(child: Text("No users found"))
+                  : SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      child: PaginatedDataTable(
+                        columns: const [
+                          DataColumn(label: Text("NAME")),
+                          DataColumn(label: Text("EMAIL")),
+                          DataColumn(label: Text("PHONE")),
+                          DataColumn(label: Text("ROLE")),
+                          DataColumn(label: Text("REGION")),
+                          DataColumn(label: Text("STATUS")),
+                        ],
+                        source: userData,
+                        header: const Text("USERS"),
+                        rowsPerPage: 10,
+                        actions: selectedUserId == null
+                            ? [
+                                const VerticalDivider(),
+                                TableActionWidget(
+                                  title: "NEW REGION",
+                                  child: IconButton(
+                                    onPressed: () => context.push(
+                                        const NewRegionScreen(),
+                                        fullscreenDialog: true),
+                                    icon: const Icon(Icons.add),
+                                  ),
+                                ),
+                                const VerticalDivider(),
+                                TableActionWidget(
+                                  title: "NEW USER",
+                                  child: IconButton(
+                                    onPressed: () => context.push(
+                                        const NewUserScreen(),
+                                        fullscreenDialog: true),
+                                    icon: const Icon(Icons.add),
+                                  ),
+                                ),
+                                const VerticalDivider(),
+                                TableActionWidget(
+                                  title: "INSIGHTS",
+                                  child: IconButton(
+                                    onPressed: () {},
+                                    icon: const Icon(Icons.insights),
+                                  ),
+                                ),
+                              ]
+                            : [
+                                TableActionWidget(
+                                  title: "INSIGHTS",
+                                  child: IconButton(
+                                    onPressed: () {},
+                                    icon: Icon(
+                                      Icons.insights,
+                                      color: Theme.of(context).primaryColorDark,
+                                    ),
+                                  ),
+                                ),
+                              ],
                       ),
-              ],
-            ),
+                    ),
+            ],
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stack) => const Center(child: Text("Error")),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () =>
-            context.push(const RegisterUserScreen(), fullscreenDialog: true),
-        label: const Text("ADD USER"),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

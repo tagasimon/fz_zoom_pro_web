@@ -27,9 +27,8 @@ class ProductsScreen extends ConsumerStatefulWidget {
 
 class _ProductsScreenState extends ConsumerState<ProductsScreen> {
   String? selectedProductId;
-  double mainContentWidth = 0.9;
-  bool animationEnded = false;
   ProductScreenActions? selectedAction;
+  int flex = 2;
   @override
   Widget build(BuildContext context) {
     final productsProv = ref.watch(watchProductsProvider);
@@ -41,7 +40,6 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
           onSelected: (product) {
             if (selectedProductId == null) {
               setState(() {
-                mainContentWidth = 0.4;
                 selectedProductId = product;
                 selectedAction = ProductScreenActions.selectProduct;
               });
@@ -49,8 +47,6 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
             }
             setState(() {
               selectedAction = null;
-              animationEnded = !animationEnded;
-              mainContentWidth = 0.9;
               selectedProductId = null;
             });
           },
@@ -58,19 +54,9 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
         return Scaffold(
           appBar: AppBar(title: const CompanyTitleWidget()),
           body: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              AnimatedContainer(
-                onEnd: () {
-                  setState(() {
-                    if (mainContentWidth == 0.9) {
-                      animationEnded = false;
-                    } else {
-                      animationEnded = true;
-                    }
-                  });
-                },
-                duration: const Duration(milliseconds: 400),
-                width: MediaQuery.of(context).size.width * mainContentWidth,
+              Expanded(
                 child: PaginatedDataTable(
                     columns: const [
                       DataColumn(label: Text("NAME")),
@@ -90,43 +76,39 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                         : [const ActiveProductWidget()]),
               ),
               const VerticalDivider(),
-              if (selectedAction == null)
-                const Center(child: Icon(Icons.question_mark)),
-              if (selectedProductId != null && animationEnded)
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      final child = switch (selectedAction) {
-                        ProductScreenActions.selectProduct =>
-                          ProductDetailsScreen(
-                            id: selectedProductId!,
-                            isDone: (val) {
-                              if (val) {
-                                setState(() {
-                                  animationEnded = false;
-                                  mainContentWidth = 0.9;
-                                  selectedProductId = null;
-                                });
-                                context.showSnackBar(
-                                    "Product details updated successfully");
-                              } else {
-                                setState(() => selectedProductId = null);
-                              }
-                            },
-                          ),
-                        ProductScreenActions.addProduct =>
-                          const Center(child: Text("Add Product")),
-                        ProductScreenActions.addSubCartegory => Container(),
-                        ProductScreenActions.addCartegory => Container(),
-                        ProductScreenActions.duplicate => Container(),
-                        ProductScreenActions.delete => Container(),
-                        _ => Container(),
-                      };
-                      return child;
-                    },
-                  ),
-                ),
+              selectedProductId == null
+                  ? const SizedBox.shrink()
+                  : Expanded(
+                      child: LayoutBuilder(
+                        builder: (context, constraints) {
+                          final child = switch (selectedAction) {
+                            ProductScreenActions.selectProduct =>
+                              ProductDetailsScreen(
+                                id: selectedProductId!,
+                                isDone: (val) {
+                                  if (val) {
+                                    setState(() {
+                                      selectedProductId = null;
+                                    });
+                                    context.showSnackBar(
+                                        "Product details updated successfully");
+                                  } else {
+                                    setState(() => selectedProductId = null);
+                                  }
+                                },
+                              ),
+                            ProductScreenActions.addProduct =>
+                              const Center(child: Text("Add Product")),
+                            ProductScreenActions.addSubCartegory => Container(),
+                            ProductScreenActions.addCartegory => Container(),
+                            ProductScreenActions.duplicate => Container(),
+                            ProductScreenActions.delete => Container(),
+                            _ => Container(),
+                          };
+                          return child;
+                        },
+                      ),
+                    ),
             ],
           ),
         );

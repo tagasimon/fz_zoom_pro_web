@@ -93,6 +93,11 @@ class _NavigationRailWidgetState extends ConsumerState<NavigationRailWidget> {
                 selectedIcon: Icon(Icons.shopping_bag_sharp),
                 label: Text('PRODUCTS'),
               ),
+              NavigationRailDestination(
+                icon: Icon(Icons.settings_outlined),
+                selectedIcon: Icon(Icons.settings),
+                label: Text('SETTINGS'),
+              ),
             ],
           ),
           const VerticalDivider(thickness: 1, width: 1),
@@ -103,7 +108,8 @@ class _NavigationRailWidgetState extends ConsumerState<NavigationRailWidget> {
                 HomeScreen(),
                 UsersScreen(),
                 CustomerUniverse(),
-                ProductsScreen()
+                ProductsScreen(),
+                Center(child: Text('Settings'))
               ],
             ),
           )

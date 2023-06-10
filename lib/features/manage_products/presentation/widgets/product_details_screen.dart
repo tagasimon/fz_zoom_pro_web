@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:field_zoom_pro_web/features/manage_products/providers/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -45,9 +46,8 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
             return Form(
               key: _key,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(4.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
                       child: Column(
@@ -142,6 +142,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                     if (!_key.currentState!.validate()) {
                                       return;
                                     }
+                                    // TODO Change this to use a Product Model with copyWith
                                     final success = await ref
                                         .read(
                                             productsControllerProvider.notifier)
@@ -165,9 +166,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                         ],
                       ),
                     ),
-                    const SizedBox(width: 5),
                     Expanded(
-                      flex: 1,
                       child: Column(
                         children: [
                           Stack(
@@ -175,47 +174,54 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                               Container(
                                 padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.grey),
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 5,
+                                  ),
                                   borderRadius: const BorderRadius.all(
                                     Radius.circular(10),
                                   ),
                                 ),
-                                child: Image.network(
-                                  product.productImg!,
+                                child: CachedNetworkImage(
+                                  imageUrl: product.productImg!,
                                   height: 250,
                                   width: 250,
                                   fit: BoxFit.cover,
-                                  loadingBuilder: (context, child,
-                                          loadingProgress) =>
-                                      loadingProgress == null
-                                          ? child
-                                          : const Center(
-                                              child:
-                                                  CircularProgressIndicator()),
-                                  errorBuilder: (context, error, stackTrace) =>
-                                      const Text(
-                                    "Something went wrong :(",
-                                    style: TextStyle(color: Colors.red),
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) =>
+                                          Center(
+                                    child: CircularProgressIndicator(
+                                        value: downloadProgress.progress),
                                   ),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
                                 ),
                               ),
                               Positioned(
                                 top: 0,
                                 right: 0,
-                                child: TextButton.icon(
-                                  onPressed: () async {
-                                    // final success = await ref
-                                    //     .read(
-                                    //         productsControllerProvider.notifier)
-                                    //     .deleteProduct(
-                                    //       productId: widget.id,
-                                    //     );
-                                    // if (success) {
-                                    //   widget.isDone(true);
-                                    // }
-                                  },
-                                  label: const Text("edit"),
-                                  icon: const Icon(Icons.attach_file),
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: Colors.teal,
+                                    borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(10),
+                                      bottomLeft: Radius.circular(10),
+                                    ),
+                                  ),
+                                  child: IconButton(
+                                    onPressed: () async {
+                                      // final success = await ref
+                                      //     .read(
+                                      //         productsControllerProvider.notifier)
+                                      //     .deleteProduct(
+                                      //       productId: widget.id,
+                                      //     );
+                                      // if (success) {
+                                      //   widget.isDone(true);
+                                      // }
+                                    },
+                                    icon: const Icon(Icons.edit),
+                                  ),
                                 ),
                               ),
                             ],

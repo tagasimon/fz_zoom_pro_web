@@ -1,10 +1,11 @@
-import 'package:field_zoom_pro_web/core/providers/app_theme_provider.dart';
-import 'package:field_zoom_pro_web/features/authentication/presentation/widgets/auth_widget.dart';
-import 'package:field_zoom_pro_web/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:field_zoom_pro_web/core/providers/app_theme_provider.dart';
+import 'package:field_zoom_pro_web/features/authentication/presentation/widgets/auth_widget.dart';
+import 'package:field_zoom_pro_web/firebase_options.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

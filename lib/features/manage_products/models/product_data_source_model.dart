@@ -1,7 +1,7 @@
-import 'package:field_zoom_pro_web/features/manage_products/providers/product_cartegory_provider.dart';
-import 'package:field_zoom_pro_web/features/manage_products/providers/sub_cartegory_provider.dart';
+import 'package:field_zoom_pro_web/core/presentation/widgets/circle_image_widget.dart';
+import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/product_cartegory_widget.dart';
+import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/product_sub_cartegory_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 import 'package:intl/intl.dart';
 
@@ -22,43 +22,11 @@ class ProductDataSourceModel extends DataTableSource {
     return DataRow(
       cells: [
         DataCell(Text(data[index].name)),
-        DataCell(
-          Consumer(
-            builder: (context, ref, _) {
-              final cartegoryProv = ref
-                  .watch(productCartegoryByIdProvider(data[index].cartegoryId));
-              return cartegoryProv.when(
-                data: (subCart) {
-                  return Text(subCart.name);
-                },
-                error: (error, stackTrace) => const Text("Error"),
-                loading: () => const Text("Loading ..."),
-              );
-            },
-          ),
-        ),
-        DataCell(
-          Consumer(
-            builder: (context, ref, _) {
-              final subCartProv = ref
-                  .watch(subCartegoryByIdProvider(data[index].subCartegoryId));
-              return subCartProv.when(
-                data: (subCart) {
-                  return Text(subCart.name);
-                },
-                error: (error, stackTrace) => const Text("Error"),
-                loading: () => const Text("Loading ..."),
-              );
-            },
-          ),
-        ),
+        DataCell(ProductCartegoryWidget(cartegoryId: data[index].cartegoryId)),
+        DataCell(ProductSubCartegoryWidget(id: data[index].subCartegoryId)),
         DataCell(Text(data[index].productVar)),
         DataCell(Text(data[index].sellingPrice.toString())),
-        DataCell(
-          CircleAvatar(
-            backgroundImage: NetworkImage(data[index].productImg!),
-          ),
-        )
+        DataCell(CircleImageWidget(url: data[index].productImg!))
       ],
       selected: selectedProductId == data[index].id,
       onSelectChanged: (val) {

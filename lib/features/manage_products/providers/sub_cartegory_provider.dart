@@ -1,4 +1,5 @@
 import 'package:field_zoom_pro_web/core/providers/filter_notifier_provider.dart';
+import 'package:field_zoom_pro_web/features/manage_products/presentation/controllers/sub_cartegories_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
@@ -39,7 +40,7 @@ final subCartegoryByIdProvider = FutureProvider.autoDispose
           id: subCartegoryId, companyId: companyId);
 });
 
-// final subCartegoriesControllerProvider =
-//     StateNotifierProvider<SubCartegoriesController, AsyncValue>((ref) {
-//   return SubCartegoriesController();
-// });
+final subCartegoriesControllerProvider =
+    StateNotifierProvider<SubCartegoriesController, AsyncValue>((ref) {
+  return SubCartegoriesController();
+});

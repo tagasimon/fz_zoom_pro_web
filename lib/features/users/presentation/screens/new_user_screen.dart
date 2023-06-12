@@ -1,11 +1,12 @@
-import 'package:field_zoom_pro_web/core/providers/filter_notifier_provider.dart';
-import 'package:field_zoom_pro_web/core/providers/regions_provider.dart';
-import 'package:field_zoom_pro_web/features/users/providers/user_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fz_hooks/fz_hooks.dart';
+
+import 'package:field_zoom_pro_web/core/providers/filter_notifier_provider.dart';
+import 'package:field_zoom_pro_web/core/providers/regions_provider.dart';
+import 'package:field_zoom_pro_web/features/users/providers/user_providers.dart';
 
 class NewUserScreen extends ConsumerStatefulWidget {
   const NewUserScreen({Key? key}) : super(key: key);

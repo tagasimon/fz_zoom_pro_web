@@ -1,5 +1,6 @@
 import 'package:field_zoom_pro_web/features/customers/presentation/widgets/table_action_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/screens/add_product_cartegory_screen.dart';
+import 'package:field_zoom_pro_web/features/manage_products/presentation/screens/add_sub_cartegory_cartegory_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
@@ -21,7 +22,8 @@ class ProductsTableOptionsWidget extends StatelessWidget {
         TableActionWidget(
           title: "SUB CARTEGORY",
           child: IconButton(
-            onPressed: () {},
+            onPressed: () => context.push(const AddSubCartegoryScreen(),
+                fullscreenDialog: true),
             icon: const Icon(Icons.note_add_outlined),
           ),
         ),

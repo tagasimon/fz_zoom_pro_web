@@ -44,158 +44,156 @@ class _NewRouteScreenState extends ConsumerState<NewRouteScreen> {
         child: Scaffold(
             appBar: AppBar(title: const Text("NEW ROUTE"), centerTitle: true),
             body: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: routesProv.when(
-                          data: (data) {
-                            return DataTable(
-                                showBottomBorder: true,
-                                border: const TableBorder(
-                                  horizontalInside: BorderSide(
-                                      width: 1, color: Colors.black26),
-                                  verticalInside: BorderSide(
-                                      width: 1, color: Colors.black26),
-                                ),
-                                columns: const [
-                                  DataColumn(label: Text("Id")),
-                                  DataColumn(label: Text("Region")),
-                                  DataColumn(label: Text("Route Name")),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.5,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    regionsProv.when(
+                      data: (data) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const SizedBox(height: 20.0),
+                            Form(
+                              key: _formKey,
+                              child: Column(
+                                children: [
+                                  const SizedBox(height: 10),
+                                  DropdownButton<RegionModel>(
+                                    hint: const Text("Select Region"),
+                                    isExpanded: true,
+                                    value: selectedRegion,
+                                    items: data
+                                        .map((e) => DropdownMenuItem(
+                                            value: e, child: Text(e.name)))
+                                        .toList(),
+                                    onChanged: (value) {
+                                      setState(() => selectedRegion = value!);
+                                    },
+                                  ),
+                                  const SizedBox(height: 10.0),
+                                  TextFormField(
+                                    autofocus: true,
+                                    textInputAction: TextInputAction.next,
+                                    controller: _nameController,
+                                    decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        labelText: "Enter New Route"),
+                                    validator: (String? val) {
+                                      if (val == null || val.isEmpty) {
+                                        return 'Route Name Missing';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  const SizedBox(height: 10.0),
+                                  ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      minimumSize: Size(
+                                          MediaQuery.of(context).size.width *
+                                              0.3,
+                                          50),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 30.0, vertical: 10.0),
+                                    ),
+                                    onPressed: state.isLoading
+                                        ? null
+                                        : () async {
+                                            if (selectedRegion == null) {
+                                              Fluttertoast.showToast(
+                                                  msg:
+                                                      "Please select a region");
+                                              return;
+                                            }
+                                            if (_nameController.text.isEmpty) {
+                                              Fluttertoast.showToast(
+                                                  msg:
+                                                      "Please enter a route name");
+                                              return;
+                                            }
+                                            final companyId = ref
+                                                .read(filterNotifierProvider)
+                                                .user!
+                                                .companyId;
+                                            if (_formKey.currentState!
+                                                .validate()) {
+                                              final route = RouteModel(
+                                                id: DateTime.now()
+                                                    .microsecondsSinceEpoch
+                                                    .toString(),
+                                                name: _nameController.text,
+                                                companyId: companyId,
+                                                description: '',
+                                                regionId: selectedRegion!.id,
+                                                lastUpdated: DateTime.now(),
+                                                date: DateTime.now(),
+                                              );
+
+                                              final success = await ref
+                                                  .read(routesControllerProvider
+                                                      .notifier)
+                                                  .addRoute(route: route);
+                                              if (success) {
+                                                _nameController.clear();
+                                                Fluttertoast.showToast(
+                                                    msg: "SUCCESS :)");
+                                              }
+                                            }
+                                          },
+                                    child: state.isLoading
+                                        ? const CircularProgressIndicator()
+                                        : const Text(
+                                            "ADD",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                  )
                                 ],
-                                rows: data.map((e) {
-                                  return DataRow(cells: [
-                                    DataCell(Text(e.id)),
-                                    DataCell(
-                                        GetRegionWidget(regionId: e.regionId)),
-                                    DataCell(Text(e.name)),
-                                  ]);
-                                }).toList());
-                          },
-                          loading: () =>
-                              const Center(child: CircularProgressIndicator()),
-                          error: (e, s) => Center(
-                            child: Text(
-                              e.toString(),
-                              style: const TextStyle(color: Colors.red),
+                              ),
                             ),
-                          ),
+                          ],
+                        );
+                      },
+                      loading: () =>
+                          const Center(child: CircularProgressIndicator()),
+                      error: (e, s) => Center(
+                        child: Text(
+                          e.toString(),
+                          style: const TextStyle(color: Colors.red),
                         ),
                       ),
-                      const VerticalDivider(),
-                      Expanded(
-                          child: regionsProv.when(
+                    ),
+                    const SizedBox(height: 20.0),
+                    Text(
+                      "ROUTES",
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    Expanded(
+                      child: routesProv.when(
                         data: (data) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const SizedBox(height: 20.0),
-                              Form(
-                                key: _formKey,
-                                child: Column(
-                                  children: [
-                                    const SizedBox(height: 10),
-                                    DropdownButton<RegionModel>(
-                                      hint: const Text("Select Region"),
-                                      isExpanded: true,
-                                      value: selectedRegion,
-                                      items: data
-                                          .map((e) => DropdownMenuItem(
-                                              value: e, child: Text(e.name)))
-                                          .toList(),
-                                      onChanged: (value) {
-                                        setState(() => selectedRegion = value!);
-                                      },
-                                    ),
-                                    const SizedBox(height: 10.0),
-                                    TextFormField(
-                                      autofocus: true,
-                                      textInputAction: TextInputAction.next,
-                                      controller: _nameController,
-                                      decoration: const InputDecoration(
-                                          border: OutlineInputBorder(),
-                                          labelText: "Enter New Route"),
-                                      validator: (String? val) {
-                                        if (val == null || val.isEmpty) {
-                                          return 'Route Name Missing';
-                                        }
-                                        return null;
-                                      },
-                                    ),
-                                    const SizedBox(height: 10.0),
-                                    ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10.0),
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 30.0, vertical: 10.0),
-                                      ),
-                                      onPressed: state.isLoading
-                                          ? null
-                                          : () async {
-                                              if (selectedRegion == null) {
-                                                Fluttertoast.showToast(
-                                                    msg:
-                                                        "Please select a region");
-                                                return;
-                                              }
-                                              if (_nameController
-                                                  .text.isEmpty) {
-                                                Fluttertoast.showToast(
-                                                    msg:
-                                                        "Please enter a route name");
-                                                return;
-                                              }
-                                              final companyId = ref
-                                                  .read(filterNotifierProvider)
-                                                  .user!
-                                                  .companyId;
-                                              if (_formKey.currentState!
-                                                  .validate()) {
-                                                final route = RouteModel(
-                                                  id: DateTime.now()
-                                                      .microsecondsSinceEpoch
-                                                      .toString(),
-                                                  name: _nameController.text,
-                                                  companyId: companyId,
-                                                  description: '',
-                                                  regionId: selectedRegion!.id,
-                                                  lastUpdated: DateTime.now(),
-                                                  date: DateTime.now(),
-                                                );
-
-                                                final success = await ref
-                                                    .read(
-                                                        routesControllerProvider
-                                                            .notifier)
-                                                    .addRoute(route: route);
-                                                if (success) {
-                                                  _nameController.clear();
-                                                  Fluttertoast.showToast(
-                                                      msg: "SUCCESS :)");
-                                                }
-                                              }
-                                            },
-                                      child: state.isLoading
-                                          ? const CircularProgressIndicator()
-                                          : const Text(
-                                              "ADD",
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          );
+                          return DataTable(
+                              showBottomBorder: true,
+                              border:
+                                  TableBorder.all(color: Colors.grey.shade300),
+                              columns: const [
+                                DataColumn(label: Text("Id")),
+                                DataColumn(label: Text("Region")),
+                                DataColumn(label: Text("Route Name")),
+                              ],
+                              rows: data.map((e) {
+                                return DataRow(cells: [
+                                  DataCell(Text(e.id)),
+                                  DataCell(
+                                      GetRegionWidget(regionId: e.regionId)),
+                                  DataCell(Text(e.name)),
+                                ]);
+                              }).toList());
                         },
                         loading: () =>
                             const Center(child: CircularProgressIndicator()),
@@ -205,9 +203,9 @@ class _NewRouteScreenState extends ConsumerState<NewRouteScreen> {
                             style: const TextStyle(color: Colors.red),
                           ),
                         ),
-                      ))
-                    ],
-                  ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             )),

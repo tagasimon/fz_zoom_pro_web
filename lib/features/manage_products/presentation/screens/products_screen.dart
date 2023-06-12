@@ -1,4 +1,3 @@
-import 'package:field_zoom_pro_web/core/extensions/context_extesions.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/company_title_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/models/product_data_source_model.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/product_details_screen.dart';
@@ -7,6 +6,7 @@ import 'package:field_zoom_pro_web/features/manage_products/providers/product_pr
 import 'package:field_zoom_pro_web/features/manage_products/providers/products_table_options_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fz_hooks/fz_hooks.dart';
 
 enum ProductScreenActions {
   selectProduct,

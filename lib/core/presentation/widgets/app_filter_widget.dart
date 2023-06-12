@@ -21,6 +21,7 @@ class AppFilterWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final region = ref.watch(filterNotifierProvider).region;
     return SizedBox(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -31,13 +32,16 @@ class AppFilterWidget extends ConsumerWidget {
           const VerticalDivider(),
           if (showStartDateFilter) const DateFilterWidget(isStartDate: false),
           const VerticalDivider(),
-          TextButton.icon(
-            style: TextButton.styleFrom(foregroundColor: Colors.redAccent),
-            onPressed: () =>
-                ref.read(filterNotifierProvider.notifier).resetFilter(),
-            label: const Text("Reset"),
-            icon: const Icon(Icons.refresh),
-          )
+          region == null
+              ? const SizedBox.shrink()
+              : TextButton.icon(
+                  style:
+                      TextButton.styleFrom(foregroundColor: Colors.redAccent),
+                  onPressed: () =>
+                      ref.read(filterNotifierProvider.notifier).resetFilter(),
+                  label: const Text("Reset"),
+                  icon: const Icon(Icons.refresh),
+                )
         ],
       ),
     );

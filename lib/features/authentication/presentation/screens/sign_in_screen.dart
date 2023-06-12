@@ -2,16 +2,17 @@ import 'package:field_zoom_pro_web/core/extensions/context_extesions.dart';
 import 'package:field_zoom_pro_web/features/authentication/presentation/screens/forgot_password_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SignInScreen extends StatefulWidget {
+class SignInScreen extends ConsumerStatefulWidget {
   static const String routeName = "sign_in_screen";
 
   const SignInScreen({Key? key}) : super(key: key);
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  ConsumerState<SignInScreen> createState() => _SignInScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _SignInScreenState extends ConsumerState<SignInScreen> {
   double loadingOpacity = 0.0;
   bool isLoading = false;
   String? _email;
@@ -86,6 +87,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     onPressed: loadingOpacity != 0.0
                         ? null
                         : () async {
+                            // ref.read(userInfoProvider)
                             FocusScope.of(context).requestFocus(FocusNode());
                             if (_formKey.currentState!.validate()) {
                               try {

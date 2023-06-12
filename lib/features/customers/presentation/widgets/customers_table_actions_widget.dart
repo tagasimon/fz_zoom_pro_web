@@ -1,3 +1,4 @@
+import 'package:field_zoom_pro_web/features/customers/presentation/screens/new_route_screen.dart';
 import 'package:field_zoom_pro_web/features/customers/presentation/widgets/customers_bottom_sheet_widget.dart';
 import 'package:field_zoom_pro_web/features/customers/presentation/widgets/table_action_widget.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,8 @@ class CustomersTableActionsWidget extends ConsumerWidget {
         TableActionWidget(
           title: "NEW ROUTE",
           child: IconButton(
-            onPressed: () {},
+            onPressed: () =>
+                context.push(const NewRouteScreen(), fullscreenDialog: true),
             icon: const Icon(Icons.add),
           ),
         ),

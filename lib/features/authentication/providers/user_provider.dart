@@ -4,7 +4,7 @@ import 'package:fz_hooks/fz_hooks.dart';
 
 final userRepoProvider = Provider<UsersRepository>((ref) => UsersRepository());
 
-final userInfoProvider = StreamProvider<UserModel>((ref) {
+final userInfoProvider = StreamProvider.autoDispose<UserModel>((ref) {
   final uid = FirebaseAuth.instance.currentUser!.uid;
   return ref.watch(userRepoProvider).watchUser(id: uid);
 });

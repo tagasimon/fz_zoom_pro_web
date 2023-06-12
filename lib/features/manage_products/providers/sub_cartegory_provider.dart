@@ -31,6 +31,15 @@ final watchSubCartegoriesProvider =
       .watchAllSubCartegories(companyId: companyId);
 });
 
+final watchSubCartegoriesByCartegoryIdProvider = StreamProvider.autoDispose
+    .family<List<SubCartegoryModel>, String>((ref, cartegoryId) {
+  final companyId = ref.watch(filterNotifierProvider).user!.companyId;
+  return ref
+      .watch(productsSubCartegoryProvider)
+      .watchSubCartegoriesByCartegoryId(
+          companyId: companyId, cartegoryId: cartegoryId);
+});
+
 final subCartegoryByIdProvider = FutureProvider.autoDispose
     .family<SubCartegoryModel, String>((ref, subCartegoryId) {
   final companyId = ref.watch(filterNotifierProvider).user!.companyId;

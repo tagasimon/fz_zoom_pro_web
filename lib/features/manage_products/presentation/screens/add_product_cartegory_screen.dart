@@ -47,110 +47,111 @@ class _AddProductCartegoryScreenState
         child: Focus(
           autofocus: true,
           child: Center(
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.5,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    TextField(
-                      controller: _nameController,
-                      keyboardType: TextInputType.text,
-                      decoration:
-                          const InputDecoration(labelText: 'Cartegory Name'),
-                    ),
-                    TextField(
-                      controller: _descriptionController,
-                      keyboardType: TextInputType.text,
-                      decoration: const InputDecoration(
-                          labelText: 'Cartegory Description'),
-                      maxLines: 2,
-                    ),
-                    const SizedBox(height: 10),
-                    ElevatedButton(
-                      onPressed: state.isLoading
-                          ? null
-                          : () async {
-                              if (_nameController.text.isEmpty) {
-                                Fluttertoast.showToast(
-                                    msg: "Cartegory Name is required");
-                                return;
-                              }
-
-                              final companyId = ref
-                                  .watch(filterNotifierProvider)
-                                  .user!
-                                  .companyId;
-                              final pdtCartegory = ProductCartegoryModel(
-                                id: DateHelpers.dateTimeMillis(),
-                                name: _nameController.text.toUpperCase(),
-                                desc: _descriptionController.text,
-                                companyId: companyId,
-                                createdAt: DateTime.now(),
-                              );
-                              final success = await ref
-                                  .read(productsCartegoriesControllerProvider
-                                      .notifier)
-                                  .addNewProductCategory(
-                                      productCartegoryModel: pdtCartegory);
-                              if (success) {
-                                _nameController.clear();
-                                _descriptionController.clear();
-                                Fluttertoast.showToast(msg: "Cartegory Added");
-                              }
-                            },
-                      style: ElevatedButton.styleFrom(
-                        minimumSize:
-                            Size(MediaQuery.of(context).size.width * 0.3, 50),
-                      ),
-                      child: state.isLoading
-                          ? const CircularProgressIndicator()
-                          : const Text('ADD CARTEGORY'),
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      'PRODUCT CARTEGORIES',
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    pdtCartProv.when(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    flex: 4,
+                    child: pdtCartProv.when(
                       data: (data) {
-                        return DataTable(
-                            showBottomBorder: true,
-                            border: TableBorder.all(
-                              color: Colors.grey,
-                              width: 1,
-                            ),
-                            columns: const [
-                              DataColumn(label: Text('NAME')),
-                              DataColumn(label: Text('IMAGE')),
-                              DataColumn(label: Text('STATUS')),
-                              DataColumn(label: Text('DESC')),
-                            ],
-                            rows: data.map((e) {
-                              return DataRow(
-                                cells: [
-                                  DataCell(Text(e.name)),
-                                  DataCell(
-                                      CircleImageWidget(url: e.cartegoryImg)),
-                                  DataCell(
-                                    Switch(
-                                      value: e.isActive,
-                                      onChanged: (val) {
-                                        // TODO update isActive
-                                      },
-                                    ),
-                                  ),
-                                  DataCell(Text(e.desc)),
-                                ],
-                              );
-                            }).toList());
+                        final source = CartegoriesDataSourceModel(
+                          data: data,
+                          selectedId: null,
+                          onSelected: (id) {},
+                          onSwitchChanged: (val, id) {},
+                        );
+                        return PaginatedDataTable(
+                          header: const Text('PRODUCT CARTEGORIES'),
+                          columns: const [
+                            DataColumn(label: Text('NAME')),
+                            DataColumn(label: Text('IMAGE')),
+                            DataColumn(label: Text('STATUS')),
+                          ],
+                          source: source,
+                          showCheckboxColumn: false,
+                        );
                       },
                       loading: () => const CircularProgressIndicator(),
                       error: (err, stack) => Text(err.toString()),
                     ),
-                  ],
-                ),
+                  ),
+                  const VerticalDivider(),
+                  Expanded(
+                    flex: 1,
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Text(
+                              'Add New',
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                            const SizedBox(height: 10),
+                            TextField(
+                              controller: _nameController,
+                              keyboardType: TextInputType.text,
+                              decoration: const InputDecoration(
+                                  labelText: 'Cartegory Name'),
+                            ),
+                            TextField(
+                              controller: _descriptionController,
+                              keyboardType: TextInputType.text,
+                              decoration: const InputDecoration(
+                                  labelText: 'Cartegory Description'),
+                              maxLines: 2,
+                            ),
+                            const SizedBox(height: 10),
+                            ElevatedButton(
+                              onPressed: state.isLoading
+                                  ? null
+                                  : () async {
+                                      if (_nameController.text.isEmpty) {
+                                        Fluttertoast.showToast(
+                                            msg: "Cartegory Name is required");
+                                        return;
+                                      }
+
+                                      final companyId = ref
+                                          .watch(filterNotifierProvider)
+                                          .user!
+                                          .companyId;
+                                      final pdtCartegory =
+                                          ProductCartegoryModel(
+                                        id: DateHelpers.dateTimeMillis(),
+                                        name:
+                                            _nameController.text.toUpperCase(),
+                                        desc: _descriptionController.text,
+                                        companyId: companyId,
+                                        createdAt: DateTime.now(),
+                                      );
+                                      final success = await ref
+                                          .read(
+                                              productsCartegoriesControllerProvider
+                                                  .notifier)
+                                          .addNewProductCategory(
+                                              productCartegoryModel:
+                                                  pdtCartegory);
+                                      if (success) {
+                                        _nameController.clear();
+                                        _descriptionController.clear();
+                                        Fluttertoast.showToast(
+                                            msg: "Cartegory Added");
+                                      }
+                                    },
+                              child: state.isLoading
+                                  ? const CircularProgressIndicator()
+                                  : const Text('ADD CARTEGORY'),
+                            ),
+                            const SizedBox(height: 20),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -158,4 +159,77 @@ class _AddProductCartegoryScreenState
       ),
     );
   }
+}
+
+class CartegoriesDataSourceModel extends DataTableSource {
+  final List<ProductCartegoryModel> data;
+  final String? selectedId;
+  final Function(String) onSelected;
+  final Function(bool, String) onSwitchChanged;
+
+  CartegoriesDataSourceModel({
+    required this.data,
+    required this.selectedId,
+    required this.onSelected,
+    required this.onSwitchChanged,
+  });
+  @override
+  DataRow? getRow(int index) {
+    return DataRow(
+      cells: [
+        DataCell(Text(data[index].name)),
+        DataCell(
+          Consumer(
+            builder: (context, ref, child) {
+              return CircleImageWidget(
+                url: data[index].cartegoryImg,
+                onTap: () async {
+                  final companyId =
+                      ref.watch(filterNotifierProvider).user!.companyId;
+                  final String? downloadUrl = await ref
+                      .read(productsCartegoriesControllerProvider.notifier)
+                      .getUserDownloadUrl("PRODUCT_IMAGES");
+
+                  if (downloadUrl != null) {
+                    final nCart =
+                        data[index].copyWith(cartegoryImg: downloadUrl);
+                    final success = await ref
+                        .read(productsCartegoriesControllerProvider.notifier)
+                        .updateProductCartegory(
+                            companyId: companyId,
+                            id: data[index].id,
+                            productCartegoryModel: nCart);
+                    if (success) {
+                      Fluttertoast.showToast(msg: "Image Updated");
+                    }
+                  }
+                },
+              );
+            },
+          ),
+        ),
+        DataCell(
+          Switch(
+            value: data[index].isActive,
+            onChanged: (val) => onSwitchChanged(val, data[index].id),
+            activeColor: Colors.green,
+            inactiveThumbColor: Colors.red,
+          ),
+        ),
+      ],
+      selected: selectedId == data[index].id,
+      onSelectChanged: (val) {
+        onSelected(data[index].id);
+      },
+    );
+  }
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => data.length;
+
+  @override
+  int get selectedRowCount => selectedId == null ? 0 : 1;
 }

@@ -1,10 +1,8 @@
 import 'package:field_zoom_pro_web/core/presentation/widgets/app_filter_widget.dart';
+import 'package:field_zoom_pro_web/core/presentation/widgets/get_region_widget.dart';
 import 'package:field_zoom_pro_web/core/providers/company_info_provider.dart';
-import 'package:field_zoom_pro_web/features/customers/presentation/screens/new_route_screen.dart';
 import 'package:field_zoom_pro_web/features/customers/presentation/widgets/table_action_widget.dart';
-import 'package:field_zoom_pro_web/features/users/models/users_data_source_model.dart';
-import 'package:field_zoom_pro_web/features/users/presentation/screens/new_region_screen.dart';
-import 'package:field_zoom_pro_web/features/users/presentation/screens/new_user_screen.dart';
+import 'package:field_zoom_pro_web/features/users/presentation/widgets/users_table_actions_widget.dart';
 import 'package:field_zoom_pro_web/features/users/providers/user_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -76,9 +74,10 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
               data.isEmpty
                   ? const Center(child: Text("No users found"))
                   : SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.8,
+                      width: double.infinity,
                       child: PaginatedDataTable(
                         columns: const [
+                          DataColumn(label: Text("#")),
                           DataColumn(label: Text("NAME")),
                           DataColumn(label: Text("EMAIL")),
                           DataColumn(label: Text("PHONE")),
@@ -89,49 +88,10 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
                         source: userData,
                         header: const Text("USERS"),
                         rowsPerPage: 10,
+                        showCheckboxColumn: true,
+                        showFirstLastButtons: true,
                         actions: selectedUserId == null
-                            ? [
-                                const VerticalDivider(),
-                                TableActionWidget(
-                                  title: "NEW USER",
-                                  child: IconButton(
-                                    onPressed: () => context.push(
-                                        const NewUserScreen(),
-                                        fullscreenDialog: true),
-                                    icon: const Icon(Icons.add),
-                                  ),
-                                ),
-                                const VerticalDivider(),
-                                TableActionWidget(
-                                  title: "NEW REGION",
-                                  child: IconButton(
-                                    onPressed: () => context.push(
-                                        const NewRegionScreen(),
-                                        fullscreenDialog: true),
-                                    icon: const Icon(Icons.add),
-                                  ),
-                                ),
-                                const VerticalDivider(),
-                                TableActionWidget(
-                                  title: "NEW ROUTE",
-                                  child: IconButton(
-                                    onPressed: () => context.push(
-                                        const NewRouteScreen(),
-                                        fullscreenDialog: true),
-                                    icon: const Icon(Icons.add),
-                                  ),
-                                ),
-                                const VerticalDivider(),
-                                TableActionWidget(
-                                  title: "INSIGHTS",
-                                  child: IconButton(
-                                    onPressed: () {
-                                      Fluttertoast.showToast(msg: "TODO");
-                                    },
-                                    icon: const Icon(Icons.insights),
-                                  ),
-                                ),
-                              ]
+                            ? [const UsersTableActionsWidget()]
                             : [
                                 TableActionWidget(
                                   title: "INSIGHTS",
@@ -157,4 +117,52 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
+}
+
+class UsersDataSourceModel extends DataTableSource {
+  final List<UserModel> data;
+  final String? selectedUserId;
+  final Function(String) onSelected;
+  final Function(bool, String) onSwitchChanged;
+
+  UsersDataSourceModel({
+    required this.data,
+    required this.selectedUserId,
+    required this.onSelected,
+    required this.onSwitchChanged,
+  });
+  @override
+  DataRow? getRow(int index) {
+    return DataRow(
+      cells: [
+        DataCell(Text("${index + 1}")),
+        DataCell(Text(data[index].name)),
+        DataCell(Text(data[index].email)),
+        DataCell(SelectableText(data[index].phoneNumber)),
+        DataCell(Text(data[index].role)),
+        DataCell(GetRegionWidget(regionId: data[index].regionId!)),
+        DataCell(
+          Switch(
+            value: data[index].isActive,
+            onChanged: (val) => onSwitchChanged(val, data[index].id),
+            activeColor: Colors.green,
+            inactiveThumbColor: Colors.red,
+          ),
+        ),
+      ],
+      selected: selectedUserId == data[index].id,
+      onSelectChanged: (val) {
+        onSelected(data[index].id);
+      },
+    );
+  }
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => data.length;
+
+  @override
+  int get selectedRowCount => selectedUserId == null ? 0 : 1;
 }

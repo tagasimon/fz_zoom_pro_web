@@ -75,6 +75,7 @@ class _AddProductCartegoryScreenState
                           ],
                           source: source,
                           showCheckboxColumn: false,
+                          showFirstLastButtons: true,
                         );
                       },
                       loading: () =>

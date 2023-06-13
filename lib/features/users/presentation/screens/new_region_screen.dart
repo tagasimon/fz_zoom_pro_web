@@ -44,16 +44,33 @@ class _NewRegionScreenState extends ConsumerState<NewRegionScreen> {
           body: Center(
             child: regionsProv.when(
               data: (data) {
-                return SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 20.0),
-                      Form(
+                final source =
+                    RegionsDataSourceModel(data: data, selectedId: null);
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 4,
+                      child: PaginatedDataTable(
+                        header: const Text("REGIONS"),
+                        columns: const [
+                          DataColumn(label: Text("#")),
+                          DataColumn(label: Text("NAME")),
+                        ],
+                        source: source,
+                        showCheckboxColumn: false,
+                        showFirstLastButtons: true,
+                      ),
+                    ),
+                    const VerticalDivider(),
+                    Expanded(
+                      flex: 1,
+                      child: Form(
                         key: _formKey,
                         child: Column(
                           children: [
+                            const Text("Add New"),
+                            const SizedBox(height: 10.0),
                             TextFormField(
                               autofocus: true,
                               textInputAction: TextInputAction.next,
@@ -70,16 +87,6 @@ class _NewRegionScreenState extends ConsumerState<NewRegionScreen> {
                             ),
                             const SizedBox(height: 10.0),
                             ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                minimumSize: Size(
-                                    MediaQuery.of(context).size.width * 0.2,
-                                    50.0),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 30.0, vertical: 10.0),
-                              ),
                               onPressed: state.isLoading
                                   ? null
                                   : () async {
@@ -120,28 +127,8 @@ class _NewRegionScreenState extends ConsumerState<NewRegionScreen> {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 20.0),
-                      const Text(
-                        "REGIONS",
-                        style: TextStyle(
-                            fontSize: 20.0, fontWeight: FontWeight.bold),
-                      ),
-                      DataTable(
-                          showBottomBorder: true,
-                          border:
-                              TableBorder.all(width: 1.0, color: Colors.black),
-                          columns: const [
-                            DataColumn(label: Text("Id")),
-                            DataColumn(label: Text("Region Name")),
-                          ],
-                          rows: data.map((e) {
-                            return DataRow(cells: [
-                              DataCell(Text(e.id)),
-                              DataCell(Text(e.name)),
-                            ]);
-                          }).toList()),
-                    ],
-                  ),
+                    ),
+                  ],
                 );
               },
               loading: () => const Center(child: CircularProgressIndicator()),
@@ -157,4 +144,40 @@ class _NewRegionScreenState extends ConsumerState<NewRegionScreen> {
       ),
     );
   }
+}
+
+class RegionsDataSourceModel extends DataTableSource {
+  final List<RegionModel> data;
+  final String? selectedId;
+  final Function(String)? onSelected;
+
+  RegionsDataSourceModel({
+    required this.data,
+    required this.selectedId,
+    this.onSelected,
+  });
+  @override
+  DataRow? getRow(int index) {
+    return DataRow(
+      cells: [
+        DataCell(Text("${index + 1}")),
+        DataCell(Text(data[index].name)),
+      ],
+      selected: selectedId == data[index].id,
+      onSelectChanged: (val) {
+        if (val == true) {
+          onSelected!(data[index].id);
+        }
+      },
+    );
+  }
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => data.length;
+
+  @override
+  int get selectedRowCount => selectedId == null ? 0 : 1;
 }

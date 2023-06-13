@@ -34,9 +34,10 @@ class CustomerUniverse extends ConsumerWidget {
                     showStartDateFilter: false,
                   ),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.8,
+                    width: double.infinity,
                     child: PaginatedDataTable(
                       showCheckboxColumn: false,
+                      showFirstLastButtons: true,
                       columns: const [
                         DataColumn(label: Text("")),
                         DataColumn(label: Text("CONTACT NAME")),

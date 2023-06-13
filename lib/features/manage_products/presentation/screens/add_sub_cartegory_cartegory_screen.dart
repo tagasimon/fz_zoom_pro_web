@@ -72,6 +72,7 @@ class _AddSubCartegoryScreenState extends ConsumerState<AddSubCartegoryScreen> {
                         ],
                         source: source,
                         showCheckboxColumn: false,
+                        showFirstLastButtons: true,
                       );
                     },
                     loading: () =>

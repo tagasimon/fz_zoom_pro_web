@@ -47,91 +47,99 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
             key: _formKey,
             child: SizedBox(
               width: 400,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextFormField(
-                    onChanged: (val) {
-                      setState(() => _email = val.trim());
-                    },
-                    controller: emailController,
-                    decoration: const InputDecoration(
-                      labelText: "Enter Your Email",
-                      border: OutlineInputBorder(),
-                    ),
-                    validator: (val) {
-                      //  email validation
-                      if (val!.isEmpty) {
-                        return "Please Enter Your Email";
-                      } else if (!val.contains("@")) {
-                        return "Please Enter a Valid Email";
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    obscureText: true,
-                    onChanged: (val) {
-                      setState(() => _password = val.trim());
-                    },
-                    controller: passwordController,
-                    decoration: const InputDecoration(
-                      labelText: "Enter Your Password",
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: loadingOpacity != 0.0
-                        ? null
-                        : () async {
-                            // ref.read(userInfoProvider)
-                            FocusScope.of(context).requestFocus(FocusNode());
-                            if (_formKey.currentState!.validate()) {
-                              try {
-                                setState(() => loadingOpacity = 1.0);
-                                // TODO Use a Controller for this
-                                await FirebaseAuth.instance
-                                    .signInWithEmailAndPassword(
-                                        email: _email!, password: _password!);
+              child: Card(
+                elevation: 2,
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextFormField(
+                        onChanged: (val) {
+                          setState(() => _email = val.trim());
+                        },
+                        controller: emailController,
+                        decoration: const InputDecoration(
+                          labelText: "Enter Your Email",
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (val) {
+                          //  email validation
+                          if (val!.isEmpty) {
+                            return "Please Enter Your Email";
+                          } else if (!val.contains("@")) {
+                            return "Please Enter a Valid Email";
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 10),
+                      TextFormField(
+                        obscureText: true,
+                        onChanged: (val) {
+                          setState(() => _password = val.trim());
+                        },
+                        controller: passwordController,
+                        decoration: const InputDecoration(
+                          labelText: "Enter Your Password",
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: loadingOpacity != 0.0
+                            ? null
+                            : () async {
+                                FocusScope.of(context)
+                                    .requestFocus(FocusNode());
+                                if (_formKey.currentState!.validate()) {
+                                  try {
+                                    setState(() => loadingOpacity = 1.0);
+                                    // TODO Use a Controller for this
+                                    await FirebaseAuth.instance
+                                        .signInWithEmailAndPassword(
+                                            email: _email!,
+                                            password: _password!);
 
-                                // AuthRepository()
-                                //     .signInWithEmailAndPassword(
-                                //         email: _email!, password: _password!);
-                                // Fix these error Codes
-                              } on FirebaseAuthException catch (e) {
-                                debugPrint("CODE: ${e.code}");
-                                setState(() => loadingOpacity = 0.0);
-                                final errorMsg = switch (e.code) {
-                                  'user-disabled' => "User Disabled",
-                                  'user-not-found' => "User not Found",
-                                  'wrong-password' => "Wrong Password",
-                                  'invalid-email' => "Invalid Email",
-                                  _ =>
-                                    "Couldn't Sign In, Check Your Credentials",
-                                };
-                                context.showSnackBar(errorMsg);
-                              } catch (e) {
-                                setState(() => loadingOpacity = 0.0);
-                                context.showSnackBar(e.toString());
-                              }
-                            }
-                          },
-                    style: ElevatedButton.styleFrom(
-                        minimumSize: const Size.fromHeight(50)),
-                    child: loadingOpacity != 0
-                        ? const CircularProgressIndicator()
-                        : const Text("LOGIN",
-                            style: TextStyle(fontWeight: FontWeight.bold)),
+                                    // AuthRepository()
+                                    //     .signInWithEmailAndPassword(
+                                    //         email: _email!, password: _password!);
+                                    // Fix these error Codes
+                                  } on FirebaseAuthException catch (e) {
+                                    debugPrint("CODE: ${e.code}");
+                                    setState(() => loadingOpacity = 0.0);
+                                    final errorMsg = switch (e.code) {
+                                      'user-disabled' => "User Disabled",
+                                      'user-not-found' => "User not Found",
+                                      'wrong-password' => "Wrong Password",
+                                      'invalid-email' => "Invalid Email",
+                                      _ =>
+                                        "Couldn't Sign In, Check Your Credentials",
+                                    };
+                                    context.showSnackBar(errorMsg);
+                                  } catch (e) {
+                                    setState(() => loadingOpacity = 0.0);
+                                    context.showSnackBar(e.toString());
+                                  }
+                                }
+                              },
+                        style: ElevatedButton.styleFrom(
+                            minimumSize: const Size.fromHeight(50)),
+                        child: loadingOpacity != 0
+                            ? const CircularProgressIndicator()
+                            : const Text("LOGIN",
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                      const SizedBox(height: 10),
+                      TextButton(
+                          onPressed: () =>
+                              context.push(const ForgotPasswordScreen()),
+                          child: const Text("Forgot Password?"))
+                    ],
                   ),
-                  const SizedBox(height: 10),
-                  TextButton(
-                      onPressed: () =>
-                          context.push(const ForgotPasswordScreen()),
-                      child: const Text("Forgot Password?"))
-                ],
+                ),
               ),
             ),
           ),

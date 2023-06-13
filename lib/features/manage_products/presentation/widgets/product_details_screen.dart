@@ -1,8 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:field_zoom_pro_web/core/extensions/async_value_extensions.dart';
+import 'package:field_zoom_pro_web/core/presentation/controllers/upload_image_controller.dart';
 import 'package:field_zoom_pro_web/features/manage_products/providers/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ProductDetailsScreen extends ConsumerStatefulWidget {
   final String id;
@@ -25,8 +28,13 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   bool isUploading = false;
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(uploadImageControllerProvider);
+    final state2 = ref.watch(productsControllerProvider);
+    ref.listen<AsyncValue>(uploadImageControllerProvider,
+        (_, state) => state.showSnackBarOnError(context));
+    ref.listen<AsyncValue>(productsControllerProvider,
+        (_, state) => state.showSnackBarOnError(context));
     final productProv = ref.watch(watchProductProvider(widget.id));
-    final editProductState = ref.watch(productsControllerProvider);
 
     return CallbackShortcuts(
       bindings: <ShortcutActivator, VoidCallback>{
@@ -136,7 +144,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                               textStyle: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                             ),
-                            onPressed: editProductState.isLoading
+                            onPressed: state.isLoading || state2.isLoading
                                 ? null
                                 : () async {
                                     if (!_key.currentState!.validate()) {
@@ -159,7 +167,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                       widget.isDone(true);
                                     }
                                   },
-                            child: editProductState.isLoading
+                            child: state.isLoading || state2.isLoading
                                 ? const CircularProgressIndicator()
                                 : const Text("SAVE"),
                           ),
@@ -210,15 +218,23 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                   ),
                                   child: IconButton(
                                     onPressed: () async {
-                                      // final success = await ref
-                                      //     .read(
-                                      //         productsControllerProvider.notifier)
-                                      //     .deleteProduct(
-                                      //       productId: widget.id,
-                                      //     );
-                                      // if (success) {
-                                      //   widget.isDone(true);
-                                      // }
+                                      final String? downloadUrl = await ref
+                                          .read(uploadImageControllerProvider
+                                              .notifier)
+                                          .getUserDownloadUrl("PRODUCT_IMAGES");
+                                      if (downloadUrl != null) {
+                                        final success = await ref
+                                            .read(productsControllerProvider
+                                                .notifier)
+                                            .updateProduct(
+                                              product: product.copyWith(
+                                                  productImg: downloadUrl),
+                                            );
+                                        if (success) {
+                                          Fluttertoast.showToast(
+                                              msg: "SUCCESS :)");
+                                        }
+                                      }
                                     },
                                     icon: const Icon(Icons.edit),
                                   ),

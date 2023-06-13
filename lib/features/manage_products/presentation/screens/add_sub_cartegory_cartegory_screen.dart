@@ -71,6 +71,7 @@ class _AddSubCartegoryScreenState extends ConsumerState<AddSubCartegoryScreen> {
                           DataColumn(label: Text('IMAGE')),
                         ],
                         source: source,
+                        showCheckboxColumn: false,
                       );
                     },
                     loading: () =>

@@ -190,6 +190,13 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
                                                       .validate()) {
                                                     return;
                                                   }
+                                                  if (selectedSubCartegory ==
+                                                      null) {
+                                                    Fluttertoast.showToast(
+                                                        msg:
+                                                            "Select a sub cartegory to continue");
+                                                    return;
+                                                  }
                                                   final filter = ref.read(
                                                       filterNotifierProvider);
                                                   final nProduct = ProductModel(

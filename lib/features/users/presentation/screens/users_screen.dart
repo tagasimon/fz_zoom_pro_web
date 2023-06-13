@@ -1,5 +1,6 @@
 import 'package:field_zoom_pro_web/core/presentation/widgets/app_filter_widget.dart';
 import 'package:field_zoom_pro_web/core/providers/company_info_provider.dart';
+import 'package:field_zoom_pro_web/features/customers/presentation/screens/new_route_screen.dart';
 import 'package:field_zoom_pro_web/features/customers/presentation/widgets/table_action_widget.dart';
 import 'package:field_zoom_pro_web/features/users/models/users_data_source_model.dart';
 import 'package:field_zoom_pro_web/features/users/presentation/screens/new_region_screen.dart';
@@ -112,6 +113,16 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
                                 ),
                                 const VerticalDivider(),
                                 TableActionWidget(
+                                  title: "NEW ROUTE",
+                                  child: IconButton(
+                                    onPressed: () => context.push(
+                                        const NewRouteScreen(),
+                                        fullscreenDialog: true),
+                                    icon: const Icon(Icons.add),
+                                  ),
+                                ),
+                                const VerticalDivider(),
+                                TableActionWidget(
                                   title: "INSIGHTS",
                                   child: IconButton(
                                     onPressed: () {
@@ -125,7 +136,9 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
                                 TableActionWidget(
                                   title: "INSIGHTS",
                                   child: IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Fluttertoast.showToast(msg: "TODO");
+                                    },
                                     icon: Icon(
                                       Icons.insights,
                                       color: Theme.of(context).primaryColorDark,

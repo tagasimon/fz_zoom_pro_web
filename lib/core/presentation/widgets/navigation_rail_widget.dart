@@ -1,4 +1,4 @@
-import 'package:field_zoom_pro_web/core/presentation/screens/home_screen.dart';
+import 'package:field_zoom_pro_web/features/dashboard/presentation/screens/home_screen.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widget.dart';
 import 'package:field_zoom_pro_web/core/providers/filter_notifier_provider.dart';
 import 'package:field_zoom_pro_web/features/authentication/providers/user_provider.dart';
@@ -47,27 +47,6 @@ class _NavigationRailWidgetState extends ConsumerState<NavigationRailWidget> {
                 IconButton(
                     onPressed: () => setState(() => isExtended = !isExtended),
                     icon: const Icon(Icons.menu_sharp)),
-                // Consumer(
-                //   builder: (context, ref, _) {
-                //     final companyInfoProv = ref.watch(companyInfoProvider);
-                //     return companyInfoProv.when(
-                //         data: (data) => Image.network(
-                //               data.logoUrl,
-                //               height: 100,
-                //               width: 100,
-                //               errorBuilder: (context, error, stackTrace) =>
-                //                   const SizedBox.shrink(),
-                //               loadingBuilder:
-                //                   (context, child, loadingProgress) =>
-                //                       loadingProgress == null
-                //                           ? child
-                //                           : const CircularProgressIndicator(),
-                //               fit: BoxFit.contain,
-                //             ),
-                //         error: (error, stackTrace) => const Text("Error"),
-                //         loading: () => const CircularProgressIndicator());
-                //   },
-                // ),
               ],
             ),
             selectedLabelTextStyle: TextStyle(

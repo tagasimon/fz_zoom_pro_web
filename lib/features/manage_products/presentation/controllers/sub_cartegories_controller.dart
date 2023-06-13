@@ -14,6 +14,20 @@ class SubCartegoriesController extends StateNotifier<AsyncValue> {
           subCartegory: subCartegory);
     });
     return state.hasError ? false : true;
-    // if (!mounted) return false;
+  }
+
+  Future<bool> updateSubProductCartegory({
+    required String companyId,
+    required String id,
+    required SubCartegoryModel subCartegoryModel,
+  }) async {
+    final subCartegoryRepo = SubCartegoryRepository();
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() {
+      return subCartegoryRepo.updateSubCartegory(
+          companyId: companyId, id: id, subCartegory: subCartegoryModel);
+    });
+
+    return state.hasError ? false : true;
   }
 }

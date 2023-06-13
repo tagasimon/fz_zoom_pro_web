@@ -1,3 +1,4 @@
+import 'package:field_zoom_pro_web/core/presentation/controllers/upload_image_controller.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/circle_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,7 +32,10 @@ class _AddProductCartegoryScreenState
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(productsCartegoriesControllerProvider);
+    final state2 = ref.watch(uploadImageControllerProvider);
     ref.listen<AsyncValue>(productsCartegoriesControllerProvider,
+        (_, state) => state.showSnackBarOnError(context));
+    ref.listen<AsyncValue>(uploadImageControllerProvider,
         (_, state) => state.showSnackBarOnError(context));
     final pdtCartProv = ref.watch(watchProductsCartegoriesProvider);
     return Scaffold(
@@ -73,7 +77,8 @@ class _AddProductCartegoryScreenState
                           showCheckboxColumn: false,
                         );
                       },
-                      loading: () => const CircularProgressIndicator(),
+                      loading: () =>
+                          const Center(child: CircularProgressIndicator()),
                       error: (err, stack) => Text(err.toString()),
                     ),
                   ),
@@ -105,7 +110,7 @@ class _AddProductCartegoryScreenState
                             ),
                             const SizedBox(height: 10),
                             ElevatedButton(
-                              onPressed: state.isLoading
+                              onPressed: state.isLoading || state2.isLoading
                                   ? null
                                   : () async {
                                       if (_nameController.text.isEmpty) {
@@ -141,7 +146,7 @@ class _AddProductCartegoryScreenState
                                             msg: "Cartegory Added");
                                       }
                                     },
-                              child: state.isLoading
+                              child: state.isLoading || state2.isLoading
                                   ? const CircularProgressIndicator()
                                   : const Text('ADD CARTEGORY'),
                             ),
@@ -187,7 +192,7 @@ class CartegoriesDataSourceModel extends DataTableSource {
                   final companyId =
                       ref.watch(filterNotifierProvider).user!.companyId;
                   final String? downloadUrl = await ref
-                      .read(productsCartegoriesControllerProvider.notifier)
+                      .read(uploadImageControllerProvider.notifier)
                       .getUserDownloadUrl("PRODUCT_IMAGES");
 
                   if (downloadUrl != null) {

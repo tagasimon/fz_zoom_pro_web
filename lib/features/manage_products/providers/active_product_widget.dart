@@ -13,14 +13,19 @@ class ActiveProductWidget extends StatelessWidget {
       children: [
         TableActionWidget(
           title: "COPY",
-          child: IconButton(onPressed: onCopy, icon: const Icon(Icons.copy)),
+          child: IconButton(
+              onPressed: onCopy,
+              icon: const Icon(
+                Icons.copy,
+                color: Colors.tealAccent,
+              )),
         ),
-        const VerticalDivider(),
-        TableActionWidget(
-          title: "DELETE",
-          child:
-              IconButton(onPressed: onDelete, icon: const Icon(Icons.delete)),
-        )
+        // const VerticalDivider(),
+        // TableActionWidget(
+        //   title: "DELETE",
+        //   child:
+        //       IconButton(onPressed: onDelete, icon: const Icon(Icons.delete)),
+        // )
       ],
     );
   }

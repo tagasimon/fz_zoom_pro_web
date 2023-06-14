@@ -72,8 +72,6 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                   source: myData,
                   header: const Text("PRODUCTS"),
                   rowsPerPage: 10,
-                  sortColumnIndex: 0,
-                  sortAscending: false,
                   actions: selectedProductId == null
                       ? [const ProductsTableOptionsWidget()]
                       : [

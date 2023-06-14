@@ -2,7 +2,10 @@ import 'package:field_zoom_pro_web/features/customers/presentation/widgets/table
 import 'package:flutter/material.dart';
 
 class ActiveProductWidget extends StatelessWidget {
-  const ActiveProductWidget({super.key});
+  final Function() onCopy;
+  final Function() onDelete;
+  const ActiveProductWidget(
+      {super.key, required this.onCopy, required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -10,12 +13,13 @@ class ActiveProductWidget extends StatelessWidget {
       children: [
         TableActionWidget(
           title: "COPY",
-          child: IconButton(onPressed: () {}, icon: const Icon(Icons.copy)),
+          child: IconButton(onPressed: onCopy, icon: const Icon(Icons.copy)),
         ),
         const VerticalDivider(),
         TableActionWidget(
           title: "DELETE",
-          child: IconButton(onPressed: () {}, icon: const Icon(Icons.delete)),
+          child:
+              IconButton(onPressed: onDelete, icon: const Icon(Icons.delete)),
         )
       ],
     );

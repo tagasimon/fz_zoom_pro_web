@@ -1,5 +1,6 @@
 import 'package:field_zoom_pro_web/core/presentation/widgets/circle_image_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/company_title_widget.dart';
+import 'package:field_zoom_pro_web/features/manage_products/presentation/screens/copy_product_screen.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/product_cartegory_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/product_details_screen.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/product_sub_cartegory_widget.dart';
@@ -11,14 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 import 'package:intl/intl.dart';
 
-enum ProductScreenActions {
-  selectProduct,
-  addProduct,
-  addSubCartegory,
-  addCartegory,
-  duplicate,
-  delete
-}
+enum ProductScreenActions { selectProduct, duplicate, delete }
 
 class ProductsScreen extends ConsumerStatefulWidget {
   const ProductsScreen({Key? key}) : super(key: key);
@@ -40,10 +34,10 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
         final myData = ProductDataSourceModel(
           data: customers,
           selectedProductId: selectedProductId,
-          onSelected: (product) {
+          onSelected: (productId) {
             if (selectedProductId == null) {
               setState(() {
-                selectedProductId = product;
+                selectedProductId = productId;
                 selectedAction = ProductScreenActions.selectProduct;
               });
               return;
@@ -66,12 +60,14 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                 child: PaginatedDataTable(
                   columns: const [
                     DataColumn(label: Text("#")),
+                    DataColumn(label: Text("SYS CODE")),
                     DataColumn(label: Text("NAME")),
                     DataColumn(label: Text("CARTEGORY")),
                     DataColumn(label: Text("SUB CARTEGORY")),
                     DataColumn(label: Text("VAR")),
                     DataColumn(label: Text("SELLING PRICE")),
                     DataColumn(label: Text("IMG")),
+                    DataColumn(label: Text("IS ACTIVE")),
                   ],
                   source: myData,
                   header: const Text("PRODUCTS"),
@@ -80,7 +76,16 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                   sortAscending: false,
                   actions: selectedProductId == null
                       ? [const ProductsTableOptionsWidget()]
-                      : [const ActiveProductWidget()],
+                      : [
+                          ActiveProductWidget(
+                            onCopy: () {
+                              setState(() {
+                                selectedAction = ProductScreenActions.duplicate;
+                              });
+                            },
+                            onDelete: () {},
+                          ),
+                        ],
                   showCheckboxColumn: true,
                   showFirstLastButtons: true,
                 ),
@@ -97,9 +102,7 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                                 id: selectedProductId!,
                                 isDone: (val) {
                                   if (val) {
-                                    setState(() {
-                                      selectedProductId = null;
-                                    });
+                                    setState(() => selectedProductId = null);
                                     context.showSnackBar(
                                         "Product details updated successfully");
                                   } else {
@@ -107,11 +110,15 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                                   }
                                 },
                               ),
-                            ProductScreenActions.addProduct =>
-                              const Center(child: Text("Add Product")),
-                            ProductScreenActions.addSubCartegory => Container(),
-                            ProductScreenActions.addCartegory => Container(),
-                            ProductScreenActions.duplicate => Container(),
+                            ProductScreenActions.duplicate => CopyProductScreen(
+                                selectedProductId: selectedProductId!,
+                                onCancel: () {
+                                  setState(() {
+                                    selectedProductId = null;
+                                    selectedAction = null;
+                                  });
+                                },
+                              ),
                             ProductScreenActions.delete => Container(),
                             _ => Container(),
                           };
@@ -154,12 +161,21 @@ class ProductDataSourceModel extends DataTableSource {
     return DataRow(
       cells: [
         DataCell(Text("${index + 1}")),
+        DataCell(Text(data[index].systemCode)),
         DataCell(Text(data[index].name)),
         DataCell(ProductCartegoryWidget(cartegoryId: data[index].cartegoryId)),
         DataCell(ProductSubCartegoryWidget(id: data[index].subCartegoryId)),
         DataCell(Text(data[index].productVar)),
         DataCell(Text(data[index].sellingPrice.toString())),
-        DataCell(CircleImageWidget(url: data[index].productImg!))
+        DataCell(CircleImageWidget(url: data[index].productImg!)),
+        DataCell(
+          Switch(
+            value: data[index].isActive,
+            onChanged: (val) {
+              // TODO Implement this
+            },
+          ),
+        )
       ],
       selected: selectedProductId == data[index].id,
       onSelectChanged: (val) {

@@ -23,9 +23,22 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   final _nameController = TextEditingController();
   final _priceController = TextEditingController();
   final _varController = TextEditingController();
+  final _sysCodeController = TextEditingController();
   final _cartController = TextEditingController();
   final _subCartController = TextEditingController();
   bool isUploading = false;
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _priceController.dispose();
+    _varController.dispose();
+    _sysCodeController.dispose();
+    _cartController.dispose();
+    _subCartController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(uploadImageControllerProvider);
@@ -46,6 +59,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
         autofocus: true,
         child: productProv.when(
           data: (product) {
+            _sysCodeController.text = product.systemCode;
             _nameController.text = product.name;
             _priceController.text = product.sellingPrice.toString();
             _varController.text = product.productVar.toString();
@@ -61,6 +75,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          const SizedBox(height: 10),
                           TextFormField(
                             enabled: false,
                             controller: _cartController,
@@ -86,6 +101,20 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return "Please enter a valid var";
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          TextFormField(
+                            controller: _sysCodeController,
+                            decoration: const InputDecoration(
+                              labelText: "System Code",
+                              border: OutlineInputBorder(),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please enter a valid System Code";
                               }
                               return null;
                             },
@@ -157,6 +186,8 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                         .editProductVariable(
                                       productId: widget.id,
                                       newInfo: {
+                                        'systemCode':
+                                            _sysCodeController.text.trim(),
                                         'name': _nameController.text,
                                         'sellingPrice':
                                             double.parse(_priceController.text),
@@ -177,6 +208,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                     Expanded(
                       child: Column(
                         children: [
+                          const SizedBox(height: 10),
                           Stack(
                             children: [
                               Container(
@@ -236,7 +268,10 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                         }
                                       }
                                     },
-                                    icon: const Icon(Icons.edit),
+                                    icon: state.isLoading || state2.isLoading
+                                        ? const CircularProgressIndicator(
+                                            color: Colors.white)
+                                        : const Icon(Icons.edit),
                                   ),
                                 ),
                               ),

@@ -115,13 +115,13 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
                                             labelText: "System Code",
                                             border: OutlineInputBorder(),
                                           ),
-                                          validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
-                                              return "System code is required";
-                                            }
-                                            return null;
-                                          },
+                                          // validator: (value) {
+                                          //   if (value == null ||
+                                          //       value.isEmpty) {
+                                          //     return "System code is required";
+                                          //   }
+                                          //   return null;
+                                          // },
                                         ),
                                         const SizedBox(height: 10),
                                         TextFormField(

@@ -12,7 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 import 'package:intl/intl.dart';
 
-enum ProductScreenActions { selectProduct, duplicate, delete }
+enum ProductScreenActions { selectProduct, duplicate }
 
 class ProductsScreen extends ConsumerStatefulWidget {
   const ProductsScreen({Key? key}) : super(key: key);
@@ -100,15 +100,6 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                             ProductScreenActions.selectProduct =>
                               ProductDetailsScreen(
                                 id: selectedProductId!,
-                                isDone: (val) {
-                                  if (val) {
-                                    setState(() => selectedProductId = null);
-                                    context.showSnackBar(
-                                        "Product details updated successfully");
-                                  } else {
-                                    setState(() => selectedProductId = null);
-                                  }
-                                },
                               ),
                             ProductScreenActions.duplicate => CopyProductScreen(
                                 selectedProductId: selectedProductId!,
@@ -119,7 +110,6 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                                   });
                                 },
                               ),
-                            ProductScreenActions.delete => Container(),
                             _ => Container(),
                           };
                           return child;

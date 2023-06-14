@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
@@ -8,14 +7,19 @@ final routesControllerProvider =
 });
 
 class RoutesController extends StateNotifier<AsyncValue> {
-  final routesDB = "FZ_ROUTES";
   RoutesController() : super(const AsyncValue.data(null));
-
-  // Add Routes
   Future<bool> addRoute({required RouteModel route}) async {
     try {
+      final routesRepo = RoutesRepository();
       state = const AsyncValue.loading();
-      await FirebaseFirestore.instance.collection(routesDB).add(route.toMap());
+      final bool isRegionExist =
+          await routesRepo.checkIfRouteExists(route: route);
+      if (isRegionExist) {
+        state = AsyncError(
+            "${route.name} already exists in the Region", StackTrace.current);
+        return false;
+      }
+      await routesRepo.addNewRoute(route: route);
       state = const AsyncValue.data(null);
       return true;
     } catch (e, stk) {
@@ -26,13 +30,9 @@ class RoutesController extends StateNotifier<AsyncValue> {
 
   Future<bool> editRoute({required RouteModel route}) async {
     try {
+      final routesRepo = RoutesRepository();
       state = const AsyncValue.loading();
-      await FirebaseFirestore.instance
-          .collection(routesDB)
-          .where('id', isEqualTo: route.id)
-          .get()
-          .then((value) => value.docs.first.reference.update(route.toMap()));
-
+      await routesRepo.updateRoute(route: route);
       state = const AsyncValue.data(null);
       return true;
     } catch (e, stk) {
@@ -40,17 +40,4 @@ class RoutesController extends StateNotifier<AsyncValue> {
       return false;
     }
   }
-
-  // Future<void> toggleActiveStatus({
-  //   required String routeId,
-  //   required bool status,
-  // }) {
-  //   return FirebaseFirestore.instance
-  //       .collection(routesDB)
-  //       .where("id", isEqualTo: routeId)
-  //       .get()
-  //       .then((value) {
-  //     value.docs.first.reference.update({"isActive": status});
-  //   });
-  // }
 }

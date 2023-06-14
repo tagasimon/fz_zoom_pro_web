@@ -4,7 +4,7 @@ import 'package:field_zoom_pro_web/features/authentication/providers/user_provid
 import 'package:field_zoom_pro_web/features/customers/presentation/screens/customer_universe.dart';
 import 'package:field_zoom_pro_web/features/dashboard/presentation/screens/home_screen.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/screens/products_screen.dart';
-import 'package:field_zoom_pro_web/features/setup/presentation/screens/settings_screen.dart';
+import 'package:field_zoom_pro_web/features/setup/presentation/screens/company_home.dart';
 import 'package:field_zoom_pro_web/features/users/presentation/screens/users_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -96,7 +96,8 @@ class _NavigationRailWidgetState extends ConsumerState<NavigationRailWidget> {
                 UsersScreen(),
                 CustomerUniverse(),
                 ProductsScreen(),
-                SettingsScreen()
+                // SettingsScreen()
+                CompanyHomeScreen()
               ],
             ),
           )

@@ -132,6 +132,8 @@ class _AddSubCartegoryScreenState extends ConsumerState<AddSubCartegoryScreen> {
                                               state2.isLoading
                                           ? null
                                           : () async {
+                                              // TODO Check if the Sub Cartegory Name already exists
+
                                               if (selectedCartegory == null) {
                                                 Fluttertoast.showToast(
                                                     msg:

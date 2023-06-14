@@ -114,6 +114,7 @@ class _AddProductCartegoryScreenState
                               onPressed: state.isLoading || state2.isLoading
                                   ? null
                                   : () async {
+                                      // TODO Check if the Cartegory Name already exists
                                       if (_nameController.text.isEmpty) {
                                         Fluttertoast.showToast(
                                             msg: "Cartegory Name is required");

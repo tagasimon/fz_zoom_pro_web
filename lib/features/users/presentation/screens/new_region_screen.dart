@@ -96,10 +96,10 @@ class _NewRegionScreenState extends ConsumerState<NewRegionScreen> {
                                           .companyId;
                                       if (_formKey.currentState!.validate()) {
                                         final region = RegionModel(
-                                          id: DateTime.now()
-                                              .microsecondsSinceEpoch
-                                              .toString(),
-                                          name: _nameController.text,
+                                          id: DateHelpers.dateTimeMillis(),
+                                          name: _nameController.text
+                                              .trim()
+                                              .toLowerCase(),
                                           companyId: companyId,
                                           lastUpdated: DateTime.now(),
                                           date: DateTime.now(),
@@ -108,7 +108,7 @@ class _NewRegionScreenState extends ConsumerState<NewRegionScreen> {
                                         final success = await ref
                                             .read(regionsControllerProvider
                                                 .notifier)
-                                            .addNewRegion(regionModel: region);
+                                            .addNewRegion(region: region);
                                         if (success) {
                                           _nameController.clear();
                                           Fluttertoast.showToast(
@@ -119,7 +119,7 @@ class _NewRegionScreenState extends ConsumerState<NewRegionScreen> {
                               child: state.isLoading
                                   ? const CircularProgressIndicator()
                                   : const Text(
-                                      "ADD",
+                                      "ADD REGION",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold),
                                     ),

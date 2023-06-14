@@ -1,17 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:field_zoom_pro_web/core/extensions/async_value_extensions.dart';
 import 'package:field_zoom_pro_web/core/presentation/controllers/upload_image_controller.dart';
 import 'package:field_zoom_pro_web/features/manage_products/providers/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fz_hooks/fz_hooks.dart';
 
 class ProductDetailsScreen extends ConsumerStatefulWidget {
   final String id;
-  final Function(bool) isDone;
-  const ProductDetailsScreen({Key? key, required this.id, required this.isDone})
-      : super(key: key);
+  const ProductDetailsScreen({Key? key, required this.id}) : super(key: key);
 
   @override
   ConsumerState<ProductDetailsScreen> createState() =>
@@ -52,7 +50,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
     return CallbackShortcuts(
       bindings: <ShortcutActivator, VoidCallback>{
         const SingleActivator(LogicalKeyboardKey.escape): () {
-          widget.isDone(false);
+          context.pop(false);
         },
       },
       child: Focus(
@@ -112,12 +110,6 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                               labelText: "System Code",
                               border: OutlineInputBorder(),
                             ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please enter a valid System Code";
-                              }
-                              return null;
-                            },
                           ),
                           const SizedBox(height: 10),
                           TextFormField(
@@ -176,6 +168,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                             onPressed: state.isLoading || state2.isLoading
                                 ? null
                                 : () async {
+                                    final scaf = ScaffoldMessenger.of(context);
                                     if (!_key.currentState!.validate()) {
                                       return;
                                     }
@@ -195,7 +188,14 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                       },
                                     );
                                     if (success) {
-                                      widget.isDone(true);
+                                      scaf.showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                            "Product details updated successfully",
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      );
                                     }
                                   },
                             child: state.isLoading || state2.isLoading

@@ -1,8 +1,8 @@
 import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/get_region_widget.dart';
 import 'package:field_zoom_pro_web/core/providers/regions_provider.dart';
-import 'package:field_zoom_pro_web/features/customers/presentation/controllers/routes_controller.dart';
-import 'package:field_zoom_pro_web/features/customers/providers/routes_provider.dart';
+import 'package:field_zoom_pro_web/features/users/presentation/controllers/routes_controller.dart';
+import 'package:field_zoom_pro_web/features/users/providers/routes_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -124,6 +124,7 @@ class _NewRouteScreenState extends ConsumerState<NewRouteScreen> {
                                   onPressed: state.isLoading
                                       ? null
                                       : () async {
+                                          // TODO Check if region is selected
                                           if (selectedRegion == null) {
                                             Fluttertoast.showToast(
                                                 msg: "Please select a region");
@@ -142,10 +143,10 @@ class _NewRouteScreenState extends ConsumerState<NewRouteScreen> {
                                           if (_formKey.currentState!
                                               .validate()) {
                                             final route = RouteModel(
-                                              id: DateTime.now()
-                                                  .microsecondsSinceEpoch
-                                                  .toString(),
-                                              name: _nameController.text,
+                                              id: DateHelpers.dateTimeMillis(),
+                                              name: _nameController.text
+                                                  .trim()
+                                                  .toLowerCase(),
                                               companyId: companyId,
                                               description: '',
                                               regionId: selectedRegion!.id,
@@ -167,7 +168,7 @@ class _NewRouteScreenState extends ConsumerState<NewRouteScreen> {
                                   child: state.isLoading
                                       ? const CircularProgressIndicator()
                                       : const Text(
-                                          "ADD",
+                                          "ADD ROUTE",
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold),
                                         ),

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
@@ -8,16 +7,19 @@ final regionsControllerProvider =
 });
 
 class RegionsController extends StateNotifier<AsyncValue> {
-  final regionsDB = 'FZ_REGIONS';
   RegionsController() : super(const AsyncValue.data(null));
 
-  Future<bool> addNewRegion({required RegionModel regionModel}) async {
+  Future<bool> addNewRegion({required RegionModel region}) async {
     try {
+      final regionRepo = RegionsRepository();
       state = const AsyncValue.loading();
-      await Future.delayed(const Duration(seconds: 1));
-      await FirebaseFirestore.instance
-          .collection(regionsDB)
-          .add(regionModel.toMap());
+      final bool isRegionExist =
+          await regionRepo.checkIfRegionExists(region: region);
+      if (isRegionExist) {
+        state = AsyncError("${region.name} already exists", StackTrace.current);
+        return false;
+      }
+      await regionRepo.addNewRegion(region: region);
       state = const AsyncValue.data(null);
       return true;
     } catch (e, stk) {
@@ -28,16 +30,12 @@ class RegionsController extends StateNotifier<AsyncValue> {
 
   Future<bool> editRegion({
     required String regionId,
-    required RegionModel newInfo,
+    required RegionModel region,
   }) async {
     try {
+      final regionRepo = RegionsRepository();
       state = const AsyncValue.loading();
-      await Future.delayed(const Duration(seconds: 1));
-      final ref = FirebaseFirestore.instance
-          .collection(regionsDB)
-          .where("id", isEqualTo: regionId)
-          .get();
-      await ref.then((doc) => doc.docs.first.reference.update(newInfo.toMap()));
+      await regionRepo.updateRegion(region: region);
       state = const AsyncValue.data(null);
       return true;
     } catch (e, stk) {

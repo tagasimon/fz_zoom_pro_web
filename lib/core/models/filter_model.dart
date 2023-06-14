@@ -5,13 +5,16 @@ import 'package:fz_hooks/fz_hooks.dart';
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 class FilterModel {
-  final UserModel? user;
+  final UserModel? loggedInuser;
+  final String? selectedUserId;
+
   final String? region;
   final String? route;
   final DateTime? startDate;
   final DateTime? endDate;
   FilterModel({
-    this.user,
+    this.loggedInuser,
+    this.selectedUserId,
     this.region,
     this.route,
     this.startDate,
@@ -19,14 +22,16 @@ class FilterModel {
   });
 
   FilterModel copyWith({
-    UserModel? user,
+    UserModel? loggedInuser,
+    String? selectedUserId,
     String? region,
     String? route,
     DateTime? startDate,
     DateTime? endDate,
   }) {
     return FilterModel(
-      user: user ?? this.user,
+      loggedInuser: loggedInuser ?? this.loggedInuser,
+      selectedUserId: selectedUserId ?? this.selectedUserId,
       region: region ?? this.region,
       route: route ?? this.route,
       startDate: startDate ?? this.startDate,
@@ -36,7 +41,8 @@ class FilterModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'user': user?.toMap(),
+      'loggedInuser': loggedInuser?.toMap(),
+      'selectedUserId': selectedUserId,
       'region': region,
       'route': route,
       'startDate': startDate?.millisecondsSinceEpoch,
@@ -46,8 +52,11 @@ class FilterModel {
 
   factory FilterModel.fromMap(Map<String, dynamic> map) {
     return FilterModel(
-      user: map['user'] != null
-          ? UserModel.fromMap(map['user'] as Map<String, dynamic>)
+      loggedInuser: map['loggedInUser'] != null
+          ? UserModel.fromMap(map['loggedInUser'] as Map<String, dynamic>)
+          : null,
+      selectedUserId: map['selectedUserId'] != null
+          ? map['selectedUserId'] as String
           : null,
       region: map['region'] != null ? map['region'] as String : null,
       route: map['route'] != null ? map['route'] as String : null,
@@ -67,14 +76,15 @@ class FilterModel {
 
   @override
   String toString() {
-    return 'FilterModel(user: $user, region: $region, route: $route, startDate: $startDate, endDate: $endDate)';
+    return 'FilterModel(loggedInUser: $loggedInuser,selectedUserId: $selectedUserId, region: $region, route: $route, startDate: $startDate, endDate: $endDate)';
   }
 
   @override
   bool operator ==(covariant FilterModel other) {
     if (identical(this, other)) return true;
 
-    return other.user == user &&
+    return other.loggedInuser == loggedInuser &&
+        other.selectedUserId == selectedUserId &&
         other.region == region &&
         other.route == route &&
         other.startDate == startDate &&
@@ -83,7 +93,7 @@ class FilterModel {
 
   @override
   int get hashCode {
-    return user.hashCode ^
+    return loggedInuser.hashCode ^
         region.hashCode ^
         route.hashCode ^
         startDate.hashCode ^

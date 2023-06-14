@@ -1,3 +1,4 @@
+import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/controllers/upload_image_controller.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/product_cartegory_widget.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
 import 'package:field_zoom_pro_web/core/presentation/widgets/circle_image_widget.dart';
-import 'package:field_zoom_pro_web/core/providers/filter_notifier_provider.dart';
 import 'package:field_zoom_pro_web/features/manage_products/providers/product_cartegory_provider.dart';
 import 'package:field_zoom_pro_web/features/manage_products/providers/sub_cartegory_provider.dart';
 
@@ -151,7 +151,7 @@ class _AddSubCartegoryScreenState extends ConsumerState<AddSubCartegoryScreen> {
                                                 final companyId = ref
                                                     .read(
                                                         filterNotifierProvider)
-                                                    .user!
+                                                    .loggedInuser!
                                                     .companyId;
                                                 final subCartegory =
                                                     SubCartegoryModel(
@@ -228,7 +228,7 @@ class SubCartegoriesDataSourceModel extends DataTableSource {
               url: data[index].img!,
               onTap: () async {
                 final companyId =
-                    ref.watch(filterNotifierProvider).user!.companyId;
+                    ref.watch(filterNotifierProvider).loggedInuser!.companyId;
                 final String? downloadUrl = await ref
                     .read(uploadImageControllerProvider.notifier)
                     .getUserDownloadUrl("PRODUCT_IMAGES");

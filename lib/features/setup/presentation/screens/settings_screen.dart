@@ -1,5 +1,5 @@
+import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/company_title_widget.dart';
-import 'package:field_zoom_pro_web/core/providers/filter_notifier_provider.dart';
 import 'package:field_zoom_pro_web/features/authentication/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +9,7 @@ class SettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cUser = ref.watch(filterNotifierProvider).user;
+    final cUser = ref.watch(filterNotifierProvider).loggedInuser;
 
     return Scaffold(
       appBar: AppBar(

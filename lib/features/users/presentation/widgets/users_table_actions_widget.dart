@@ -3,7 +3,6 @@ import 'package:field_zoom_pro_web/features/users/presentation/screens/new_regio
 import 'package:field_zoom_pro_web/features/users/presentation/screens/new_route_screen.dart';
 import 'package:field_zoom_pro_web/features/users/presentation/screens/new_user_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
 class UsersTableActionsWidget extends StatelessWidget {
@@ -40,16 +39,16 @@ class UsersTableActionsWidget extends StatelessWidget {
             icon: const Icon(Icons.route),
           ),
         ),
-        const VerticalDivider(),
-        TableActionWidget(
-          title: "INSIGHTS",
-          child: IconButton(
-            onPressed: () {
-              Fluttertoast.showToast(msg: "TODO");
-            },
-            icon: const Icon(Icons.insights),
-          ),
-        ),
+        // const VerticalDivider(),
+        // TableActionWidget(
+        //   title: "INSIGHTS",
+        //   child: IconButton(
+        //     onPressed: () {
+        //       Fluttertoast.showToast(msg: "TODO");
+        //     },
+        //     icon: const Icon(Icons.insights),
+        //   ),
+        // ),
       ],
     );
   }

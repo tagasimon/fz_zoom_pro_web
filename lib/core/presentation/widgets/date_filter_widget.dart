@@ -1,4 +1,4 @@
-import 'package:field_zoom_pro_web/core/providers/filter_notifier_provider.dart';
+import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';

@@ -1,4 +1,4 @@
-import 'package:field_zoom_pro_web/core/providers/filter_notifier_provider.dart';
+import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/controllers/product_cartegories_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
@@ -8,7 +8,7 @@ final productsCartegoryProvider =
 
 final watchProductsCartegoriesProvider =
     StreamProvider<List<ProductCartegoryModel>>((ref) {
-  final companyId = ref.watch(filterNotifierProvider).user!.companyId;
+  final companyId = ref.watch(filterNotifierProvider).loggedInuser!.companyId;
 
   return ref
       .watch(productsCartegoryProvider)
@@ -17,7 +17,7 @@ final watchProductsCartegoriesProvider =
 
 final productCartegoryByIdProvider =
     FutureProvider.family.autoDispose<ProductCartegoryModel, String>((ref, id) {
-  final companyId = ref.watch(filterNotifierProvider).user!.companyId;
+  final companyId = ref.watch(filterNotifierProvider).loggedInuser!.companyId;
   return ref
       .watch(productsCartegoryProvider)
       .getProductCartegoryById(id: id, companyId: companyId);

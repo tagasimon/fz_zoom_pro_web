@@ -126,12 +126,12 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                           TextFormField(
                             controller: _varController,
                             decoration: const InputDecoration(
-                              labelText: "var",
+                              labelText: "variation",
                               border: OutlineInputBorder(),
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return "Please enter a valid var";
+                                return "Please enter a valid variation";
                               }
                               return null;
                             },

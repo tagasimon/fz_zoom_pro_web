@@ -1,4 +1,4 @@
-import 'package:field_zoom_pro_web/core/providers/filter_notifier_provider.dart';
+import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
 import 'package:field_zoom_pro_web/features/users/presentation/controllers/regions_controller.dart';
 import 'package:field_zoom_pro_web/features/users/providers/regions_provider.dart';
 import 'package:flutter/material.dart';
@@ -92,7 +92,7 @@ class _NewRegionScreenState extends ConsumerState<NewRegionScreen> {
                                   : () async {
                                       final companyId = ref
                                           .read(filterNotifierProvider)
-                                          .user!
+                                          .loggedInuser!
                                           .companyId;
                                       if (_formKey.currentState!.validate()) {
                                         final region = RegionModel(

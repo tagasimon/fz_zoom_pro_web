@@ -1,8 +1,8 @@
-import 'package:field_zoom_pro_web/features/dashboard/presentation/screens/home_screen.dart';
+import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widget.dart';
-import 'package:field_zoom_pro_web/core/providers/filter_notifier_provider.dart';
 import 'package:field_zoom_pro_web/features/authentication/providers/user_provider.dart';
 import 'package:field_zoom_pro_web/features/customers/presentation/screens/customer_universe.dart';
+import 'package:field_zoom_pro_web/features/dashboard/presentation/screens/home_screen.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/screens/products_screen.dart';
 import 'package:field_zoom_pro_web/features/setup/presentation/screens/settings_screen.dart';
 import 'package:field_zoom_pro_web/features/users/presentation/screens/users_screen.dart';
@@ -26,7 +26,9 @@ class _NavigationRailWidgetState extends ConsumerState<NavigationRailWidget> {
   Widget build(BuildContext context) {
     ref.listen(userInfoProvider, (_, next) {
       next.whenData((user) {
-        ref.read(filterNotifierProvider.notifier).updateFilter(user: user);
+        ref
+            .read(filterNotifierProvider.notifier)
+            .updateFilter(loggedInUser: user);
       });
     });
     return Scaffold(

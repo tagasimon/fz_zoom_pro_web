@@ -1,4 +1,4 @@
-import 'package:field_zoom_pro_web/core/providers/filter_notifier_provider.dart';
+import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
@@ -7,7 +7,7 @@ final regionsRepoProvider = Provider<RegionsRepository>((ref) {
 });
 
 final companyRegionsProvider = StreamProvider<List<RegionModel>>((ref) {
-  final companyId = ref.watch(filterNotifierProvider).user!.companyId;
+  final companyId = ref.watch(filterNotifierProvider).loggedInuser!.companyId;
   return ref
       .watch(regionsRepoProvider)
       .getAllCompanyRegions(companyId: companyId);

@@ -1,3 +1,4 @@
+// ignore: avoid_web_libraries_in_flutter
 import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:fz_hooks/fz_hooks.dart';
@@ -39,8 +40,7 @@ Widget customersMapWidget({required List<CustomerModel> customers}) {
     }
 
     for (var i = 0; i < markerOptionsList.length; i++) {
-      var contentString =
-          ''''
+      var contentString = ''''
           <div class="card">
             <div class="card-body">
                 <h5 class="card-title">${customers[i].businessName}</h5>

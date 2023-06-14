@@ -1,4 +1,4 @@
-import 'package:field_zoom_pro_web/core/providers/filter_notifier_provider.dart';
+import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
 import 'package:field_zoom_pro_web/features/manage_products/providers/product_cartegory_provider.dart';
 import 'package:field_zoom_pro_web/features/manage_products/providers/product_provider.dart';
 import 'package:field_zoom_pro_web/features/manage_products/providers/sub_cartegory_provider.dart';
@@ -208,7 +208,8 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
                                                       name:
                                                           _nameController.text,
                                                       companyId: filter
-                                                          .user!.companyId,
+                                                          .loggedInuser!
+                                                          .companyId,
                                                       cartegoryId:
                                                           selectedCartegory!.id,
                                                       subCartegoryId:
@@ -222,7 +223,8 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
                                                       productVar:
                                                           _varController.text,
                                                       createdAt: DateTime.now(),
-                                                      addedBy: filter.user!.id);
+                                                      addedBy: filter
+                                                          .loggedInuser!.id);
                                                   final success = await ref
                                                       .watch(
                                                           productsControllerProvider

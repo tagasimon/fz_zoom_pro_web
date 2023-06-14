@@ -1,4 +1,4 @@
-import 'package:field_zoom_pro_web/core/providers/filter_notifier_provider.dart';
+import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
 import 'package:field_zoom_pro_web/features/users/presentation/controllers/users_controller.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
@@ -9,7 +9,7 @@ final userRepoProvider = Provider<UsersRepository>(
 
 final getUsersByCompanyAndRegionProvider =
     StreamProvider<List<UserModel>>((ref) {
-  final companyId = ref.watch(filterNotifierProvider).user!.companyId;
+  final companyId = ref.watch(filterNotifierProvider).loggedInuser!.companyId;
   final region = ref.watch(filterNotifierProvider).region;
   if (region == "" || region == null) {
     return ref.watch(userRepoProvider).getAllCompanyUsers(companyId: companyId);
@@ -25,7 +25,7 @@ final userNotifierProvider =
 });
 
 final companyUsersProvider = StreamProvider.autoDispose<List<UserModel>>((ref) {
-  final companyId = ref.watch(filterNotifierProvider).user!.companyId;
+  final companyId = ref.watch(filterNotifierProvider).loggedInuser!.companyId;
   return ref.watch(userRepoProvider).getAllCompanyUsers(companyId: companyId);
 });
 

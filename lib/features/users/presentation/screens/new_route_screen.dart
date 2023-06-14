@@ -1,5 +1,5 @@
+import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/get_region_widget.dart';
-import 'package:field_zoom_pro_web/core/providers/filter_notifier_provider.dart';
 import 'package:field_zoom_pro_web/core/providers/regions_provider.dart';
 import 'package:field_zoom_pro_web/features/customers/presentation/controllers/routes_controller.dart';
 import 'package:field_zoom_pro_web/features/customers/providers/routes_provider.dart';
@@ -137,7 +137,7 @@ class _NewRouteScreenState extends ConsumerState<NewRouteScreen> {
                                           }
                                           final companyId = ref
                                               .read(filterNotifierProvider)
-                                              .user!
+                                              .loggedInuser!
                                               .companyId;
                                           if (_formKey.currentState!
                                               .validate()) {

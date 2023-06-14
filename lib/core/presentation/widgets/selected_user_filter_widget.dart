@@ -1,30 +1,30 @@
 import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
-import 'package:field_zoom_pro_web/core/providers/regions_provider.dart';
+import 'package:field_zoom_pro_web/features/users/providers/user_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RegionFilterWidget extends ConsumerWidget {
-  const RegionFilterWidget({super.key});
+class SelectedUserFilterWidget extends ConsumerWidget {
+  const SelectedUserFilterWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final regionsProv = ref.watch(allRegionProvider);
-    return regionsProv.when(
-      data: (regionsList) {
+    final selectedUserProv = ref.watch(getUsersByCompanyAndRegionProvider);
+    return selectedUserProv.when(
+      data: (usersList) {
         return Row(
           children: [
-            const Text('REGION:'),
+            const Text('USER:'),
             const SizedBox(width: 8),
             DropdownButton<String?>(
-                hint: const Text('Select Region'),
-                value: ref.watch(filterNotifierProvider).region,
+                hint: const Text('Select User'),
+                value: ref.watch(filterNotifierProvider).selectedUserId,
                 onChanged: (String? value) {
                   if (value == null) return;
                   ref
                       .read(filterNotifierProvider.notifier)
-                      .updateFilter(region: value);
+                      .updateFilter(selectedUserId: value);
                 },
-                items: regionsList
+                items: usersList
                     .map(
                       (e) => DropdownMenuItem<String>(
                         value: e.id,

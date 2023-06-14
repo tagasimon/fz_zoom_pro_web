@@ -2,21 +2,30 @@ import 'package:field_zoom_pro_web/core/models/filter_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
+final filterNotifierProvider =
+    StateNotifierProvider<FilterNotifier, FilterModel>((ref) {
+  return FilterNotifier();
+});
+
 class FilterNotifier extends StateNotifier<FilterModel> {
   FilterNotifier()
-      : super(FilterModel(
-            startDate: DateHelpers.startOfTodayDate(),
-            endDate: DateHelpers.endOfTodayDate()));
+      : super(
+          FilterModel(
+              startDate: DateHelpers.startOfTodayDate(),
+              endDate: DateHelpers.endOfTodayDate()),
+        );
 
   void updateFilter({
-    UserModel? user,
+    UserModel? loggedInUser,
+    String? selectedUserId,
     String? region,
     String? route,
     DateTime? startDate,
     DateTime? endDate,
   }) {
     state = state.copyWith(
-      user: user,
+      loggedInuser: loggedInUser,
+      selectedUserId: selectedUserId,
       region: region,
       route: route,
       startDate: startDate,
@@ -27,7 +36,7 @@ class FilterNotifier extends StateNotifier<FilterModel> {
   // reset filter
   void resetFilter() {
     state = FilterModel(
-      user: state.user,
+      loggedInuser: state.loggedInuser,
       startDate: DateHelpers.startOfTodayDate(),
       endDate: DateHelpers.endOfTodayDate(),
     );

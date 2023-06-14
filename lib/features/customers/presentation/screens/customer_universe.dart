@@ -21,18 +21,23 @@ class CustomerUniverse extends ConsumerWidget {
           onSelected: (cust) {},
         );
         return Scaffold(
-            appBar: AppBar(title: const CompanyTitleWidget()),
+            appBar: AppBar(
+              title: const CompanyTitleWidget(),
+              centerTitle: false,
+              actions: const [
+                AppFilterWidget(
+                  showRegionFilter: true,
+                  showRouteFilter: false,
+                  showSelectedUserFilter: false,
+                  showEndDateFilter: false,
+                  showStartDateFilter: false,
+                ),
+              ],
+            ),
             body: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const AppFilterWidget(
-                    showRegionFilter: true,
-                    showRouteFilter: false,
-                    showAssociateFilter: false,
-                    showEndDateFilter: false,
-                    showStartDateFilter: false,
-                  ),
                   SizedBox(
                     width: double.infinity,
                     child: PaginatedDataTable(

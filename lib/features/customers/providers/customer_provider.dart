@@ -1,4 +1,4 @@
-import 'package:field_zoom_pro_web/core/providers/filter_notifier_provider.dart';
+import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
@@ -10,8 +10,8 @@ final customersProviderProvider = FutureProvider<List<CustomerModel>>((ref) {
   if (filter.region == null || filter.region == "") {
     return ref
         .watch(customersRepoProvider)
-        .getAllCompanyCustomers(companyId: filter.user!.companyId);
+        .getAllCompanyCustomers(companyId: filter.loggedInuser!.companyId);
   }
   return ref.watch(customersRepoProvider).getCompanyCustomersByRegionId(
-      companyId: filter.user!.companyId, regionId: filter.region!);
+      companyId: filter.loggedInuser!.companyId, regionId: filter.region!);
 });

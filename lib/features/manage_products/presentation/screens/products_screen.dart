@@ -55,7 +55,10 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
           },
         );
         return Scaffold(
-          appBar: AppBar(title: const CompanyTitleWidget()),
+          appBar: AppBar(
+            title: const CompanyTitleWidget(),
+            centerTitle: false,
+          ),
           body: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

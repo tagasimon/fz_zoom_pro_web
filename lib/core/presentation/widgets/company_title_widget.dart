@@ -9,8 +9,12 @@ class CompanyTitleWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final companyInfoProv = ref.watch(companyInfoProvider);
     return companyInfoProv.when(
-        data: (data) => Text(data.companyName),
-        error: (error, stackTrace) => const Text("Error"),
-        loading: () => const Text("Loading ..."));
+      data: (data) => Text(data.companyName),
+      error: (error, stackTrace) {
+        debugPrintStack(stackTrace: stackTrace, label: error.toString());
+        return const Text("Error");
+      },
+      loading: () => const Text("Loading ..."),
+    );
   }
 }

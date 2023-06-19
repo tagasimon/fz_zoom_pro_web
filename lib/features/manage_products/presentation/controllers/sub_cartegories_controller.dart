@@ -1,14 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
 class SubCartegoriesController extends StateNotifier<AsyncValue> {
-  SubCartegoriesController() : super(const AsyncValue.data(null));
+  final FirebaseFirestore firestore;
+  SubCartegoriesController(this.firestore) : super(const AsyncValue.data(null));
 
   Future<bool> addNewSubProductCategory({
     required SubCartegoryModel subCartegory,
   }) async {
     state = const AsyncValue.loading();
-    final subCartegoryRepo = SubCartegoryRepository();
+    final subCartegoryRepo = SubCartegoryRepository(firestore);
     state = await AsyncValue.guard(() {
       return subCartegoryRepo.addNewSubProductCategory(
           subCartegory: subCartegory);
@@ -21,7 +23,7 @@ class SubCartegoriesController extends StateNotifier<AsyncValue> {
     required String id,
     required SubCartegoryModel subCartegoryModel,
   }) async {
-    final subCartegoryRepo = SubCartegoryRepository();
+    final subCartegoryRepo = SubCartegoryRepository(firestore);
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() {
       return subCartegoryRepo.updateSubCartegory(

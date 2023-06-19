@@ -2,12 +2,14 @@ import 'package:field_zoom_pro_web/features/authentication/models/app_user.dart'
 import 'package:firebase_auth/firebase_auth.dart';
 
 class AuthRepository {
+  final FirebaseAuth firebaseAuth;
+  AuthRepository(this.firebaseAuth);
   AppUser _userFromFirebase(User? firebaseUser) {
     return firebaseUser == null ? AppUser(null) : AppUser(firebaseUser.uid);
   }
 
   Stream<AppUser> onAuthStateChanges() {
-    return FirebaseAuth.instance
+    return firebaseAuth
         .authStateChanges()
         .map((event) => _userFromFirebase(event));
   }
@@ -16,24 +18,24 @@ class AuthRepository {
     required String email,
     required String password,
   }) async {
-    final authResult = await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email, password: password);
+    final authResult = await firebaseAuth.signInWithEmailAndPassword(
+        email: email, password: password);
     return _userFromFirebase(authResult.user);
   }
 
   // sigin in with email and password
 
   Future<void> signOut() async {
-    return FirebaseAuth.instance.signOut();
+    return firebaseAuth.signOut();
   }
 
   // Future<void> saveDeviceToken() async {
   //   final fcm = FirebaseMessaging.instance;
 
-  //   String uid = FirebaseAuth.instance.currentUser!.uid;
+  //   String uid = firebaseAuth.currentUser!.uid;
   //   String? fcmToken = await fcm.getToken();
   //   if (fcmToken != null) {
-  //     FirebaseFirestore.instance.collection("users").doc(uid).update(
+  //     firestore.collection("users").doc(uid).update(
   //       {
   //         "token": fcmToken,
   //         "platform": Platform.operatingSystem,

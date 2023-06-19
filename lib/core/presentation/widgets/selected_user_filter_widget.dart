@@ -35,12 +35,8 @@ class SelectedUserFilterWidget extends ConsumerWidget {
           ],
         );
       },
-      loading: () => const CircularProgressIndicator(),
-      error: (error, stackTrace) {
-        debugPrint('Error: $error');
-        debugPrint('stackTrace: $stackTrace');
-        return const SizedBox.shrink();
-      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stackTrace) => const SizedBox.shrink(),
     );
   }
 }

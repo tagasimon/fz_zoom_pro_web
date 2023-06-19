@@ -5,11 +5,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
 class UsersController extends StateNotifier<AsyncValue> {
-  UsersController() : super(const AsyncData(null));
+  final FirebaseFirestore firestore;
+  UsersController(this.firestore) : super(const AsyncData(null));
 
-  Future<bool> updateUserStatus(
-      {required bool isActive, required String id}) async {
-    final userRepo = UsersRepository();
+  Future<bool> updateUserStatus({
+    required bool isActive,
+    required String id,
+  }) async {
+    final userRepo = UsersRepository(firestore);
     state = const AsyncLoading();
     state = await AsyncValue.guard(
         () => userRepo.updateUserStatus(isActive: isActive, id: id));
@@ -45,7 +48,7 @@ class UsersController extends StateNotifier<AsyncValue> {
   Future<bool> registerAssociate({required UserModel user}) async {
     const usersDb = 'FZ_USERS';
     try {
-      await FirebaseFirestore.instance.collection(usersDb).add(user.toMap());
+      await firestore.collection(usersDb).add(user.toMap());
       state = const AsyncValue.data(true);
       return true;
     } catch (e, stk) {
@@ -58,7 +61,7 @@ class UsersController extends StateNotifier<AsyncValue> {
     const usersDb = 'FZ_USERS';
     try {
       state = const AsyncValue.loading();
-      await FirebaseFirestore.instance
+      await firestore
           .collection(usersDb)
           .where("id", isEqualTo: user.id)
           .get()

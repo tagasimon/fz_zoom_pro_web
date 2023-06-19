@@ -61,6 +61,7 @@ class _NewRouteScreenState extends ConsumerState<NewRouteScreen> {
                           DataColumn(label: Text("#")),
                           DataColumn(label: Text("ROUTE")),
                           DataColumn(label: Text("REGION")),
+                          DataColumn(label: Text("IS ACTIVE")),
                         ],
                         source: source,
                         showCheckboxColumn: false,
@@ -213,6 +214,14 @@ class RoutesDataSourceModel extends DataTableSource {
         DataCell(Text("${index + 1}")),
         DataCell(Text(data[index].name)),
         DataCell(GetRegionWidget(regionId: data[index].regionId)),
+        DataCell(
+          Switch(
+            value: data[index].isActive,
+            onChanged: (val) {
+              // TODO Update Route
+            },
+          ),
+        ),
       ],
       selected: selectedId == data[index].id,
       onSelectChanged: (val) {

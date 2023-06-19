@@ -1,17 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:field_zoom_pro_web/core/providers/firebase_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
 final regionsControllerProvider =
     StateNotifierProvider.autoDispose<RegionsController, AsyncValue>((ref) {
-  return RegionsController();
+  final firestore = ref.watch(firestoreInstanceProvider);
+  return RegionsController(firestore);
 });
 
 class RegionsController extends StateNotifier<AsyncValue> {
-  RegionsController() : super(const AsyncValue.data(null));
+  final FirebaseFirestore firestore;
+  RegionsController(this.firestore) : super(const AsyncValue.data(null));
 
-  Future<bool> addNewRegion({required RegionModel region}) async {
+  Future<bool> addNewRegion({
+    required RegionModel region,
+  }) async {
     try {
-      final regionRepo = RegionsRepository();
+      final regionRepo = RegionsRepository(firestore);
       state = const AsyncValue.loading();
       final bool isRegionExist =
           await regionRepo.checkIfRegionExists(region: region);
@@ -33,7 +39,7 @@ class RegionsController extends StateNotifier<AsyncValue> {
     required RegionModel region,
   }) async {
     try {
-      final regionRepo = RegionsRepository();
+      final regionRepo = RegionsRepository(firestore);
       state = const AsyncValue.loading();
       await regionRepo.updateRegion(region: region);
       state = const AsyncValue.data(null);

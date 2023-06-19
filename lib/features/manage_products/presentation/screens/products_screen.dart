@@ -6,7 +6,7 @@ import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/product_sub_cartegory_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/providers/active_product_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/providers/product_provider.dart';
-import 'package:field_zoom_pro_web/features/manage_products/providers/products_table_options_widget.dart';
+import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/products_table_options_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';

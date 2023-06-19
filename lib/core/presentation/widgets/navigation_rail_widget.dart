@@ -96,7 +96,6 @@ class _NavigationRailWidgetState extends ConsumerState<NavigationRailWidget> {
                 UsersScreen(),
                 CustomerUniverse(),
                 ProductsScreen(),
-                // SettingsScreen()
                 CompanyHomeScreen()
               ],
             ),

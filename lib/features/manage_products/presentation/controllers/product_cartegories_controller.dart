@@ -1,14 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
 class ProductCartegoriesController extends StateNotifier<AsyncValue> {
-  ProductCartegoriesController() : super(const AsyncValue.data(null));
+  final FirebaseFirestore firestore;
+  ProductCartegoriesController(this.firestore)
+      : super(const AsyncValue.data(null));
 
-  Future<bool> addNewProductCategory(
-      {required ProductCartegoryModel productCartegoryModel}) async {
-    final productCartRepo = CartegoryRepository();
+  Future<bool> addNewProductCategory({
+    required ProductCartegoryModel productCartegoryModel,
+  }) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() {
+      final productCartRepo = CartegoryRepository(firestore);
       return productCartRepo.addNewProductCategory(
           productCartegoryModel: productCartegoryModel);
     });
@@ -21,9 +25,9 @@ class ProductCartegoriesController extends StateNotifier<AsyncValue> {
     required String id,
     required bool status,
   }) async {
-    final productCartRepo = CartegoryRepository();
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() {
+      final productCartRepo = CartegoryRepository(firestore);
       return productCartRepo.updateProductCartegoryStatus(
           companyId: companyId, id: id, status: status);
     });
@@ -37,7 +41,7 @@ class ProductCartegoriesController extends StateNotifier<AsyncValue> {
     required String id,
     required String name,
   }) async {
-    final productCartRepo = CartegoryRepository();
+    final productCartRepo = CartegoryRepository(firestore);
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() {
       return productCartRepo.updateProductCartegoryName(
@@ -52,7 +56,7 @@ class ProductCartegoriesController extends StateNotifier<AsyncValue> {
     required String id,
     required ProductCartegoryModel productCartegoryModel,
   }) async {
-    final productCartRepo = CartegoryRepository();
+    final productCartRepo = CartegoryRepository(firestore);
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() {
       return productCartRepo.updateCartegory(

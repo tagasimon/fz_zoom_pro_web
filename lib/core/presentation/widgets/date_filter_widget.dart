@@ -12,35 +12,35 @@ class DateFilterWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final dateFormat = DateFormat("dd-MMMM-yyyy");
     final filter = ref.watch(filterNotifierProvider);
-    return Row(
-      children: [
-        if (isStartDate) Text("FROM : ${dateFormat.format(filter.startDate!)}"),
-        if (!isStartDate) Text("TO : ${dateFormat.format(filter.endDate!)}"),
-        IconButton(
-          onPressed: () async {
-            final DateTime? pDate = await showDialog(
-              context: context,
-              builder: (_) => DatePickerDialog(
-                helpText: title ?? "",
-                initialDate: ref.read(filterNotifierProvider).startDate!,
-                firstDate: DateTime(2023),
-                lastDate: DateTime(2030),
-              ),
-            );
-            if (pDate == null) return;
-            if (isStartDate) {
-              ref
-                  .read(filterNotifierProvider.notifier)
-                  .updateFilter(startDate: pDate);
-            } else {
-              ref
-                  .read(filterNotifierProvider.notifier)
-                  .updateFilter(endDate: pDate);
-            }
-          },
-          icon: const Icon(Icons.calendar_month),
-        ),
-      ],
+    return TextButton.icon(
+      style: TextButton.styleFrom(
+        foregroundColor: Colors.white,
+      ),
+      onPressed: () async {
+        final DateTime? pDate = await showDialog(
+          context: context,
+          builder: (_) => DatePickerDialog(
+            helpText: title ?? "",
+            initialDate: ref.read(filterNotifierProvider).startDate!,
+            firstDate: DateTime(2023),
+            lastDate: DateTime(2030),
+          ),
+        );
+        if (pDate == null) return;
+        if (isStartDate) {
+          ref
+              .read(filterNotifierProvider.notifier)
+              .updateFilter(startDate: pDate);
+        } else {
+          ref
+              .read(filterNotifierProvider.notifier)
+              .updateFilter(endDate: pDate);
+        }
+      },
+      icon: const Icon(Icons.calendar_month),
+      label: isStartDate
+          ? Text("FROM : ${dateFormat.format(filter.startDate!)}")
+          : Text("TO : ${dateFormat.format(filter.endDate!)}"),
     );
   }
 }

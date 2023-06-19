@@ -1,9 +1,12 @@
 import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
+import 'package:field_zoom_pro_web/core/providers/firebase_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
-final regionsProvider =
-    Provider<RegionsRepository>((ref) => RegionsRepository());
+final regionsProvider = Provider<RegionsRepository>((ref) {
+  final firestore = ref.watch(firestoreInstanceProvider);
+  return RegionsRepository(firestore);
+});
 
 final allRegionProvider = FutureProvider<List<RegionModel>>((ref) async {
   final user = ref.watch(filterNotifierProvider).loggedInuser!;

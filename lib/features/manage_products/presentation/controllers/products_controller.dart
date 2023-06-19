@@ -3,10 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
 class ProductsController extends StateNotifier<AsyncValue<void>> {
-  ProductsController() : super(const AsyncValue.data(null));
+  final FirebaseFirestore firestore;
+  ProductsController(this.firestore) : super(const AsyncValue.data(null));
 
-  Future<bool> addNewProduct({required ProductModel productModel}) async {
-    final productsRepo = ProductRepository();
+  Future<bool> addNewProduct({
+    required ProductModel productModel,
+  }) async {
+    final productsRepo = ProductRepository(firestore);
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(
         () => productsRepo.addNewProduct(productModel: productModel));
@@ -17,7 +20,7 @@ class ProductsController extends StateNotifier<AsyncValue<void>> {
     required String productId,
     required ProductModel newInfo,
   }) async {
-    final productsRepo = ProductRepository();
+    final productsRepo = ProductRepository(firestore);
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(
         () => productsRepo.editProduct(productId: productId, newInfo: newInfo));
@@ -28,7 +31,7 @@ class ProductsController extends StateNotifier<AsyncValue<void>> {
     required String productId,
     required Map<String, dynamic> newInfo,
   }) async {
-    final productsRepo = ProductRepository();
+    final productsRepo = ProductRepository(firestore);
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() => productsRepo.editProductVariable(
         productId: productId, newInfo: newInfo));
@@ -36,8 +39,10 @@ class ProductsController extends StateNotifier<AsyncValue<void>> {
   }
 
   // delete product
-  Future<void> deleteProduct({required String productId}) async {
-    final productsRepo = ProductRepository();
+  Future<void> deleteProduct({
+    required String productId,
+  }) async {
+    final productsRepo = ProductRepository(firestore);
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(
         () => productsRepo.deleteProduct(productId: productId));
@@ -47,8 +52,9 @@ class ProductsController extends StateNotifier<AsyncValue<void>> {
     String downloadUrl,
     String productId,
   ) async {
+    // TODOD Use Firebase Instance
     const productsDB = 'FZ_PRODUCTS';
-    final ref = FirebaseFirestore.instance
+    final ref = firestore
         .collection(productsDB)
         .where("id", isEqualTo: productId)
         .get();
@@ -56,8 +62,10 @@ class ProductsController extends StateNotifier<AsyncValue<void>> {
         (doc) => doc.docs.first.reference.update({"productImg": downloadUrl}));
   }
 
-  Future<bool> updateProduct({required ProductModel product}) async {
-    final productRepo = ProductRepository();
+  Future<bool> updateProduct({
+    required ProductModel product,
+  }) async {
+    final productRepo = ProductRepository(firestore);
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(
         () => productRepo.updateProduct(product: product));

@@ -1,3 +1,4 @@
+import 'package:field_zoom_pro_web/core/providers/firebase_providers.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
@@ -5,11 +6,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final uploadImageControllerProvider =
     StateNotifierProvider<UploadImageController, AsyncValue>((ref) {
-  return UploadImageController();
+  final firebaseStorage = ref.watch(firebaseStorageProvider);
+  return UploadImageController(firebaseStorage);
 });
 
 class UploadImageController extends StateNotifier<AsyncValue> {
-  UploadImageController() : super(const AsyncValue.data(null));
+  final FirebaseStorage firebaseStorage;
+  UploadImageController(this.firebaseStorage)
+      : super(const AsyncValue.data(null));
 
   Future<String?> getUserDownloadUrl(String folderName) async {
     state = const AsyncValue.loading();
@@ -31,7 +35,7 @@ class UploadImageController extends StateNotifier<AsyncValue> {
 
     if (result != null) {
       Uint8List fileBytes = result.files.first.bytes!;
-      final ref = FirebaseStorage.instance
+      final ref = firebaseStorage
           .ref()
           .child(folderName)
           .child("${dn.year}")

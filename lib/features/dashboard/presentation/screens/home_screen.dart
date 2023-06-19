@@ -29,15 +29,19 @@ class HomeScreen extends ConsumerWidget {
       body: const Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Wrap(
-            children: [
-              KpiWidget(),
-              KpiWidget(),
-              KpiWidget(),
-              KpiWidget(),
-              KpiWidget(),
-              KpiWidget(),
-            ],
+          Expanded(
+            child: SingleChildScrollView(
+              child: Wrap(
+                children: [
+                  KpiWidget(),
+                  KpiWidget(),
+                  KpiWidget(),
+                  KpiWidget(),
+                  KpiWidget(),
+                  KpiWidget(),
+                ],
+              ),
+            ),
           )
         ],
       ),

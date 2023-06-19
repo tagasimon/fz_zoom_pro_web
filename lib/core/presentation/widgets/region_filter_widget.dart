@@ -22,7 +22,7 @@ class RegionFilterWidget extends ConsumerWidget {
                   if (value == null) return;
                   ref
                       .read(filterNotifierProvider.notifier)
-                      .updateFilter(region: value);
+                      .updateRegion(region: value);
                 },
                 items: regionsList
                     .map(

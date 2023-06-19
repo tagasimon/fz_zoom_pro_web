@@ -1,7 +1,6 @@
 import 'package:field_zoom_pro_web/core/presentation/widgets/get_region_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/get_route_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 import 'package:intl/intl.dart';
 
@@ -30,17 +29,7 @@ class CustomerDataSourceModel extends DataTableSource {
         DataCell(GetRouteWidget(routeId: data[index].routeId)),
         DataCell(Text(data[index].phoneNumber)),
         DataCell(Text(data[index].district)),
-        DataCell(
-          IconButton(
-            onPressed: () {
-              // final lat = data[index].latitude;
-              // final lng = data[index].longitude;
-              // Text("($lat, $lng)")
-              Fluttertoast.showToast(msg: "Coming Soon :)");
-            },
-            icon: const Icon(Icons.directions),
-          ),
-        ),
+        DataCell(Text("${data[index].latitude} , ${data[index].longitude}")),
         DataCell(Text(data[index].locationDescription)),
       ],
       selected: selectedCustomers.contains(data[index]),

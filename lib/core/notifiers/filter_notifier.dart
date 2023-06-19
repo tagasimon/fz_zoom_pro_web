@@ -15,19 +15,46 @@ class FilterNotifier extends StateNotifier<FilterModel> {
               endDate: DateHelpers.endOfTodayDate()),
         );
 
+  void updateRegion({required String region}) {
+    state = FilterModel(
+      loggedInuser: state.loggedInuser,
+      region: region,
+      route: null,
+      selectedUserId: null,
+      startDate: state.startDate,
+      endDate: state.endDate,
+    );
+  }
+
+  void updateRoute({required String route}) {
+    state = FilterModel(
+      loggedInuser: state.loggedInuser,
+      region: state.region,
+      route: route,
+      selectedUserId: null,
+      startDate: state.startDate,
+      endDate: state.endDate,
+    );
+  }
+
+  void updateSelectedUser({required String selectedUserId}) {
+    state = FilterModel(
+      loggedInuser: state.loggedInuser,
+      region: state.region,
+      route: state.route,
+      selectedUserId: selectedUserId,
+      startDate: state.startDate,
+      endDate: state.endDate,
+    );
+  }
+
   void updateFilter({
     UserModel? loggedInUser,
-    String? selectedUserId,
-    String? region,
-    String? route,
     DateTime? startDate,
     DateTime? endDate,
   }) {
     state = state.copyWith(
       loggedInuser: loggedInUser,
-      selectedUserId: selectedUserId,
-      region: region,
-      route: route,
       startDate: startDate,
       endDate: endDate,
     );

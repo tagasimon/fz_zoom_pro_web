@@ -15,3 +15,16 @@ final routeByIdProvider =
       .read(routesRepoProvider)
       .getRouteByCompanyIdAndRouteId(companyId: companyId, routeId: routeId);
 });
+
+// list of route id provider
+
+final routesByIdProvider =
+    FutureProvider.family<List<ChartDataModel>, List<ChartDataModel>>(
+        (ref, data) async {
+  List<ChartDataModel> routesChartData = [];
+  for (var route in data) {
+    final routeData = await ref.read(routeByIdProvider(route.title).future);
+    routesChartData.add(ChartDataModel(routeData.name, route.value));
+  }
+  return routesChartData;
+});

@@ -22,7 +22,7 @@ class SelectedUserFilterWidget extends ConsumerWidget {
                   if (value == null) return;
                   ref
                       .read(filterNotifierProvider.notifier)
-                      .updateFilter(selectedUserId: value);
+                      .updateSelectedUser(selectedUserId: value);
                 },
                 items: usersList
                     .map(

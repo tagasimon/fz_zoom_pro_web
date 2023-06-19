@@ -67,7 +67,6 @@ class _CompanyHomeScreenState extends ConsumerState<CompanyHomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const CompanyTitleWidget(),
-        centerTitle: false,
       ),
       body: companyInfoProv.when(
         data: (company) {

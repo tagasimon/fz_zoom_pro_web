@@ -36,7 +36,7 @@ class CustomerUniverse extends ConsumerWidget {
               actions: const [
                 AppFilterWidget(
                   showRegionFilter: true,
-                  showRouteFilter: false,
+                  showRouteFilter: true,
                   showSelectedUserFilter: false,
                   showEndDateFilter: false,
                   showStartDateFilter: false,

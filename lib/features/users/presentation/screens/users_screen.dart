@@ -27,16 +27,6 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const CompanyTitleWidget(),
-        centerTitle: false,
-        actions: const [
-          AppFilterWidget(
-            showRegionFilter: true,
-            showRouteFilter: false,
-            showSelectedUserFilter: false,
-            showEndDateFilter: false,
-            showStartDateFilter: false,
-          ),
-        ],
       ),
       body: niceTwoUsersProv.when(
         data: (data) {
@@ -59,6 +49,14 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              const AppFilterWidget(
+                showRegionFilter: true,
+                showSelectedUserFilter: false,
+                showStartDateFilter: false,
+                showEndDateFilter: false,
+              ),
+              const Divider(),
+              const SizedBox(height: 10),
               if (state.isLoading) const LinearProgressIndicator(),
               data.isEmpty
                   ? const Center(child: Text("No users found"))

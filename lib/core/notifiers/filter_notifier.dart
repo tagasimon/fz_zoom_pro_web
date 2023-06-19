@@ -11,7 +11,7 @@ class FilterNotifier extends StateNotifier<FilterModel> {
   FilterNotifier()
       : super(
           FilterModel(
-              startDate: DateHelpers.startOfTodayDate(),
+              startDate: DateHelpers.startDateOfMonth(),
               endDate: DateHelpers.endOfTodayDate()),
         );
 
@@ -64,7 +64,7 @@ class FilterNotifier extends StateNotifier<FilterModel> {
   void resetFilter() {
     state = FilterModel(
       loggedInuser: state.loggedInuser,
-      startDate: DateHelpers.startOfTodayDate(),
+      startDate: DateHelpers.startDateOfMonth(),
       endDate: DateHelpers.endOfTodayDate(),
     );
   }

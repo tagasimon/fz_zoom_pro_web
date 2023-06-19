@@ -26,6 +26,7 @@ class AppFilterWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final region = ref.watch(filterNotifierProvider).region;
+    final selectedUserId = ref.watch(filterNotifierProvider).selectedUserId;
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -54,7 +55,7 @@ class AppFilterWidget extends ConsumerWidget {
           if (showStartDateFilter) const VerticalDivider(),
           if (showStartDateFilter) const DateFilterWidget(isStartDate: false),
           if (showStartDateFilter) const VerticalDivider(),
-          region == null
+          region == null || selectedUserId == null
               ? const SizedBox.shrink()
               : TextButton.icon(
                   style:

@@ -273,7 +273,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                                   .read(
                                                       productsControllerProvider
                                                           .notifier)
-                                                  .updateProduct(
+                                                  .updateProductByCompanyId(
                                                     product: product.copyWith(
                                                         productImg:
                                                             downloadUrl),

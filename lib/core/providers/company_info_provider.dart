@@ -9,6 +9,9 @@ final companyProvider = Provider<CompanyInfoRepository>((ref) {
 });
 
 final companyInfoProvider = StreamProvider<CompanyModel>((ref) {
-  final companyId = ref.watch(filterNotifierProvider).loggedInuser!.companyId;
-  return ref.watch(companyProvider).watchCompanyInfoById(companyId);
+  final user = ref.watch(filterNotifierProvider).loggedInuser;
+  if (user == null) {
+    return const Stream.empty();
+  }
+  return ref.watch(companyProvider).watchCompanyInfoById(user.companyId);
 });

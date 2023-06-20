@@ -260,7 +260,58 @@ class SubCartegoriesDataSourceModel extends DataTableSource {
   DataRow? getRow(int index) {
     return DataRow(
       cells: [
-        DataCell(Text(data[index].name)),
+        DataCell(Consumer(
+          builder: (context, ref, child) {
+            return TextButton.icon(
+              onPressed: () async {
+                final newCartNameController = TextEditingController();
+                newCartNameController.text = data[index].name;
+                final String? newSubCartName = await showDialog(
+                  context: context,
+                  builder: (_) {
+                    return AlertDialog(
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          TextField(
+                            controller: newCartNameController,
+                            decoration: const InputDecoration(
+                              labelText: 'Edit Sub Cartegory Name',
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          ElevatedButton(
+                            onPressed: () async {
+                              context.pop(newCartNameController.text);
+                            },
+                            child: const Text('Save'),
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                );
+                if (newSubCartName == null) return;
+                final success = await ref
+                    .read(subCartegoriesControllerProvider.notifier)
+                    .updateSubProductCartegory(
+                      companyId: ref
+                          .read(filterNotifierProvider)
+                          .loggedInuser!
+                          .companyId,
+                      id: data[index].id,
+                      subCartegoryModel: data[index]
+                          .copyWith(name: newSubCartName.toUpperCase().trim()),
+                    );
+                if (success) {
+                  Fluttertoast.showToast(msg: "SUCCESS");
+                }
+              },
+              icon: const Icon(Icons.edit),
+              label: Text(data[index].name),
+            );
+          },
+        )),
         DataCell(ProductCartegoryWidget(cartegoryId: data[index].cartegoryId)),
         DataCell(Consumer(
           builder: (context, ref, child) {

@@ -1,14 +1,15 @@
 import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
-import 'package:field_zoom_pro_web/core/presentation/widgets/circle_image_widget.dart';
+import 'package:field_zoom_pro_web/core/notifiers/product_filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/company_title_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/screens/copy_product_screen.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/alert_dialog_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/product_cartegory_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/product_details_screen.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/product_sub_cartegory_widget.dart';
+import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/products_filter_widget.dart';
+import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/products_table_options_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/providers/active_product_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/providers/product_provider.dart';
-import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/products_table_options_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -28,19 +29,42 @@ class ProductsScreen extends ConsumerStatefulWidget {
 class _ProductsScreenState extends ConsumerState<ProductsScreen> {
   String? selectedProductId;
   ProductScreenActions? selectedAction;
-  int itemPerPage = 8;
-  final List<int> dropDownItems =
-      List.generate(100, (index) => (index + 1) * 3);
+
   @override
   Widget build(BuildContext context) {
     final productsProv = ref.watch(watchProductsProvider);
     final state = ref.watch(productsControllerProvider);
     ref.listen(productsControllerProvider,
         (_, state) => state.showSnackBarOnError(context));
+    final filteredCartegory =
+        ref.watch(productFilterNotifierProvider).cartegory;
+    final filteredSubCartegory =
+        ref.watch(productFilterNotifierProvider).subCartegory;
+
     return productsProv.when(
-      data: (customers) {
+      data: (products) {
+        if (filteredCartegory != null && filteredSubCartegory != null) {
+          products = products
+              .where((element) =>
+                  element.cartegoryId == filteredCartegory &&
+                  element.subCartegoryId == filteredSubCartegory)
+              .toList();
+        }
+        if (filteredCartegory != null && filteredSubCartegory == null) {
+          products = products
+              .where((element) => element.cartegoryId == filteredCartegory)
+              .toList();
+        }
+
+        if (filteredCartegory == null && filteredSubCartegory != null) {
+          products = products
+              .where(
+                  (element) => element.subCartegoryId == filteredSubCartegory)
+              .toList();
+        }
+
         final myData = ProductDataSourceModel(
-          data: customers,
+          data: products,
           selectedProductId: selectedProductId,
           onSelected: (productId) {
             if (selectedProductId == null) {
@@ -63,8 +87,12 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
           body: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              const ProductsFilterWidget(),
+              const Divider(),
+              const SizedBox(height: 10),
               if (state.isLoading) const LinearProgressIndicator(),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
                     flex: 1,
@@ -77,32 +105,16 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                         DataColumn(label: Text("SUB CARTEGORY")),
                         DataColumn(label: Text("VAR")),
                         DataColumn(label: Text("SELLING PRICE")),
-                        DataColumn(label: Text("IMG")),
+                        // DataColumn(label: Text("IMG")),
                         DataColumn(label: Text("IS ACTIVE")),
                       ],
                       source: myData,
                       header: const Text("PRODUCTS"),
-                      rowsPerPage: itemPerPage,
+                      rowsPerPage:
+                          ref.watch(productFilterNotifierProvider).itemCount,
                       actions: selectedProductId == null
                           ? [
-                              Row(
-                                children: [
-                                  DropdownButton<int>(
-                                    hint: Text('$itemPerPage Products'),
-                                    items: dropDownItems
-                                        .map((e) => DropdownMenuItem<int>(
-                                            value: e,
-                                            child: Text(e.toString())))
-                                        .toList(),
-                                    onChanged: (val) {
-                                      if (val == null) return;
-                                      setState(() => itemPerPage = val);
-                                    },
-                                  ),
-                                  const VerticalDivider(),
-                                  const ProductsTableOptionsWidget(),
-                                ],
-                              )
+                              const ProductsTableOptionsWidget(),
                             ]
                           : [
                               ActiveProductWidget(
@@ -212,12 +224,23 @@ class ProductDataSourceModel extends DataTableSource {
         DataCell(ProductSubCartegoryWidget(id: data[index].subCartegoryId)),
         DataCell(Text(data[index].productVar)),
         DataCell(Text(data[index].sellingPrice.toString())),
-        DataCell(CircleImageWidget(url: data[index].productImg!)),
+        // DataCell(CircleImageWidget(url: data[index].productImg!)),
         DataCell(
-          Switch(
-            value: data[index].isActive,
-            onChanged: (val) {
-              // TODO Implement this
+          Consumer(
+            builder: (context, ref, child) {
+              return Switch(
+                value: data[index].isActive,
+                onChanged: (val) async {
+                  final success = await ref
+                      .read(productsControllerProvider.notifier)
+                      .updateProductByCompanyId(
+                        product: data[index].copyWith(isActive: val),
+                      );
+                  if (success) {
+                    Fluttertoast.showToast(msg: "SUCCESS :)");
+                  }
+                },
+              );
             },
           ),
         )

@@ -77,7 +77,9 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
                           rowsPerPage: 10,
                           showCheckboxColumn: true,
                           showFirstLastButtons: true,
-                          actions: const [UsersTableActionsWidget()]
+                          actions: const [
+                            UsersTableActionsWidget(),
+                          ]
                           // selectedUserId == null
                           //     ? []
                           //     : [

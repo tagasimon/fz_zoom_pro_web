@@ -11,6 +11,14 @@ class ProductsController extends StateNotifier<AsyncValue<void>> {
   }) async {
     final productsRepo = ProductRepository(firestore);
     state = const AsyncValue.loading();
+    final exisits =
+        await productsRepo.checkIfProductExists(product: productModel);
+    if (exisits) {
+      state = AsyncError(
+          "${productModel.name} ${productModel.productVar} already exists",
+          StackTrace.current);
+      return false;
+    }
     state = await AsyncValue.guard(
         () => productsRepo.addNewProduct(productModel: productModel));
     return state.hasError ? false : true;
@@ -62,13 +70,13 @@ class ProductsController extends StateNotifier<AsyncValue<void>> {
         (doc) => doc.docs.first.reference.update({"productImg": downloadUrl}));
   }
 
-  Future<bool> updateProduct({
+  Future<bool> updateProductByCompanyId({
     required ProductModel product,
   }) async {
     final productRepo = ProductRepository(firestore);
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(
-        () => productRepo.updateProduct(product: product));
+        () => productRepo.updateProductByCompanyId(product: product));
     return state.hasError ? false : true;
   }
 

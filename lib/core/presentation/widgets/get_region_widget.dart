@@ -13,11 +13,7 @@ class GetRegionWidget extends ConsumerWidget {
     }
     final regionProv = ref.watch(getRegionByCompanyIdProvider(regionId!));
     return regionProv.when(
-      data: (region) => TextButton.icon(
-        onPressed: () {},
-        label: Text(region.name),
-        icon: const Icon(Icons.arrow_drop_down),
-      ),
+      data: (region) => Text(region.name),
       loading: () => const CircularProgressIndicator(),
       error: (error, stackTrace) => const Text('Error'),
     );

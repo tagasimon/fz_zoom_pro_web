@@ -1,6 +1,7 @@
 import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/app_filter_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/nothing_found_animation.dart';
+import 'package:field_zoom_pro_web/core/presentation/widgets/request_full_screen_widget.dart';
 import 'package:field_zoom_pro_web/core/providers/routes_provider.dart';
 import 'package:field_zoom_pro_web/features/customers/models/customer_data_source_model.dart';
 import 'package:field_zoom_pro_web/features/customers/presentation/widgets/customers_map_widget.dart';
@@ -33,19 +34,22 @@ class CustomerUniverse extends ConsumerWidget {
         return Scaffold(
             appBar: AppBar(
               title: const Text("CUSTOMERS"),
-              actions: const [
-                AppFilterWidget(
+              actions: const [RequestFullScreenWidget()],
+            ),
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const AppFilterWidget(
                   showRegionFilter: true,
                   showRouteFilter: true,
                   showSelectedUserFilter: false,
                   showEndDateFilter: false,
                   showStartDateFilter: false,
                 ),
-              ],
-            ),
-            body: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+                const Divider(),
+                const SizedBox(
+                  height: 20,
+                ),
                 if (customers.isEmpty)
                   const Center(
                     child: NothingFoundAnimation(

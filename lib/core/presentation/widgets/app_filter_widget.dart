@@ -1,5 +1,4 @@
 // ignore: avoid_web_libraries_in_flutter
-import 'dart:html';
 
 import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/date_filter_widget.dart';
@@ -32,20 +31,6 @@ class AppFilterWidget extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          IconButton(
-            onPressed: () {
-              // if full screen is enabled, exit full screen
-              if (document.fullscreenElement != null) {
-                document.exitFullscreen();
-              } else {
-                // else enter full screen
-                document.documentElement!.requestFullscreen();
-              }
-            },
-            icon: document.fullscreenElement == null
-                ? const Icon(Icons.fullscreen)
-                : const Icon(Icons.fullscreen_exit),
-          ),
           const VerticalDivider(),
           if (showRegionFilter) const RegionFilterWidget(),
           if (showRegionFilter) const VerticalDivider(),

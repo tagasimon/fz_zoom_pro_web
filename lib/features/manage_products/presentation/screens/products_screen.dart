@@ -26,6 +26,9 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
   String? selectedProductId;
   ProductScreenActions? selectedAction;
   int flex = 2;
+  int itemPerPage = 8;
+  final List<int> dropDownItems =
+      List.generate(100, (index) => (index + 1) * 3);
   @override
   Widget build(BuildContext context) {
     final productsProv = ref.watch(watchProductsProvider);
@@ -53,38 +56,62 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
             title: const CompanyTitleWidget(),
           ),
           body: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: PaginatedDataTable(
-                  columns: const [
-                    DataColumn(label: Text("#")),
-                    DataColumn(label: Text("SYS CODE")),
-                    DataColumn(label: Text("NAME")),
-                    DataColumn(label: Text("CARTEGORY")),
-                    DataColumn(label: Text("SUB CARTEGORY")),
-                    DataColumn(label: Text("VAR")),
-                    DataColumn(label: Text("SELLING PRICE")),
-                    DataColumn(label: Text("IMG")),
-                    DataColumn(label: Text("IS ACTIVE")),
-                  ],
-                  source: myData,
-                  header: const Text("PRODUCTS"),
-                  rowsPerPage: 10,
-                  actions: selectedProductId == null
-                      ? [const ProductsTableOptionsWidget()]
-                      : [
-                          ActiveProductWidget(
-                            onCopy: () {
-                              setState(() {
-                                selectedAction = ProductScreenActions.duplicate;
-                              });
-                            },
-                            onDelete: () {},
-                          ),
-                        ],
-                  showCheckboxColumn: true,
-                  showFirstLastButtons: true,
+                child: SingleChildScrollView(
+                  child: PaginatedDataTable(
+                    columns: const [
+                      DataColumn(label: Text("#")),
+                      DataColumn(label: Text("SYS CODE")),
+                      DataColumn(label: Text("NAME")),
+                      DataColumn(label: Text("CARTEGORY")),
+                      DataColumn(label: Text("SUB CARTEGORY")),
+                      DataColumn(label: Text("VAR")),
+                      DataColumn(label: Text("SELLING PRICE")),
+                      DataColumn(label: Text("IMG")),
+                      DataColumn(label: Text("IS ACTIVE")),
+                    ],
+                    source: myData,
+                    header: const Text("PRODUCTS"),
+                    rowsPerPage: itemPerPage,
+                    actions: selectedProductId == null
+                        ? [
+                            Row(
+                              children: [
+                                DropdownButton<int>(
+                                  hint: Text('$itemPerPage Products'),
+                                  items: dropDownItems
+                                      .map((e) => DropdownMenuItem<int>(
+                                            value: e,
+                                            child: Text(e.toString()),
+                                          ))
+                                      .toList(),
+                                  onChanged: (val) {
+                                    if (val == null) return;
+                                    setState(() => itemPerPage = val);
+                                  },
+                                ),
+                                const VerticalDivider(),
+                                const ProductsTableOptionsWidget(),
+                              ],
+                            )
+                          ]
+                        : [
+                            ActiveProductWidget(
+                              onCopy: () {
+                                setState(() {
+                                  selectedAction =
+                                      ProductScreenActions.duplicate;
+                                });
+                              },
+                              onDelete: () {},
+                            ),
+                          ],
+                    showCheckboxColumn: true,
+                    showFirstLastButtons: true,
+                  ),
                 ),
               ),
               const VerticalDivider(),

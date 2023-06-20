@@ -9,7 +9,10 @@ import 'package:fz_hooks/fz_hooks.dart';
 
 class ProductDetailsScreen extends ConsumerStatefulWidget {
   final String id;
-  const ProductDetailsScreen({Key? key, required this.id}) : super(key: key);
+  final VoidCallback onEscape;
+  const ProductDetailsScreen(
+      {Key? key, required this.id, required this.onEscape})
+      : super(key: key);
 
   @override
   ConsumerState<ProductDetailsScreen> createState() =>
@@ -49,9 +52,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
 
     return CallbackShortcuts(
       bindings: <ShortcutActivator, VoidCallback>{
-        const SingleActivator(LogicalKeyboardKey.escape): () {
-          context.pop(false);
-        },
+        const SingleActivator(LogicalKeyboardKey.escape): widget.onEscape,
       },
       child: Focus(
         autofocus: true,

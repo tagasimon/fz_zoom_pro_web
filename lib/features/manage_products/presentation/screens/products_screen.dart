@@ -91,9 +91,8 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                                     hint: Text('$itemPerPage Products'),
                                     items: dropDownItems
                                         .map((e) => DropdownMenuItem<int>(
-                                              value: e,
-                                              child: Text(e.toString()),
-                                            ))
+                                            value: e,
+                                            child: Text(e.toString())))
                                         .toList(),
                                     onChanged: (val) {
                                       if (val == null) return;
@@ -154,7 +153,15 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                         builder: (context) {
                           final child = switch (selectedAction) {
                             ProductScreenActions.selectProduct =>
-                              ProductDetailsScreen(id: selectedProductId!),
+                              ProductDetailsScreen(
+                                id: selectedProductId!,
+                                onEscape: () {
+                                  setState(() {
+                                    selectedProductId = null;
+                                    selectedAction = null;
+                                  });
+                                },
+                              ),
                             ProductScreenActions.duplicate => CopyProductScreen(
                                 selectedProductId: selectedProductId!,
                                 onCancel: () {

@@ -1,5 +1,6 @@
 import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/controllers/upload_image_controller.dart';
+import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/alert_dialog_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/product_cartegory_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,6 +22,7 @@ class AddSubCartegoryScreen extends ConsumerStatefulWidget {
 }
 
 class _AddSubCartegoryScreenState extends ConsumerState<AddSubCartegoryScreen> {
+  String? selectedId;
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   ProductCartegoryModel? selectedCartegory;
@@ -59,9 +61,14 @@ class _AddSubCartegoryScreenState extends ConsumerState<AddSubCartegoryScreen> {
                     data: (data) {
                       final source = SubCartegoriesDataSourceModel(
                         data: data,
-                        selectedId: null,
-                        onSelected: (id) {},
-                        onSwitchChanged: (val, id) {},
+                        selectedId: selectedId,
+                        onSelected: (id) {
+                          if (selectedId == null) {
+                            setState(() => selectedId = id);
+                            return;
+                          }
+                          setState(() => selectedId = null);
+                        },
                       );
                       return PaginatedDataTable(
                         header: const Text('SUB CARTEGORIES'),
@@ -71,8 +78,41 @@ class _AddSubCartegoryScreenState extends ConsumerState<AddSubCartegoryScreen> {
                           DataColumn(label: Text('IMAGE')),
                         ],
                         source: source,
-                        showCheckboxColumn: false,
                         showFirstLastButtons: true,
+                        actions: [
+                          if (selectedId != null)
+                            TextButton.icon(
+                              style: TextButton.styleFrom(
+                                foregroundColor: Colors.red,
+                              ),
+                              onPressed: () async {
+                                final bool? confirm = await showDialog(
+                                    context: context,
+                                    builder: (_) => const AlertDialogWidget(
+                                        title: 'Delete Sub Cartegory',
+                                        subTitle:
+                                            'Are you sure you want to delete this Sub Cartegory, this action cannot be undone?'));
+                                if (confirm == null || !confirm) return;
+                                final companyId = ref
+                                    .read(filterNotifierProvider)
+                                    .loggedInuser!
+                                    .companyId;
+                                final success = await ref
+                                    .read(subCartegoriesControllerProvider
+                                        .notifier)
+                                    .deleteSubCartegoryById(
+                                      companyId: companyId,
+                                      subCartid: selectedId!,
+                                    );
+                                if (success) {
+                                  setState(() => selectedId = null);
+                                  Fluttertoast.showToast(msg: "SUCCESS");
+                                }
+                              },
+                              label: const Text('Delete'),
+                              icon: const Icon(Icons.delete),
+                            )
+                        ],
                       );
                     },
                     loading: () =>
@@ -210,13 +250,11 @@ class SubCartegoriesDataSourceModel extends DataTableSource {
   final List<SubCartegoryModel> data;
   final String? selectedId;
   final Function(String) onSelected;
-  final Function(bool, String) onSwitchChanged;
 
   SubCartegoriesDataSourceModel({
     required this.data,
     required this.selectedId,
     required this.onSelected,
-    required this.onSwitchChanged,
   });
   @override
   DataRow? getRow(int index) {

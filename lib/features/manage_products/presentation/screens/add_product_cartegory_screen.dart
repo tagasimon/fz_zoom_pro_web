@@ -23,11 +23,13 @@ class _AddProductCartegoryScreenState
   String? selectedId;
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
+  final _newCartNameController = TextEditingController();
 
   @override
   void dispose() {
     _nameController.dispose();
     _descriptionController.dispose();
+    _newCartNameController.dispose();
     super.dispose();
   }
 
@@ -72,7 +74,6 @@ class _AddProductCartegoryScreenState
                             }
                             setState(() => selectedId = null);
                           },
-                          onSwitchChanged: (val, id) {},
                         );
                         return PaginatedDataTable(
                           header: const Text('PRODUCT CARTEGORIES'),
@@ -214,19 +215,70 @@ class CartegoriesDataSourceModel extends DataTableSource {
   final List<ProductCartegoryModel> data;
   final String? selectedId;
   final Function(String) onSelected;
-  final Function(bool, String) onSwitchChanged;
 
   CartegoriesDataSourceModel({
     required this.data,
     required this.selectedId,
     required this.onSelected,
-    required this.onSwitchChanged,
   });
   @override
   DataRow? getRow(int index) {
     return DataRow(
       cells: [
-        DataCell(Text(data[index].name)),
+        DataCell(
+          Consumer(
+            builder: (context, ref, child) {
+              return TextButton.icon(
+                onPressed: () async {
+                  final newCartNameController = TextEditingController();
+                  newCartNameController.text = data[index].name;
+                  final String? newCartName = await showDialog(
+                    context: context,
+                    builder: (_) {
+                      return AlertDialog(
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TextField(
+                              controller: newCartNameController,
+                              decoration: const InputDecoration(
+                                labelText: 'Edit Cartegory Name',
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            ElevatedButton(
+                              onPressed: () async {
+                                context.pop(newCartNameController.text);
+                              },
+                              child: const Text('Save'),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                  if (newCartName == null) return;
+                  final success = await ref
+                      .read(productsCartegoriesControllerProvider.notifier)
+                      .updateProductCartegory(
+                        companyId: ref
+                            .read(filterNotifierProvider)
+                            .loggedInuser!
+                            .companyId,
+                        id: data[index].id,
+                        productCartegoryModel: data[index]
+                            .copyWith(name: newCartName.toUpperCase().trim()),
+                      );
+                  if (success) {
+                    Fluttertoast.showToast(msg: "SUCCESS");
+                  }
+                },
+                icon: const Icon(Icons.edit),
+                label: Text(data[index].name),
+              );
+            },
+          ),
+        ),
         DataCell(
           Consumer(
             builder: (context, ref, child) {
@@ -257,14 +309,31 @@ class CartegoriesDataSourceModel extends DataTableSource {
             },
           ),
         ),
-        DataCell(
-          Switch(
-            value: data[index].isActive,
-            onChanged: (val) => onSwitchChanged(val, data[index].id),
-            activeColor: Colors.green,
-            inactiveThumbColor: Colors.red,
-          ),
-        ),
+        DataCell(Consumer(
+          builder: (context, ref, child) {
+            return Switch(
+              value: data[index].isActive,
+              onChanged: (val) async {
+                final success = await ref
+                    .read(productsCartegoriesControllerProvider.notifier)
+                    .updateProductCartegory(
+                      companyId: ref
+                          .read(filterNotifierProvider)
+                          .loggedInuser!
+                          .companyId,
+                      id: data[index].id,
+                      productCartegoryModel:
+                          data[index].copyWith(isActive: val),
+                    );
+                if (success) {
+                  Fluttertoast.showToast(msg: "SUCCESS");
+                }
+              },
+              activeColor: Colors.green,
+              inactiveThumbColor: Colors.red,
+            );
+          },
+        )),
       ],
       selected: selectedId == data[index].id,
       onSelectChanged: (val) {

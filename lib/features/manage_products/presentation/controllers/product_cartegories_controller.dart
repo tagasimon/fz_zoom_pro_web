@@ -67,4 +67,15 @@ class ProductCartegoriesController extends StateNotifier<AsyncValue> {
 
     return state.hasError ? false : true;
   }
+
+  Future<bool> deleteCartegoryById(
+      {required String companyId, required String cartegoryId}) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() {
+      final productCartRepo = CartegoryRepository(firestore);
+      return productCartRepo.deleteCartegory(
+          companyId: companyId, cartegoryId: cartegoryId);
+    });
+    return state.hasError ? false : true;
+  }
 }

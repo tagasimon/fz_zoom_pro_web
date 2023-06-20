@@ -2,7 +2,6 @@ import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widget.dart';
 import 'package:field_zoom_pro_web/features/authentication/providers/user_provider.dart';
 import 'package:field_zoom_pro_web/features/customers/presentation/screens/customer_universe.dart';
-import 'package:field_zoom_pro_web/features/dashboard/presentation/screens/home_screen.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/screens/products_screen.dart';
 import 'package:field_zoom_pro_web/features/setup/presentation/screens/company_home.dart';
 import 'package:field_zoom_pro_web/features/users/presentation/screens/users_screen.dart';
@@ -92,7 +91,8 @@ class _NavigationRailWidgetState extends ConsumerState<NavigationRailWidget> {
             child: IndexedStack(
               index: _selectedIndex,
               children: const [
-                HomeScreen(),
+                // HomeScreen(),
+                Center(child: Text("Field Zoom")),
                 UsersScreen(),
                 CustomerUniverse(),
                 ProductsScreen(),

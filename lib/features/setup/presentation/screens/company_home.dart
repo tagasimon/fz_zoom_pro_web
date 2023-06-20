@@ -85,7 +85,7 @@ class _CompanyHomeScreenState extends ConsumerState<CompanyHomeScreen> {
           _companyTwitterController.text = company.twitterUrl;
           return Center(
             child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,
+              width: MediaQuery.sizeOf(context).width * 0.8,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -264,7 +264,7 @@ class _CompanyHomeScreenState extends ConsumerState<CompanyHomeScreen> {
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               minimumSize: Size(
-                                  MediaQuery.of(context).size.width * 0.2, 50),
+                                  MediaQuery.sizeOf(context).width * 0.2, 50),
                             ),
                             onPressed: state.isLoading || state2.isLoading
                                 ? null

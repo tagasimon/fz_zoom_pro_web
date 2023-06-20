@@ -45,7 +45,7 @@ class _NewUserScreenState extends ConsumerState<NewUserScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
+                    width: MediaQuery.sizeOf(context).width * 0.5,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -132,7 +132,7 @@ class _NewUserScreenState extends ConsumerState<NewUserScreen> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 30.0, vertical: 10.0),
                                         minimumSize: Size(
-                                            MediaQuery.of(context).size.width *
+                                            MediaQuery.sizeOf(context).width *
                                                 0.8,
                                             50)),
                                     onPressed: usersControllerState.isLoading

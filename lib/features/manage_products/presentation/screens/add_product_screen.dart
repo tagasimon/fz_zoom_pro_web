@@ -54,7 +54,7 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
           ),
           body: Center(
             child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.5,
+              width: MediaQuery.sizeOf(context).width * 0.5,
               child: Column(
                 children: [
                   pdtCartProv.when(
@@ -177,7 +177,7 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
                                         ElevatedButton(
                                           style: ElevatedButton.styleFrom(
                                               minimumSize: Size(
-                                            MediaQuery.of(context).size.width *
+                                            MediaQuery.sizeOf(context).width *
                                                 0.3,
                                             50,
                                           )),

@@ -1,6 +1,8 @@
+import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/circle_image_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/company_title_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/screens/copy_product_screen.dart';
+import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/alert_dialog_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/product_cartegory_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/product_details_screen.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/product_sub_cartegory_widget.dart';
@@ -9,6 +11,7 @@ import 'package:field_zoom_pro_web/features/manage_products/providers/product_pr
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/products_table_options_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 import 'package:intl/intl.dart';
 
@@ -25,13 +28,15 @@ class ProductsScreen extends ConsumerStatefulWidget {
 class _ProductsScreenState extends ConsumerState<ProductsScreen> {
   String? selectedProductId;
   ProductScreenActions? selectedAction;
-  int flex = 2;
   int itemPerPage = 8;
   final List<int> dropDownItems =
       List.generate(100, (index) => (index + 1) * 3);
   @override
   Widget build(BuildContext context) {
     final productsProv = ref.watch(watchProductsProvider);
+    final state = ref.watch(productsControllerProvider);
+    ref.listen(productsControllerProvider,
+        (_, state) => state.showSnackBarOnError(context));
     return productsProv.when(
       data: (customers) {
         final myData = ProductDataSourceModel(
@@ -55,76 +60,101 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
           appBar: AppBar(
             title: const CompanyTitleWidget(),
           ),
-          body: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: PaginatedDataTable(
-                    columns: const [
-                      DataColumn(label: Text("#")),
-                      DataColumn(label: Text("SYS CODE")),
-                      DataColumn(label: Text("NAME")),
-                      DataColumn(label: Text("CARTEGORY")),
-                      DataColumn(label: Text("SUB CARTEGORY")),
-                      DataColumn(label: Text("VAR")),
-                      DataColumn(label: Text("SELLING PRICE")),
-                      DataColumn(label: Text("IMG")),
-                      DataColumn(label: Text("IS ACTIVE")),
-                    ],
-                    source: myData,
-                    header: const Text("PRODUCTS"),
-                    rowsPerPage: itemPerPage,
-                    actions: selectedProductId == null
-                        ? [
-                            Row(
-                              children: [
-                                DropdownButton<int>(
-                                  hint: Text('$itemPerPage Products'),
-                                  items: dropDownItems
-                                      .map((e) => DropdownMenuItem<int>(
-                                            value: e,
-                                            child: Text(e.toString()),
-                                          ))
-                                      .toList(),
-                                  onChanged: (val) {
-                                    if (val == null) return;
-                                    setState(() => itemPerPage = val);
-                                  },
-                                ),
-                                const VerticalDivider(),
-                                const ProductsTableOptionsWidget(),
-                              ],
-                            )
-                          ]
-                        : [
-                            ActiveProductWidget(
-                              onCopy: () {
-                                setState(() {
-                                  selectedAction =
-                                      ProductScreenActions.duplicate;
-                                });
-                              },
-                              onDelete: () {},
-                            ),
-                          ],
-                    showCheckboxColumn: true,
-                    showFirstLastButtons: true,
+              if (state.isLoading) const LinearProgressIndicator(),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: PaginatedDataTable(
+                      columns: const [
+                        DataColumn(label: Text("#")),
+                        DataColumn(label: Text("SYS CODE")),
+                        DataColumn(label: Text("NAME")),
+                        DataColumn(label: Text("CARTEGORY")),
+                        DataColumn(label: Text("SUB CARTEGORY")),
+                        DataColumn(label: Text("VAR")),
+                        DataColumn(label: Text("SELLING PRICE")),
+                        DataColumn(label: Text("IMG")),
+                        DataColumn(label: Text("IS ACTIVE")),
+                      ],
+                      source: myData,
+                      header: const Text("PRODUCTS"),
+                      rowsPerPage: itemPerPage,
+                      actions: selectedProductId == null
+                          ? [
+                              Row(
+                                children: [
+                                  DropdownButton<int>(
+                                    hint: Text('$itemPerPage Products'),
+                                    items: dropDownItems
+                                        .map((e) => DropdownMenuItem<int>(
+                                              value: e,
+                                              child: Text(e.toString()),
+                                            ))
+                                        .toList(),
+                                    onChanged: (val) {
+                                      if (val == null) return;
+                                      setState(() => itemPerPage = val);
+                                    },
+                                  ),
+                                  const VerticalDivider(),
+                                  const ProductsTableOptionsWidget(),
+                                ],
+                              )
+                            ]
+                          : [
+                              ActiveProductWidget(
+                                onCopy: () {
+                                  setState(() {
+                                    selectedAction =
+                                        ProductScreenActions.duplicate;
+                                  });
+                                },
+                                onDelete: () async {
+                                  final bool? confirm = await showDialog(
+                                    context: context,
+                                    builder: (_) => const AlertDialogWidget(
+                                      title: "Delete Product",
+                                      subTitle:
+                                          "Are you sure you want to delete this product?",
+                                      yesActionText: "Delete",
+                                      noActionText: "Cancel",
+                                    ),
+                                  );
+                                  setState(() => selectedAction = null);
+                                  if (confirm == null || !confirm) return;
+
+                                  final user = ref
+                                      .read(filterNotifierProvider)
+                                      .loggedInuser;
+                                  final success = await ref
+                                      .read(productsControllerProvider.notifier)
+                                      .deleteProductById(
+                                          companyId: user!.companyId,
+                                          productId: selectedProductId!);
+                                  if (success) {
+                                    setState(() => selectedProductId = null);
+                                    Fluttertoast.showToast(msg: "SUCCESS :)");
+                                  }
+                                },
+                              ),
+                            ],
+                      showCheckboxColumn: true,
+                      showFirstLastButtons: true,
+                    ),
                   ),
-                ),
-              ),
-              const VerticalDivider(),
-              selectedProductId == null
-                  ? const SizedBox.shrink()
-                  : Expanded(
-                      child: LayoutBuilder(
-                        builder: (context, constraints) {
+                  const VerticalDivider(),
+                  if (selectedProductId != null)
+                    Expanded(
+                      flex: 1,
+                      child: Builder(
+                        builder: (context) {
                           final child = switch (selectedAction) {
                             ProductScreenActions.selectProduct =>
-                              ProductDetailsScreen(
-                                id: selectedProductId!,
-                              ),
+                              ProductDetailsScreen(id: selectedProductId!),
                             ProductScreenActions.duplicate => CopyProductScreen(
                                 selectedProductId: selectedProductId!,
                                 onCancel: () {
@@ -134,26 +164,20 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                                   });
                                 },
                               ),
-                            _ => Container(),
+                            _ => const SizedBox.shrink()
                           };
                           return child;
                         },
                       ),
                     ),
+                ],
+              ),
             ],
           ),
         );
       },
-      loading: () => Scaffold(
-        appBar: AppBar(title: const Text('PRODUCTS')),
-        body: const Center(child: CircularProgressIndicator()),
-      ),
-      error: (error, stack) {
-        return Scaffold(
-          appBar: AppBar(title: const Text('PRODUCTS')),
-          body: Center(child: Text("Error: $error")),
-        );
-      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stack) => Center(child: Text("Error: $error")),
     );
   }
 }

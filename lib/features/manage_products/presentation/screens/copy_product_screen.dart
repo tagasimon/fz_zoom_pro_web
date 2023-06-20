@@ -55,7 +55,7 @@ class _CopyProductScreenState extends ConsumerState<CopyProductScreen> {
               _varController.text = product.productVar;
               return Center(
                 child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.4,
+                  width: MediaQuery.sizeOf(context).width * 0.4,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -138,9 +138,7 @@ class _CopyProductScreenState extends ConsumerState<CopyProductScreen> {
                                           style: OutlinedButton.styleFrom(
                                             foregroundColor: Colors.red,
                                             minimumSize: Size(
-                                              MediaQuery.of(context)
-                                                      .size
-                                                      .width *
+                                              MediaQuery.sizeOf(context).width *
                                                   0.3,
                                               50,
                                             ),
@@ -156,7 +154,7 @@ class _CopyProductScreenState extends ConsumerState<CopyProductScreen> {
                                         child: ElevatedButton.icon(
                                           style: ElevatedButton.styleFrom(
                                               minimumSize: Size(
-                                            MediaQuery.of(context).size.width *
+                                            MediaQuery.sizeOf(context).width *
                                                 0.3,
                                             50,
                                           )),

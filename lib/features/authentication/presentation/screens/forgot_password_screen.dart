@@ -35,7 +35,7 @@ class ForgotPasswordScreen extends StatelessWidget {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     minimumSize:
-                        Size(100, MediaQuery.of(context).size.height * 0.05)),
+                        Size(100, MediaQuery.sizeOf(context).height * 0.05)),
                 onPressed: () {
                   // Perform password reset logic here
                 },

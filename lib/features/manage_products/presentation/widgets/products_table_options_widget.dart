@@ -13,7 +13,7 @@ class ProductsTableOptionsWidget extends StatelessWidget {
     return Row(
       children: [
         TableActionWidget(
-          title: "PRODUCT",
+          title: "Product",
           child: IconButton(
             onPressed: () =>
                 context.push(const AddProductScreen(), fullscreenDialog: true),
@@ -22,7 +22,7 @@ class ProductsTableOptionsWidget extends StatelessWidget {
         ),
         const VerticalDivider(),
         TableActionWidget(
-          title: "SUB CARTEGORY",
+          title: "Sub Cart",
           child: IconButton(
             onPressed: () => context.push(const AddSubCartegoryScreen(),
                 fullscreenDialog: true),
@@ -31,7 +31,7 @@ class ProductsTableOptionsWidget extends StatelessWidget {
         ),
         const VerticalDivider(),
         TableActionWidget(
-          title: "CARTEGORY",
+          title: "Cart",
           child: IconButton(
             onPressed: () => context.push(const AddProductCartegoryScreen(),
                 fullscreenDialog: true),

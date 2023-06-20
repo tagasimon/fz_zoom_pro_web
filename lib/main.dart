@@ -29,7 +29,7 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final deviceWidth = MediaQuery.of(context).size.width;
+    final deviceWidth = MediaQuery.sizeOf(context).width;
     return MaterialApp(
       title: 'Fz Pro',
       debugShowCheckedModeBanner: false,

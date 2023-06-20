@@ -7,7 +7,7 @@ class KpiWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.3,
+        width: MediaQuery.sizeOf(context).width * 0.3,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: DataTable(

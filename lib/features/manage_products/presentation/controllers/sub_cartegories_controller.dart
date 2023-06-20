@@ -32,4 +32,15 @@ class SubCartegoriesController extends StateNotifier<AsyncValue> {
 
     return state.hasError ? false : true;
   }
+
+  Future<bool> deleteSubCartegoryById(
+      {required String companyId, required String subCartid}) async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() {
+      final productCartRepo = SubCartegoryRepository(firestore);
+      return productCartRepo.deleteSubCartegoryId(
+          companyId: companyId, subCartId: subCartid);
+    });
+    return state.hasError ? false : true;
+  }
 }

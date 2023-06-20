@@ -71,4 +71,14 @@ class ProductsController extends StateNotifier<AsyncValue<void>> {
         () => productRepo.updateProduct(product: product));
     return state.hasError ? false : true;
   }
+
+  // delete Products
+  Future<bool> deleteProductById(
+      {required String companyId, required String productId}) async {
+    final productRepo = ProductRepository(firestore);
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() => productRepo.deleteProductById(
+        productId: productId, companyId: companyId));
+    return state.hasError ? false : true;
+  }
 }

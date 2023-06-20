@@ -1,5 +1,6 @@
 import 'package:field_zoom_pro_web/core/presentation/widgets/app_filter_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/company_title_widget.dart';
+import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/get_region_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/request_full_screen_widget.dart';
 import 'package:field_zoom_pro_web/features/users/presentation/widgets/users_table_actions_widget.dart';
@@ -28,7 +29,10 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const CompanyTitleWidget(),
-        actions: const [RequestFullScreenWidget()],
+        actions: const [
+          CustomSwitchWidget(),
+          RequestFullScreenWidget(),
+        ],
       ),
       body: niceTwoUsersProv.when(
         data: (data) {

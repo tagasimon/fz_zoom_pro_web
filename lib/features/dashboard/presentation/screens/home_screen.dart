@@ -1,6 +1,7 @@
 import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/app_filter_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/company_title_widget.dart';
+import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/nothing_found_animation.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/request_full_screen_widget.dart';
 import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/orders_map_widget.dart';
@@ -26,7 +27,10 @@ class HomeScreen extends ConsumerWidget {
         title: cUser?.companyId == null
             ? const Text("Home Screen")
             : const CompanyTitleWidget(),
-        actions: const [RequestFullScreenWidget()],
+        actions: const [
+          CustomSwitchWidget(),
+          RequestFullScreenWidget(),
+        ],
       ),
       body: dasboardProv.when(
         data: (data) {

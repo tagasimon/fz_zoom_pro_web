@@ -31,3 +31,12 @@ final productsCartegoriesControllerProvider =
   final firestore = ref.watch(firestoreInstanceProvider);
   return ProductCartegoriesController(firestore);
 });
+
+final numOfProductsInCartegoryProvider =
+    FutureProvider.family<int, String>((ref, cartId) async {
+  final companyId = ref.watch(filterNotifierProvider).loggedInuser!.companyId;
+
+  return ref
+      .watch(productsCartegoryProvider)
+      .numberOfProductsInCartegory(companyId: companyId, cartegoryId: cartId);
+});

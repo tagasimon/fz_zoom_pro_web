@@ -1,6 +1,7 @@
 import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/notifiers/product_filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/company_title_widget.dart';
+import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/request_full_screen_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/screens/copy_product_screen.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/alert_dialog_widget.dart';
@@ -84,7 +85,10 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
         return Scaffold(
           appBar: AppBar(
             title: const CompanyTitleWidget(),
-            actions: const [RequestFullScreenWidget()],
+            actions: const [
+              CustomSwitchWidget(),
+              RequestFullScreenWidget(),
+            ],
           ),
           body: Column(
             mainAxisAlignment: MainAxisAlignment.start,

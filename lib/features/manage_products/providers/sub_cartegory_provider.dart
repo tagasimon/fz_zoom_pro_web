@@ -57,3 +57,11 @@ final subCartegoriesControllerProvider =
   final firestore = ref.watch(firestoreInstanceProvider);
   return SubCartegoriesController(firestore);
 });
+
+final numOfProductsInSubCartegoryProvider =
+    FutureProvider.family<int, String>((ref, subCartId) async {
+  final companyId = ref.watch(filterNotifierProvider).loggedInuser!.companyId;
+
+  return ref.watch(productsSubCartegoryProvider).numberOfProductsInSubCartegory(
+      companyId: companyId, subCartId: subCartId);
+});

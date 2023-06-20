@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:field_zoom_pro_web/core/extensions/async_value_extensions.dart';
 import 'package:field_zoom_pro_web/core/presentation/controllers/upload_image_controller.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/company_title_widget.dart';
+import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/request_full_screen_widget.dart';
 import 'package:field_zoom_pro_web/features/authentication/providers/auth_provider.dart';
 import 'package:field_zoom_pro_web/features/setup/presentation/controllers/company_info_controller.dart';
@@ -68,7 +69,10 @@ class _CompanyHomeScreenState extends ConsumerState<CompanyHomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const CompanyTitleWidget(),
-        actions: const [RequestFullScreenWidget()],
+        actions: const [
+          CustomSwitchWidget(),
+          RequestFullScreenWidget(),
+        ],
       ),
       body: companyInfoProv.when(
         data: (company) {

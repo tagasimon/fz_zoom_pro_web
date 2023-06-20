@@ -1,5 +1,4 @@
 import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
-import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widget.dart';
 import 'package:field_zoom_pro_web/features/authentication/providers/user_provider.dart';
 import 'package:field_zoom_pro_web/features/customers/presentation/screens/customer_universe.dart';
 import 'package:field_zoom_pro_web/features/dashboard/presentation/screens/home_screen.dart';
@@ -43,7 +42,7 @@ class _NavigationRailWidgetState extends ConsumerState<NavigationRailWidget> {
               setState(() => _selectedIndex = index);
             },
             labelType: NavigationRailLabelType.none,
-            trailing: const CustomSwitchWidget(),
+            // trailing: const CustomSwitchWidget(),
             leading: Row(
               children: [
                 IconButton(

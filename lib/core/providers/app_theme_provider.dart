@@ -11,11 +11,12 @@ class AppThemeProvider extends StateNotifier<ThemeData> {
   AppThemeProvider() : super(_darkTheme);
 
   static final _lightTheme = ThemeData(
-      colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-      appBarTheme: const AppBarTheme(elevation: 0));
+    colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
+    appBarTheme: const AppBarTheme(elevation: 0, centerTitle: true),
+  );
 
   static final _darkTheme = ThemeData.dark().copyWith(
-    appBarTheme: const AppBarTheme(elevation: 0),
+    appBarTheme: const AppBarTheme(elevation: 0, centerTitle: true),
   );
 
   void toggleTheme() {

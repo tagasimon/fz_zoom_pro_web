@@ -1,6 +1,8 @@
 import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
+import 'package:field_zoom_pro_web/core/notifiers/product_filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/controllers/upload_image_controller.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/alert_dialog_widget.dart';
+import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/item_per_page_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/product_cartegory_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -73,13 +75,18 @@ class _AddSubCartegoryScreenState extends ConsumerState<AddSubCartegoryScreen> {
                       return PaginatedDataTable(
                         header: const Text('SUB CARTEGORIES'),
                         columns: const [
+                          DataColumn(label: Text('')),
                           DataColumn(label: Text('NAME')),
                           DataColumn(label: Text('CARTEGORY')),
                           DataColumn(label: Text('IMAGE')),
+                          DataColumn(label: Text('# OF PRODUCTS')),
                         ],
                         source: source,
                         showFirstLastButtons: true,
+                        rowsPerPage:
+                            ref.watch(productFilterNotifierProvider).itemCount,
                         actions: [
+                          if (selectedId == null) const ItemPerPageWidget(),
                           if (selectedId != null)
                             TextButton.icon(
                               style: TextButton.styleFrom(
@@ -260,6 +267,7 @@ class SubCartegoriesDataSourceModel extends DataTableSource {
   DataRow? getRow(int index) {
     return DataRow(
       cells: [
+        DataCell(Text('${index + 1}')),
         DataCell(Consumer(
           builder: (context, ref, child) {
             return TextButton.icon(
@@ -339,6 +347,17 @@ class SubCartegoriesDataSourceModel extends DataTableSource {
             );
           },
         )),
+        DataCell(
+          Consumer(builder: (context, ref, child) {
+            final numberOfProductsPrv =
+                ref.watch(numOfProductsInSubCartegoryProvider(data[index].id));
+            return numberOfProductsPrv.when(
+              data: (data) => Text(data.toString()),
+              loading: () => const CircularProgressIndicator(),
+              error: (e, s) => Text(e.toString()),
+            );
+          }),
+        ),
       ],
       selected: selectedId == data[index].id,
       onSelectChanged: (val) {

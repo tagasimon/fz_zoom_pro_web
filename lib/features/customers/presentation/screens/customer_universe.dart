@@ -1,15 +1,17 @@
-import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
+import 'package:field_zoom_pro_web/core/notifiers/session_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/app_filter_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widget.dart';
+import 'package:field_zoom_pro_web/core/presentation/widgets/get_region_widget.dart';
+import 'package:field_zoom_pro_web/core/presentation/widgets/get_route_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/nothing_found_animation.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/request_full_screen_widget.dart';
 import 'package:field_zoom_pro_web/core/providers/routes_provider.dart';
-import 'package:field_zoom_pro_web/features/customers/models/customer_data_source_model.dart';
 import 'package:field_zoom_pro_web/features/customers/presentation/widgets/customers_map_widget.dart';
 import 'package:field_zoom_pro_web/features/customers/providers/customer_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
+import 'package:intl/intl.dart';
 
 class CustomerUniverse extends ConsumerWidget {
   const CustomerUniverse({Key? key}) : super(key: key);
@@ -17,7 +19,7 @@ class CustomerUniverse extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final region = ref.watch(filterNotifierProvider).region;
+    final region = ref.watch(sessionNotifierProvider).region;
     final agentCustomersProv = ref.watch(customersProviderProvider);
     return agentCustomersProv.when(
       data: (customers) {
@@ -189,4 +191,49 @@ class CustomerUniverse extends ConsumerWidget {
       },
     );
   }
+}
+
+class CustomerDataSourceModel extends DataTableSource {
+  final List<CustomerModel> data;
+  final Set<CustomerModel> selectedCustomers;
+  final Function(CustomerModel customer) onSelected;
+
+  final dateFormat = DateFormat("dd/MM/yyyy");
+
+  CustomerDataSourceModel({
+    required this.data,
+    required this.selectedCustomers,
+    required this.onSelected,
+  });
+  @override
+  DataRow? getRow(int index) {
+    final number = index + 1;
+    return DataRow(
+      cells: [
+        DataCell(Text(number.toString())),
+        DataCell(Text(data[index].name)),
+        DataCell(Text(data[index].businessName)),
+        DataCell(Text(data[index].businessType)),
+        DataCell(GetRegionWidget(regionId: data[index].regionId)),
+        DataCell(GetRouteWidget(routeId: data[index].routeId)),
+        DataCell(Text(data[index].phoneNumber)),
+        DataCell(Text(data[index].district)),
+        DataCell(Text("${data[index].latitude} , ${data[index].longitude}")),
+        DataCell(Text(data[index].locationDescription)),
+      ],
+      selected: selectedCustomers.contains(data[index]),
+      onSelectChanged: (val) {
+        onSelected(data[index]);
+      },
+    );
+  }
+
+  @override
+  bool get isRowCountApproximate => false;
+
+  @override
+  int get rowCount => data.length;
+
+  @override
+  int get selectedRowCount => selectedCustomers.length;
 }

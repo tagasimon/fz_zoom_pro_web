@@ -5,8 +5,7 @@ import 'package:fz_hooks/fz_hooks.dart';
 
 final regionsControllerProvider =
     StateNotifierProvider.autoDispose<RegionsController, AsyncValue>((ref) {
-  final firestore = ref.watch(firestoreInstanceProvider);
-  return RegionsController(firestore);
+  return RegionsController(ref.watch(firestoreInstanceProvider));
 });
 
 class RegionsController extends StateNotifier<AsyncValue> {

@@ -1,4 +1,4 @@
-import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
+import 'package:field_zoom_pro_web/core/notifiers/session_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/app_filter_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/company_title_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widget.dart';
@@ -19,7 +19,7 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cUser = ref.watch(filterNotifierProvider).loggedInuser;
+    final cUser = ref.watch(sessionNotifierProvider).loggedInuser;
     final dasboardProv = ref.watch(dashboardProvider);
 
     return Scaffold(
@@ -40,8 +40,8 @@ class HomeScreen extends ConsumerWidget {
           List<OrderModel> ordersList = data[0] as List<OrderModel>;
           List<VisitModel> visitsList = data[1] as List<VisitModel>;
 
-          final regionId = ref.watch(filterNotifierProvider).region;
-          final userId = ref.watch(filterNotifierProvider).selectedUserId;
+          final regionId = ref.watch(sessionNotifierProvider).region;
+          final userId = ref.watch(sessionNotifierProvider).selectedUserId;
           if (regionId != null) {
             ordersList = ordersList
                 .where((element) => element.regionId == regionId)

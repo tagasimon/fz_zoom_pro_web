@@ -1,4 +1,4 @@
-import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
+import 'package:field_zoom_pro_web/core/notifiers/session_notifier.dart';
 import 'package:field_zoom_pro_web/features/users/providers/user_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,11 +17,11 @@ class SelectedUserFilterWidget extends ConsumerWidget {
             const SizedBox(width: 8),
             DropdownButton<String?>(
                 hint: const Text('Select User'),
-                value: ref.watch(filterNotifierProvider).selectedUserId,
+                value: ref.watch(sessionNotifierProvider).selectedUserId,
                 onChanged: (String? value) {
                   if (value == null) return;
                   ref
-                      .read(filterNotifierProvider.notifier)
+                      .read(sessionNotifierProvider.notifier)
                       .updateSelectedUser(selectedUserId: value);
                 },
                 items: usersList

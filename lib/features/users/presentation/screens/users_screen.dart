@@ -3,6 +3,7 @@ import 'package:field_zoom_pro_web/core/presentation/widgets/company_title_widge
 import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/get_region_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/request_full_screen_widget.dart';
+import 'package:field_zoom_pro_web/features/users/presentation/controllers/users_controller.dart';
 import 'package:field_zoom_pro_web/features/users/presentation/widgets/users_table_actions_widget.dart';
 import 'package:field_zoom_pro_web/features/users/providers/user_providers.dart';
 import 'package:flutter/material.dart';
@@ -23,9 +24,9 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
   @override
   Widget build(BuildContext context) {
     final niceTwoUsersProv = ref.watch(getUsersByCompanyAndRegionProvider);
-    final state = ref.watch(userNotifierProvider);
-    ref.listen(
-        userNotifierProvider, (_, state) => state.showSnackBarOnError(context));
+    final state = ref.watch(usersControllerProvider);
+    ref.listen(usersControllerProvider,
+        (_, state) => state.showSnackBarOnError(context));
     return Scaffold(
       appBar: AppBar(
         title: const CompanyTitleWidget(),
@@ -48,7 +49,7 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
             },
             onSwitchChanged: (val, id) async {
               await ref
-                  .read(userNotifierProvider.notifier)
+                  .read(usersControllerProvider.notifier)
                   .updateUserStatus(isActive: val, id: id);
             },
           );

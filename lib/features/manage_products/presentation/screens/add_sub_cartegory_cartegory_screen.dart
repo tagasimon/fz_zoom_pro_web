@@ -1,4 +1,4 @@
-import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
+import 'package:field_zoom_pro_web/core/notifiers/session_notifier.dart';
 import 'package:field_zoom_pro_web/core/notifiers/product_filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/controllers/upload_image_controller.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/alert_dialog_widget.dart';
@@ -101,7 +101,7 @@ class _AddSubCartegoryScreenState extends ConsumerState<AddSubCartegoryScreen> {
                                             'Are you sure you want to delete this Sub Cartegory, this action cannot be undone?'));
                                 if (confirm == null || !confirm) return;
                                 final companyId = ref
-                                    .read(filterNotifierProvider)
+                                    .read(sessionNotifierProvider)
                                     .loggedInuser!
                                     .companyId;
                                 final success = await ref
@@ -199,7 +199,7 @@ class _AddSubCartegoryScreenState extends ConsumerState<AddSubCartegoryScreen> {
                                                   .validate()) {
                                                 final companyId = ref
                                                     .read(
-                                                        filterNotifierProvider)
+                                                        sessionNotifierProvider)
                                                     .loggedInuser!
                                                     .companyId;
                                                 final subCartegory =
@@ -304,7 +304,7 @@ class SubCartegoriesDataSourceModel extends DataTableSource {
                     .read(subCartegoriesControllerProvider.notifier)
                     .updateSubProductCartegory(
                       companyId: ref
-                          .read(filterNotifierProvider)
+                          .read(sessionNotifierProvider)
                           .loggedInuser!
                           .companyId,
                       id: data[index].id,
@@ -327,7 +327,7 @@ class SubCartegoriesDataSourceModel extends DataTableSource {
               url: data[index].img!,
               onTap: () async {
                 final companyId =
-                    ref.watch(filterNotifierProvider).loggedInuser!.companyId;
+                    ref.watch(sessionNotifierProvider).loggedInuser!.companyId;
                 final String? downloadUrl = await ref
                     .read(uploadImageControllerProvider.notifier)
                     .getUserDownloadUrl("PRODUCT_IMAGES");

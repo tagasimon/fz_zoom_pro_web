@@ -1,4 +1,4 @@
-import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
+import 'package:field_zoom_pro_web/core/notifiers/session_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -11,7 +11,7 @@ class DateFilterWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final dateFormat = DateFormat("dd-MMMM-yyyy");
-    final filter = ref.watch(filterNotifierProvider);
+    final filter = ref.watch(sessionNotifierProvider);
     return TextButton.icon(
       style: TextButton.styleFrom(
         foregroundColor: Colors.white,
@@ -21,7 +21,7 @@ class DateFilterWidget extends ConsumerWidget {
           context: context,
           builder: (_) => DatePickerDialog(
             helpText: title ?? "",
-            initialDate: ref.read(filterNotifierProvider).startDate!,
+            initialDate: ref.read(sessionNotifierProvider).startDate!,
             firstDate: DateTime(2023),
             lastDate: DateTime(2030),
           ),
@@ -29,12 +29,12 @@ class DateFilterWidget extends ConsumerWidget {
         if (pDate == null) return;
         if (isStartDate) {
           ref
-              .read(filterNotifierProvider.notifier)
-              .updateFilter(startDate: pDate);
+              .read(sessionNotifierProvider.notifier)
+              .updateSession(startDate: pDate);
         } else {
           ref
-              .read(filterNotifierProvider.notifier)
-              .updateFilter(endDate: pDate);
+              .read(sessionNotifierProvider.notifier)
+              .updateSession(endDate: pDate);
         }
       },
       icon: const Icon(Icons.calendar_month),

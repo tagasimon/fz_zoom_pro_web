@@ -4,15 +4,14 @@ import 'package:fz_hooks/fz_hooks.dart';
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-class FilterModel {
+class SessionModel {
   final UserModel? loggedInuser;
   final String? selectedUserId;
-
   final String? region;
   final String? route;
   final DateTime? startDate;
   final DateTime? endDate;
-  FilterModel({
+  SessionModel({
     this.loggedInuser,
     this.selectedUserId,
     this.region,
@@ -21,7 +20,7 @@ class FilterModel {
     this.endDate,
   });
 
-  FilterModel copyWith({
+  SessionModel copyWith({
     UserModel? loggedInuser,
     String? selectedUserId,
     String? region,
@@ -29,7 +28,7 @@ class FilterModel {
     DateTime? startDate,
     DateTime? endDate,
   }) {
-    return FilterModel(
+    return SessionModel(
       loggedInuser: loggedInuser ?? this.loggedInuser,
       selectedUserId: selectedUserId ?? this.selectedUserId,
       region: region ?? this.region,
@@ -50,8 +49,8 @@ class FilterModel {
     };
   }
 
-  factory FilterModel.fromMap(Map<String, dynamic> map) {
-    return FilterModel(
+  factory SessionModel.fromMap(Map<String, dynamic> map) {
+    return SessionModel(
       loggedInuser: map['loggedInUser'] != null
           ? UserModel.fromMap(map['loggedInUser'] as Map<String, dynamic>)
           : null,
@@ -71,8 +70,8 @@ class FilterModel {
 
   String toJson() => json.encode(toMap());
 
-  factory FilterModel.fromJson(String source) =>
-      FilterModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory SessionModel.fromJson(String source) =>
+      SessionModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -80,7 +79,7 @@ class FilterModel {
   }
 
   @override
-  bool operator ==(covariant FilterModel other) {
+  bool operator ==(covariant SessionModel other) {
     if (identical(this, other)) return true;
 
     return other.loggedInuser == loggedInuser &&

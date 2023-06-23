@@ -1,4 +1,4 @@
-import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
+import 'package:field_zoom_pro_web/core/notifiers/session_notifier.dart';
 import 'package:field_zoom_pro_web/core/notifiers/product_filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/company_title_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widget.dart';
@@ -10,7 +10,7 @@ import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/product_sub_cartegory_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/products_filter_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/products_table_options_widget.dart';
-import 'package:field_zoom_pro_web/features/manage_products/providers/active_product_widget.dart';
+import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/active_product_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/providers/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -145,7 +145,7 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                                   if (confirm == null || !confirm) return;
 
                                   final user = ref
-                                      .read(filterNotifierProvider)
+                                      .read(sessionNotifierProvider)
                                       .loggedInuser;
                                   final success = await ref
                                       .read(productsControllerProvider.notifier)

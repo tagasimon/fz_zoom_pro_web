@@ -1,4 +1,4 @@
-import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
+import 'package:field_zoom_pro_web/core/notifiers/session_notifier.dart';
 import 'package:field_zoom_pro_web/core/notifiers/product_filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/controllers/upload_image_controller.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/circle_image_widget.dart';
@@ -107,7 +107,7 @@ class _AddProductCartegoryScreenState
                                               'Are you sure you want to delete this Sub Cartegory, this action cannot be undone?'));
                                   if (confirm == null || !confirm) return;
                                   final companyId = ref
-                                      .read(filterNotifierProvider)
+                                      .read(sessionNotifierProvider)
                                       .loggedInuser!
                                       .companyId;
                                   final success = await ref
@@ -173,7 +173,7 @@ class _AddProductCartegoryScreenState
                                       }
 
                                       final companyId = ref
-                                          .watch(filterNotifierProvider)
+                                          .watch(sessionNotifierProvider)
                                           .loggedInuser!
                                           .companyId;
                                       final pdtCartegory =
@@ -271,7 +271,7 @@ class CartegoriesDataSourceModel extends DataTableSource {
                       .read(productsCartegoriesControllerProvider.notifier)
                       .updateProductCartegory(
                         companyId: ref
-                            .read(filterNotifierProvider)
+                            .read(sessionNotifierProvider)
                             .loggedInuser!
                             .companyId,
                         id: data[index].id,
@@ -294,8 +294,10 @@ class CartegoriesDataSourceModel extends DataTableSource {
               return CircleImageWidget(
                 url: data[index].cartegoryImg,
                 onTap: () async {
-                  final companyId =
-                      ref.watch(filterNotifierProvider).loggedInuser!.companyId;
+                  final companyId = ref
+                      .watch(sessionNotifierProvider)
+                      .loggedInuser!
+                      .companyId;
                   final String? downloadUrl = await ref
                       .read(uploadImageControllerProvider.notifier)
                       .getUserDownloadUrl("PRODUCT_IMAGES");
@@ -327,7 +329,7 @@ class CartegoriesDataSourceModel extends DataTableSource {
                     .read(productsCartegoriesControllerProvider.notifier)
                     .updateProductCartegory(
                       companyId: ref
-                          .read(filterNotifierProvider)
+                          .read(sessionNotifierProvider)
                           .loggedInuser!
                           .companyId,
                       id: data[index].id,

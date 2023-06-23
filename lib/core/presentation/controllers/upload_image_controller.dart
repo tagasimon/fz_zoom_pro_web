@@ -6,8 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final uploadImageControllerProvider =
     StateNotifierProvider<UploadImageController, AsyncValue>((ref) {
-  final firebaseStorage = ref.watch(firebaseStorageProvider);
-  return UploadImageController(firebaseStorage);
+  return UploadImageController(ref.watch(firebaseStorageProvider));
 });
 
 class UploadImageController extends StateNotifier<AsyncValue> {

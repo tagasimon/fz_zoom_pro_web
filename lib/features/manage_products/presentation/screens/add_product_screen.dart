@@ -1,4 +1,4 @@
-import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
+import 'package:field_zoom_pro_web/core/notifiers/session_notifier.dart';
 import 'package:field_zoom_pro_web/features/manage_products/providers/product_cartegory_provider.dart';
 import 'package:field_zoom_pro_web/features/manage_products/providers/product_provider.dart';
 import 'package:field_zoom_pro_web/features/manage_products/providers/sub_cartegory_provider.dart';
@@ -198,7 +198,7 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
                                                     return;
                                                   }
                                                   final filter = ref.read(
-                                                      filterNotifierProvider);
+                                                      sessionNotifierProvider);
                                                   final nProduct = ProductModel(
                                                       id: DateHelpers
                                                           .dateTimeMillis(),

@@ -1,4 +1,4 @@
-import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
+import 'package:field_zoom_pro_web/core/notifiers/session_notifier.dart';
 import 'package:field_zoom_pro_web/features/manage_products/providers/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -132,7 +132,7 @@ class _CopyProductScreenState extends ConsumerState<CopyProductScreen> {
                                       return;
                                     }
                                     final filter =
-                                        ref.read(filterNotifierProvider);
+                                        ref.read(sessionNotifierProvider);
                                     final nProduct = ProductModel(
                                       id: DateHelpers.dateTimeMillis(),
                                       systemCode: _sysCodeController.text,

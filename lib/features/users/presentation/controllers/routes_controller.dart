@@ -5,8 +5,7 @@ import 'package:fz_hooks/fz_hooks.dart';
 
 final routesControllerProvider =
     StateNotifierProvider<RoutesController, AsyncValue>((ref) {
-  final firestore = ref.watch(firestoreInstanceProvider);
-  return RoutesController(firestore);
+  return RoutesController(ref.watch(firestoreInstanceProvider));
 });
 
 class RoutesController extends StateNotifier<AsyncValue> {

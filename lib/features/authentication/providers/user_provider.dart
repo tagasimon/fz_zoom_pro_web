@@ -3,13 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
 final userRepoProvider = Provider<UsersRepository>((ref) {
-  final firestore = ref.watch(firestoreInstanceProvider);
-  return UsersRepository(firestore);
+  return UsersRepository(ref.watch(firestoreInstanceProvider));
 });
 
 final userInfoProvider = StreamProvider.autoDispose<UserModel>((ref) {
-  final firebaseAuthProv = ref.watch(firebaseAuthProvider);
-  final uid = firebaseAuthProv.currentUser!.uid;
+  final uid = ref.watch(firebaseAuthProvider).currentUser!.uid;
   return ref.watch(userRepoProvider).watchUser(id: uid);
 });
 

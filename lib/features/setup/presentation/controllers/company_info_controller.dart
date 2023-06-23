@@ -5,8 +5,7 @@ import 'package:fz_hooks/fz_hooks.dart';
 
 final companyInfoControllerProvider =
     StateNotifierProvider<CompanyInfoController, AsyncValue>((ref) {
-  final firestore = ref.watch(firestoreInstanceProvider);
-  return CompanyInfoController(firestore);
+  return CompanyInfoController(ref.watch(firestoreInstanceProvider));
 });
 
 class CompanyInfoController extends StateNotifier<AsyncValue> {

@@ -4,7 +4,7 @@ import 'package:field_zoom_pro_web/core/presentation/controllers/upload_image_co
 import 'package:field_zoom_pro_web/core/presentation/widgets/company_title_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/request_full_screen_widget.dart';
-import 'package:field_zoom_pro_web/features/authentication/providers/auth_provider.dart';
+import 'package:field_zoom_pro_web/features/authentication/repositories/auth_repository.dart';
 import 'package:field_zoom_pro_web/features/setup/presentation/controllers/company_info_controller.dart';
 import 'package:field_zoom_pro_web/features/setup/repositories/company_info_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -396,9 +396,8 @@ class _CompanyHomeScreenState extends ConsumerState<CompanyHomeScreen> {
                         TextButton.icon(
                             style: TextButton.styleFrom(
                                 foregroundColor: Colors.red),
-                            onPressed: () {
-                              ref.read(authRepositoryProvider).signOut();
-                            },
+                            onPressed: () =>
+                                ref.read(authRepositoryProvider).signOut(),
                             icon: const Icon(Icons.logout),
                             label: const Text("Logout")),
                       ],

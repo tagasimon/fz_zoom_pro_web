@@ -1,6 +1,6 @@
 import 'package:field_zoom_pro_web/core/presentation/widgets/navigation_rail_widget.dart';
-import 'package:field_zoom_pro_web/features/authentication/providers/auth_provider.dart';
 import 'package:field_zoom_pro_web/features/authentication/presentation/screens/sign_in_screen.dart';
+import 'package:field_zoom_pro_web/features/authentication/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

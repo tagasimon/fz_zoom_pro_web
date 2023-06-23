@@ -1,4 +1,5 @@
-import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
+import 'package:field_zoom_pro_web/core/notifiers/session_notifier.dart';
+import 'package:field_zoom_pro_web/features/users/presentation/controllers/users_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,7 +7,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
 import 'package:field_zoom_pro_web/core/providers/regions_provider.dart';
-import 'package:field_zoom_pro_web/features/users/providers/user_providers.dart';
 
 class NewUserScreen extends ConsumerStatefulWidget {
   const NewUserScreen({Key? key}) : super(key: key);
@@ -25,7 +25,7 @@ class _NewUserScreenState extends ConsumerState<NewUserScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final admin = ref.watch(filterNotifierProvider).loggedInuser!;
+    final admin = ref.watch(sessionNotifierProvider).loggedInuser!;
     final regionsProv = ref.watch(companyRegionsProv);
     final usersControllerState = ref.watch(usersControllerProvider);
     ref.listen<AsyncValue>(usersControllerProvider,

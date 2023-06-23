@@ -1,6 +1,6 @@
-import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
+import 'package:field_zoom_pro_web/core/notifiers/session_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/company_title_widget.dart';
-import 'package:field_zoom_pro_web/features/authentication/providers/auth_provider.dart';
+import 'package:field_zoom_pro_web/features/authentication/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,7 +9,7 @@ class SettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cUser = ref.watch(filterNotifierProvider).loggedInuser;
+    final cUser = ref.watch(sessionNotifierProvider).loggedInuser;
 
     return Scaffold(
       appBar: AppBar(
@@ -19,9 +19,7 @@ class SettingsScreen extends ConsumerWidget {
       ),
       body: Center(
         child: TextButton.icon(
-            onPressed: () {
-              ref.read(authRepositoryProvider).signOut();
-            },
+            onPressed: () => ref.read(authRepositoryProvider).signOut(),
             icon: const Icon(Icons.logout),
             label: const Text("Logout")),
       ),

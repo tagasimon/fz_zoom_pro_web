@@ -1,8 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:field_zoom_pro_web/core/providers/firebase_providers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
+
+final usersControllerProvider =
+    StateNotifierProvider.autoDispose<UsersController, AsyncValue>((ref) {
+  return UsersController(ref.watch(firestoreInstanceProvider));
+});
 
 class UsersController extends StateNotifier<AsyncValue> {
   final FirebaseFirestore firestore;

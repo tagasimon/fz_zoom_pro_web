@@ -1,4 +1,4 @@
-import 'package:field_zoom_pro_web/core/notifiers/filter_notifier.dart';
+import 'package:field_zoom_pro_web/core/notifiers/session_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/get_region_widget.dart';
 import 'package:field_zoom_pro_web/core/providers/regions_provider.dart';
 import 'package:field_zoom_pro_web/features/users/presentation/controllers/routes_controller.dart';
@@ -138,7 +138,7 @@ class _NewRouteScreenState extends ConsumerState<NewRouteScreen> {
                                             return;
                                           }
                                           final companyId = ref
-                                              .read(filterNotifierProvider)
+                                              .read(sessionNotifierProvider)
                                               .loggedInuser!
                                               .companyId;
                                           if (_formKey.currentState!

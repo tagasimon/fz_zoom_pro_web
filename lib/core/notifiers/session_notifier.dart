@@ -1,22 +1,22 @@
-import 'package:field_zoom_pro_web/core/models/filter_model.dart';
+import 'package:field_zoom_pro_web/core/models/session_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
-final filterNotifierProvider =
-    StateNotifierProvider<FilterNotifier, FilterModel>((ref) {
-  return FilterNotifier();
+final sessionNotifierProvider =
+    StateNotifierProvider<SessionNotifier, SessionModel>((ref) {
+  return SessionNotifier();
 });
 
-class FilterNotifier extends StateNotifier<FilterModel> {
-  FilterNotifier()
+class SessionNotifier extends StateNotifier<SessionModel> {
+  SessionNotifier()
       : super(
-          FilterModel(
+          SessionModel(
               startDate: DateHelpers.startDateOfMonth(),
               endDate: DateHelpers.endOfTodayDate()),
         );
 
   void updateRegion({required String region}) {
-    state = FilterModel(
+    state = SessionModel(
       loggedInuser: state.loggedInuser,
       region: region,
       route: null,
@@ -27,7 +27,7 @@ class FilterNotifier extends StateNotifier<FilterModel> {
   }
 
   void updateRoute({required String route}) {
-    state = FilterModel(
+    state = SessionModel(
       loggedInuser: state.loggedInuser,
       region: state.region,
       route: route,
@@ -38,7 +38,7 @@ class FilterNotifier extends StateNotifier<FilterModel> {
   }
 
   void updateSelectedUser({required String selectedUserId}) {
-    state = FilterModel(
+    state = SessionModel(
       loggedInuser: state.loggedInuser,
       region: state.region,
       route: state.route,
@@ -48,7 +48,7 @@ class FilterNotifier extends StateNotifier<FilterModel> {
     );
   }
 
-  void updateFilter({
+  void updateSession({
     UserModel? loggedInUser,
     DateTime? startDate,
     DateTime? endDate,
@@ -61,8 +61,8 @@ class FilterNotifier extends StateNotifier<FilterModel> {
   }
 
   // reset filter
-  void resetFilter() {
-    state = FilterModel(
+  void resetSession() {
+    state = SessionModel(
       loggedInuser: state.loggedInuser,
       startDate: DateHelpers.startDateOfMonth(),
       endDate: DateHelpers.endOfTodayDate(),

@@ -43,7 +43,7 @@ class TopSalesPersonTable extends ConsumerWidget {
                 );
               }),
             ),
-            DataCell(Text(mFormat.format(entry.value))),
+            DataCell(SelectableText(mFormat.format(entry.value))),
           ]),
       ],
     );

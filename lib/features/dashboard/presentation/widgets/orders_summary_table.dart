@@ -40,11 +40,11 @@ class OrdersSummaryTable extends ConsumerWidget {
       rows: [
         DataRow(cells: [
           const DataCell(Text('TOTAL ORDERS')),
-          DataCell(Text('$totalOrders')),
+          DataCell(SelectableText('$totalOrders')),
         ]),
         DataRow(cells: [
           const DataCell(Text('PENDING ORDERS')),
-          DataCell(Text('$numPendingOrders')),
+          DataCell(SelectableText('$numPendingOrders')),
         ]),
         DataRow(cells: [
           const DataCell(Text('DELIVERED ORDERS')),
@@ -52,23 +52,23 @@ class OrdersSummaryTable extends ConsumerWidget {
         ]),
         DataRow(cells: [
           const DataCell(Text('CLOSED ORDERS')),
-          DataCell(Text('$numClosedOrders')),
+          DataCell(SelectableText('$numClosedOrders')),
         ]),
         DataRow(cells: [
           const DataCell(Text('CANCELLED ORDERS')),
-          DataCell(Text('$numCancelledOrders')),
+          DataCell(SelectableText('$numCancelledOrders')),
         ]),
         DataRow(cells: [
           const DataCell(Text('AVG ORDER VALUE')),
-          DataCell(Text(mFormat.format(avgOrderAmnt))),
+          DataCell(SelectableText(mFormat.format(avgOrderAmnt))),
         ]),
         DataRow(cells: [
           const DataCell(Text('MEDIAN ORDER VALUE')),
-          DataCell(Text(mFormat.format(medianOrderAmt))),
+          DataCell(SelectableText(mFormat.format(medianOrderAmt))),
         ]),
         DataRow(cells: [
           const DataCell(Text('TOTAL ORDERS')),
-          DataCell(Text(mFormat.format(totalOrderAmnt))),
+          DataCell(SelectableText(mFormat.format(totalOrderAmnt))),
         ]),
       ],
     );

@@ -116,10 +116,7 @@ class HomeScreen extends ConsumerWidget {
                           ],
                         ),
                       ),
-                      const VerticalDivider(
-                        thickness: 1,
-                        color: Colors.grey,
-                      ),
+                      const SizedBox(width: 5),
                       Expanded(
                         child: Column(
                           children: [

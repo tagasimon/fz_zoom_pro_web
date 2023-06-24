@@ -94,6 +94,7 @@ class HomeScreen extends ConsumerWidget {
                     ),
                   ),
                 if (visitsList.isNotEmpty)
+                  // MAPS ROW WIDGET
                   Row(
                     children: [
                       Expanded(
@@ -140,7 +141,8 @@ class HomeScreen extends ConsumerWidget {
                     ],
                   ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Column(
                       children: [
@@ -161,6 +163,7 @@ class HomeScreen extends ConsumerWidget {
                     if (ordersList.isEmpty) const SizedBox.shrink(),
                     if (ordersList.isNotEmpty)
                       Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Card(
                             child: SizedBox(
@@ -169,7 +172,7 @@ class HomeScreen extends ConsumerWidget {
                             ),
                           ),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.3,
+                            width: MediaQuery.of(context).size.width * 0.4,
                             height: 400,
                             child: SfPieChart(
                               chartData:
@@ -178,7 +181,6 @@ class HomeScreen extends ConsumerWidget {
                               title: 'TOP PRODUCTS',
                             ),
                           ),
-                          // const KpiWidget(),
                         ],
                       )
                   ],

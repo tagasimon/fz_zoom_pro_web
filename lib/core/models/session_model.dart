@@ -37,7 +37,7 @@ class SessionModel {
   factory SessionModel.fromMap(Map<String, dynamic> map) {
     return SessionModel(
       loggedInUser: map['loggedInUser'] != null
-          ? UserModel.fromMap(map['loggedInUser'] as Map<String, dynamic>)
+          ? UserModel.fromMap(map['loggedInUser'])
           : null,
       startDate: map['startDate'],
       endDate: map['endDate'],

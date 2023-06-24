@@ -4,9 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 import 'package:intl/intl.dart';
 
-class SalesBySalesPerson extends ConsumerWidget {
+class OrdersBySalesRep extends ConsumerWidget {
   final List<OrderModel> orders;
-  const SalesBySalesPerson({super.key, required this.orders});
+  const OrdersBySalesRep({super.key, required this.orders});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

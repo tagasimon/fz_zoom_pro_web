@@ -14,14 +14,11 @@ class UsersController extends StateNotifier<AsyncValue> {
   final FirebaseFirestore firestore;
   UsersController(this.firestore) : super(const AsyncData(null));
 
-  Future<bool> updateUserStatus({
-    required bool isActive,
-    required String id,
-  }) async {
+  Future<bool> updateUser({required UserModel user}) async {
     final userRepo = UsersRepository(firestore);
     state = const AsyncLoading();
     state = await AsyncValue.guard(
-        () => userRepo.updateUserStatus(isActive: isActive, id: id));
+        () => userRepo.updateUserByCompanyAndUserId(user: user));
     return state.hasError ? false : true;
   }
 

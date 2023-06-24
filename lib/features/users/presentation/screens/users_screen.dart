@@ -47,11 +47,6 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
               }
               setState(() => selectedUserId = null);
             },
-            onSwitchChanged: (val, id) async {
-              await ref
-                  .read(usersControllerProvider.notifier)
-                  .updateUserStatus(isActive: val, id: id);
-            },
           );
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -76,7 +71,9 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
                             DataColumn(label: Text("PHONE")),
                             DataColumn(label: Text("ROLE")),
                             DataColumn(label: Text("REGION")),
-                            DataColumn(label: Text("STATUS")),
+                            DataColumn(label: Text("IS ACTIVE")),
+                            DataColumn(label: Text("COLLECT MONEY")),
+                            DataColumn(label: Text("REQUIRE STOCK")),
                           ],
                           source: userData,
                           header: const Text("USERS"),
@@ -85,24 +82,7 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
                           showFirstLastButtons: true,
                           actions: const [
                             UsersTableActionsWidget(),
-                          ]
-                          // selectedUserId == null
-                          //     ? []
-                          //     : [
-                          //         TableActionWidget(
-                          //           title: "INSIGHTS",
-                          //           child: IconButton(
-                          //             onPressed: () {
-                          //               Fluttertoast.showToast(msg: "TODO");
-                          //             },
-                          //             icon: Icon(
-                          //               Icons.insights,
-                          //               color: Theme.of(context).primaryColorDark,
-                          //             ),
-                          //           ),
-                          //         ),
-                          //       ],
-                          ),
+                          ]),
                     ),
             ],
           );
@@ -124,13 +104,11 @@ class UsersDataSourceModel extends DataTableSource {
   final List<UserModel> data;
   final String? selectedUserId;
   final Function(String) onSelected;
-  final Function(bool, String) onSwitchChanged;
 
   UsersDataSourceModel({
     required this.data,
     required this.selectedUserId,
     required this.onSelected,
-    required this.onSwitchChanged,
   });
   @override
   DataRow? getRow(int index) {
@@ -141,20 +119,59 @@ class UsersDataSourceModel extends DataTableSource {
         DataCell(Text(data[index].email)),
         DataCell(SelectableText(data[index].phoneNumber)),
         DataCell(Text(data[index].role)),
-        DataCell(GetRegionWidget(regionId: data[index].regionId!)),
-        DataCell(
-          Switch(
-            value: data[index].isActive,
-            onChanged: (val) => onSwitchChanged(val, data[index].id),
-            activeColor: Colors.green,
-            inactiveThumbColor: Colors.red,
-          ),
-        ),
+        DataCell(GetRegionWidget(regionId: data[index].regionId)),
+        DataCell(Consumer(builder: (context, ref, _) {
+          final state = ref.watch(usersControllerProvider);
+          return state.isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : Switch(
+                  value: data[index].isActive,
+                  onChanged: (val) async {
+                    final nUser = data[index].copyWith(isActive: val);
+                    await ref
+                        .read(usersControllerProvider.notifier)
+                        .updateUser(user: nUser);
+                  },
+                  activeColor: Colors.green,
+                  inactiveThumbColor: Colors.red,
+                );
+        })),
+        DataCell(Consumer(builder: (context, ref, _) {
+          final state = ref.watch(usersControllerProvider);
+          return state.isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : Switch(
+                  value: data[index].isCollectionsRequired ?? true,
+                  onChanged: (val) async {
+                    final nUser =
+                        data[index].copyWith(isCollectionsRequired: val);
+                    await ref
+                        .read(usersControllerProvider.notifier)
+                        .updateUser(user: nUser);
+                  },
+                  activeColor: Colors.green,
+                  inactiveThumbColor: Colors.red,
+                );
+        })),
+        DataCell(Consumer(builder: (context, ref, _) {
+          final state = ref.watch(usersControllerProvider);
+          return state.isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : Switch(
+                  value: data[index].isStockRequired ?? true,
+                  onChanged: (val) async {
+                    final nUser = data[index].copyWith(isStockRequired: val);
+                    await ref
+                        .read(usersControllerProvider.notifier)
+                        .updateUser(user: nUser);
+                  },
+                  activeColor: Colors.green,
+                  inactiveThumbColor: Colors.red,
+                );
+        })),
       ],
       selected: selectedUserId == data[index].id,
-      onSelectChanged: (val) {
-        onSelected(data[index].id);
-      },
+      onSelectChanged: (val) => onSelected(data[index].id),
     );
   }
 

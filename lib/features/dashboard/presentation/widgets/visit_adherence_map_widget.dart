@@ -38,13 +38,12 @@ Widget visitAdherenceMapWidget({required List<VisitModel> visits}) {
           ..title = visits[r].customerId
           // ..label = r.toString()
           ..icon =
-              'https://firebasestorage.googleapis.com/v0/b/nhop-mw-assessment.appspot.com/o/FCMImages%2FnPin32.png?alt=media&token=0fd997b1-79c7-40d8-b210-fccc0534c1fd',
+              'https://firebasestorage.googleapis.com/v0/b/field-zoom.appspot.com/o/FIELD%20ZOOM%2Fred-flag.png?alt=media&token=bf7cdb22-2f0c-4f9d-b0f6-5ff9f526f5ca',
       );
     }
 
     for (var i = 0; i < markerOptionsList.length; i++) {
-      var contentString =
-          ''''
+      var contentString = ''''
           <div class="card">
             <div class="card-body">
                 <h5 class="card-title">${visits[i].customerId}</h5>

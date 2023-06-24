@@ -35,7 +35,7 @@ Widget customersMapWidget({required List<CustomerModel> customers}) {
           ..title = customers[r].businessName
           // ..label = r.toString()
           ..icon =
-              'https://firebasestorage.googleapis.com/v0/b/nhop-mw-assessment.appspot.com/o/FCMImages%2FnPin32.png?alt=media&token=0fd997b1-79c7-40d8-b210-fccc0534c1fd',
+              'https://firebasestorage.googleapis.com/v0/b/field-zoom.appspot.com/o/FIELD%20ZOOM%2Flocation.png?alt=media&token=aef90470-dccd-455b-a454-d505c59884da',
       );
     }
 

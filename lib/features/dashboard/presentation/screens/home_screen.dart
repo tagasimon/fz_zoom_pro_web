@@ -1,4 +1,9 @@
 import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/collections_by_sales_person.dart';
+import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/orders_by_person_table.dart';
+import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/orders_map_widget.dart';
+import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/orders_summary_table.dart';
+import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/visit_adherence_map_widget.dart';
+import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/visits_summary_table_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
@@ -10,11 +15,6 @@ import 'package:field_zoom_pro_web/core/presentation/widgets/company_title_widge
 import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/nothing_found_animation.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/request_full_screen_widget.dart';
-import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/orders_map_widget.dart';
-import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/orders_summary_table.dart';
-import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/sales_by_person_table.dart';
-import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/visit_adherence_map_widget.dart';
-import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/visits_summary_table_widget.dart';
 import 'package:field_zoom_pro_web/features/dashboard/providers/dashboard_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -24,7 +24,9 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cUser = ref.watch(sessionNotifierProvider).loggedInUser;
     final dasboardProv = ref.watch(dashboardProvider);
-
+    final regionId = ref.watch(quickfilterNotifierProvider).region;
+    final selectedUserId =
+        ref.watch(quickfilterNotifierProvider).selectedUserId;
     return Scaffold(
       appBar: AppBar(
         title: cUser?.companyId == null
@@ -44,9 +46,6 @@ class HomeScreen extends ConsumerWidget {
           List<VisitModel> visitsList = data[1] as List<VisitModel>;
           List<PayementModel> paymentsList = data[2] as List<PayementModel>;
 
-          final regionId = ref.watch(quickfilterNotifierProvider).region;
-          final selectedUserId =
-              ref.watch(quickfilterNotifierProvider).selectedUserId;
           if (regionId != null) {
             ordersList = ordersList
                 .where((element) => element.regionId == regionId)
@@ -99,67 +98,78 @@ class HomeScreen extends ConsumerWidget {
                 ),
                 const Divider(),
                 const SizedBox(height: 10),
-                if (visitsList.isEmpty)
-                  Center(
-                    child: Text(
-                      'No Visits Found',
-                      style: Theme.of(context).textTheme.labelLarge,
-                    ),
-                  ),
+
                 if (ordersList.isEmpty &&
                     visitsList.isEmpty &&
                     paymentsList.isEmpty)
                   const Center(child: NothingFoundAnimation()),
-                if (visitsList.isNotEmpty)
-                  // MAPS ROW WIDGET
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          children: [
-                            const Text(
-                              'Visits Map',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1.5,
-                              ),
+
+                // MAPS ROW WIDGET
+                Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        children: [
+                          const Text(
+                            'Visits Map',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.5,
                             ),
+                          ),
+                          if (visitsList.isNotEmpty)
                             SizedBox(
                               height: 400,
                               child:
                                   visitAdherenceMapWidget(visits: visitsList),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 5),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            const Text(
-                              'Orders Map',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1.5,
+                            )
+                          else
+                            Center(
+                              child: Text(
+                                'No Visits Found',
+                                style: Theme.of(context).textTheme.labelLarge,
                               ),
                             ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 5),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          const Text(
+                            'Orders Map',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.5,
+                            ),
+                          ),
+                          if (ordersList.isNotEmpty)
                             SizedBox(
                               height: 400,
                               child: ordersMapWidget(orders: ordersList),
+                            )
+                          else
+                            Center(
+                              child: Text(
+                                'No Orders Found',
+                                style: Theme.of(context).textTheme.labelLarge,
+                              ),
                             ),
-                          ],
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Column(
                       children: [
+                        const SizedBox(height: 10),
                         Text(
                           "ORDERS SUMMARY",
                           style: Theme.of(context).textTheme.labelLarge,
@@ -195,7 +205,7 @@ class HomeScreen extends ConsumerWidget {
                           Card(
                             child: SizedBox(
                               width: MediaQuery.of(context).size.width * 0.4,
-                              child: SalesBySalesPerson(orders: ordersList),
+                              child: OrdersBySalesRep(orders: ordersList),
                             ),
                           ),
                           Text(

@@ -1,3 +1,4 @@
+import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/collections_by_sales_person.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
@@ -11,7 +12,7 @@ import 'package:field_zoom_pro_web/core/presentation/widgets/nothing_found_anima
 import 'package:field_zoom_pro_web/core/presentation/widgets/request_full_screen_widget.dart';
 import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/orders_map_widget.dart';
 import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/orders_summary_table.dart';
-import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/top_sales_person_table.dart';
+import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/sales_by_person_table.dart';
 import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/visit_adherence_map_widget.dart';
 import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/visits_summary_table_widget.dart';
 import 'package:field_zoom_pro_web/features/dashboard/providers/dashboard_provider.dart';
@@ -41,6 +42,7 @@ class HomeScreen extends ConsumerWidget {
           }
           List<OrderModel> ordersList = data[0] as List<OrderModel>;
           List<VisitModel> visitsList = data[1] as List<VisitModel>;
+          List<PayementModel> paymentsList = data[2] as List<PayementModel>;
 
           final regionId = ref.watch(quickfilterNotifierProvider).region;
           final selectedUserId =
@@ -52,6 +54,9 @@ class HomeScreen extends ConsumerWidget {
             visitsList = visitsList
                 .where((element) => element.regionId == regionId)
                 .toList();
+            paymentsList = paymentsList
+                .where((element) => element.regionId == regionId)
+                .toList();
           }
           if (selectedUserId != null) {
             ordersList = ordersList
@@ -59,6 +64,9 @@ class HomeScreen extends ConsumerWidget {
                 .toList();
             visitsList = visitsList
                 .where((element) => element.userId == selectedUserId)
+                .toList();
+            paymentsList = paymentsList
+                .where((element) => element.regionId == selectedUserId)
                 .toList();
           }
           if (regionId != null && selectedUserId != null) {
@@ -71,6 +79,11 @@ class HomeScreen extends ConsumerWidget {
                 .where((element) =>
                     element.regionId == regionId &&
                     element.userId == selectedUserId)
+                .toList();
+            paymentsList = paymentsList
+                .where((element) =>
+                    element.regionId == regionId &&
+                    element.receivedBy == selectedUserId)
                 .toList();
           }
 
@@ -93,6 +106,10 @@ class HomeScreen extends ConsumerWidget {
                       style: Theme.of(context).textTheme.labelLarge,
                     ),
                   ),
+                if (ordersList.isEmpty &&
+                    visitsList.isEmpty &&
+                    paymentsList.isEmpty)
+                  const Center(child: NothingFoundAnimation()),
                 if (visitsList.isNotEmpty)
                   // MAPS ROW WIDGET
                   Row(
@@ -143,11 +160,19 @@ class HomeScreen extends ConsumerWidget {
                   children: [
                     Column(
                       children: [
+                        Text(
+                          "ORDERS SUMMARY",
+                          style: Theme.of(context).textTheme.labelLarge,
+                        ),
                         Card(
                           child: SizedBox(
                             width: MediaQuery.of(context).size.width * 0.4,
                             child: OrdersSummaryTable(orders: ordersList),
                           ),
+                        ),
+                        Text(
+                          "VISIT SUMMARY",
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
                         Card(
                           child: SizedBox(
@@ -162,10 +187,26 @@ class HomeScreen extends ConsumerWidget {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
+                          const SizedBox(height: 10),
+                          Text(
+                            "TOTAL ORDERS BY SALES PERSON",
+                            style: Theme.of(context).textTheme.labelLarge,
+                          ),
                           Card(
                             child: SizedBox(
                               width: MediaQuery.of(context).size.width * 0.4,
-                              child: TopSalesPersonTable(orders: ordersList),
+                              child: SalesBySalesPerson(orders: ordersList),
+                            ),
+                          ),
+                          Text(
+                            "COLLECTIONS BY SALES PERSON",
+                            style: Theme.of(context).textTheme.labelLarge,
+                          ),
+                          Card(
+                            child: SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              child: CollectionsBySalesPerson(
+                                  collections: paymentsList),
                             ),
                           ),
                           SizedBox(
@@ -187,7 +228,11 @@ class HomeScreen extends ConsumerWidget {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, s) => Center(child: Text(e.toString())),
+        error: (e, s) {
+          debugPrint(e.toString());
+          debugPrint(s.toString());
+          return null;
+        },
       ),
     );
   }

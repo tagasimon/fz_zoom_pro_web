@@ -11,24 +11,20 @@ class QuickFilterNotifier extends StateNotifier<QuickFilterModel> {
   void updateRegion({required String region}) {
     state = QuickFilterModel(
       region: region,
-      route: null,
+      // route: null,
       selectedUserId: null,
     );
   }
 
-  // void updateRoute({required String route}) {
-  //   state = QuickFilterModel(
-  //     region: state.region,
-  //     route: route,
-  //     selectedUserId: null,
-  //   );
-  // }
-
   void updateSelectedUser({required String selectedUserId}) {
     state = QuickFilterModel(
       region: state.region,
-      route: state.route,
+      // route: state.route,
       selectedUserId: selectedUserId,
     );
+  }
+
+  void resetQuickFilter() {
+    state = QuickFilterModel();
   }
 }

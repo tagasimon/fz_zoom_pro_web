@@ -4,12 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 import 'package:intl/intl.dart';
 
-class TopSalesPersonTable extends ConsumerWidget {
+class SalesBySalesPerson extends ConsumerWidget {
   final List<OrderModel> orders;
-  const TopSalesPersonTable({
-    super.key,
-    required this.orders,
-  });
+  const SalesBySalesPerson({super.key, required this.orders});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,7 +21,7 @@ class TopSalesPersonTable extends ConsumerWidget {
     return DataTable(
       showBottomBorder: true,
       columns: const [
-        DataColumn(label: Text('SALESMAN')),
+        DataColumn(label: Text('SALES REP')),
         DataColumn(label: Text('VALUE')),
       ],
       rows: [

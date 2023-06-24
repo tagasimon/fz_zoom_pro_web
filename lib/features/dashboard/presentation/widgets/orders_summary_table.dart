@@ -48,7 +48,7 @@ class OrdersSummaryTable extends ConsumerWidget {
         ]),
         DataRow(cells: [
           const DataCell(Text('DELIVERED ORDERS')),
-          DataCell(Text('$numDeliveredOrders')),
+          DataCell(SelectableText('$numDeliveredOrders')),
         ]),
         DataRow(cells: [
           const DataCell(Text('CLOSED ORDERS')),

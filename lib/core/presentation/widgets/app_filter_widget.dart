@@ -4,7 +4,6 @@ import 'package:field_zoom_pro_web/core/notifiers/quick_filter_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:field_zoom_pro_web/core/notifiers/session_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/date_filter_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/region_filter_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/selected_user_filter_widget.dart';
@@ -42,16 +41,15 @@ class AppFilterWidget extends ConsumerWidget {
           if (showRegionFilter) const VerticalDivider(),
           if (showSelectedUserFilter) const SelectedUserFilterWidget(),
           if (showSelectedUserFilter) const VerticalDivider(),
-          region == null || selectedUserId == null
-              ? const SizedBox.shrink()
-              : TextButton.icon(
-                  style:
-                      TextButton.styleFrom(foregroundColor: Colors.redAccent),
-                  onPressed: () =>
-                      ref.read(sessionNotifierProvider.notifier).resetSession(),
-                  label: const Text("Reset"),
-                  icon: const Icon(Icons.refresh),
-                )
+          if (region != null || selectedUserId != null)
+            TextButton.icon(
+              style: TextButton.styleFrom(foregroundColor: Colors.redAccent),
+              onPressed: () => ref
+                  .read(quickfilterNotifierProvider.notifier)
+                  .resetQuickFilter(),
+              label: const Text("Reset"),
+              icon: const Icon(Icons.refresh),
+            )
         ],
       ),
     );

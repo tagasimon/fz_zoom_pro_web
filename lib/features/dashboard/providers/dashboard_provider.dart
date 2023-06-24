@@ -15,6 +15,10 @@ final sellOutRepoProvider = Provider<OrdersRepository>((ref) {
   return OrdersRepository(ref.watch(firestoreInstanceProvider));
 });
 
+final payementsProvider = Provider<PaymentsRepository>((ref) {
+  return PaymentsRepository(ref.watch(firestoreInstanceProvider));
+});
+
 final dashboardProvider = FutureProvider.autoDispose<List<dynamic>>((ref) {
   final filter = ref.watch(sessionNotifierProvider);
   if (filter.loggedInUser == null) return Future.value([]);
@@ -27,5 +31,9 @@ final dashboardProvider = FutureProvider.autoDispose<List<dynamic>>((ref) {
         companyId: filter.loggedInUser!.companyId,
         startDate: filter.startDate,
         endDate: filter.endDate),
+    ref.watch(payementsProvider).getAllCompanyCollections(
+        companyId: filter.loggedInUser!.companyId,
+        startDate: filter.startDate,
+        endDate: filter.endDate)
   ]);
 });

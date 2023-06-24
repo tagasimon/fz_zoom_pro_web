@@ -92,7 +92,7 @@ class _NewRegionScreenState extends ConsumerState<NewRegionScreen> {
                                   : () async {
                                       final companyId = ref
                                           .read(sessionNotifierProvider)
-                                          .loggedInuser!
+                                          .loggedInUser!
                                           .companyId;
                                       if (_formKey.currentState!.validate()) {
                                         final region = RegionModel(

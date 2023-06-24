@@ -9,7 +9,7 @@ class SettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cUser = ref.watch(sessionNotifierProvider).loggedInuser;
+    final cUser = ref.watch(sessionNotifierProvider).loggedInUser;
 
     return Scaffold(
       appBar: AppBar(

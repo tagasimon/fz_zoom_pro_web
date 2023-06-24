@@ -8,7 +8,7 @@ final regionsProvider = Provider<RegionsRepository>((ref) {
 });
 
 final allRegionProvider = FutureProvider<List<RegionModel>>((ref) async {
-  final user = ref.watch(sessionNotifierProvider).loggedInuser!;
+  final user = ref.watch(sessionNotifierProvider).loggedInUser!;
   return ref
       .watch(regionsProvider)
       .getAllCompanyRegionsFuture(companyId: user.companyId);
@@ -16,19 +16,19 @@ final allRegionProvider = FutureProvider<List<RegionModel>>((ref) async {
 
 final getRegionByCompanyIdProvider =
     FutureProvider.family<RegionModel, String>((ref, regionId) async {
-  final user = ref.watch(sessionNotifierProvider).loggedInuser!;
+  final user = ref.watch(sessionNotifierProvider).loggedInUser!;
   return ref.watch(regionsProvider).getRegionByCompanyIdAndRegionId(
       companyId: user.companyId, regionId: regionId);
 });
 
 final companyRegionsProv = StreamProvider.autoDispose<List<RegionModel>>((ref) {
-  final companyId = ref.watch(sessionNotifierProvider).loggedInuser!.companyId;
+  final companyId = ref.watch(sessionNotifierProvider).loggedInUser!.companyId;
   return ref.watch(regionsProvider).getAllCompanyRegions(companyId: companyId);
 });
 
 final getRegionByCompanyIdAndRouteIdProvider =
     FutureProvider.family.autoDispose<RegionModel, String>((ref, id) {
-  final companyId = ref.watch(sessionNotifierProvider).loggedInuser!.companyId;
+  final companyId = ref.watch(sessionNotifierProvider).loggedInUser!.companyId;
   return ref
       .watch(regionsProvider)
       .getRegionByCompanyIdAndRegionId(companyId: companyId, regionId: id);

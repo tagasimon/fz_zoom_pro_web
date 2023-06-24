@@ -1,4 +1,4 @@
-import 'package:field_zoom_pro_web/core/notifiers/session_notifier.dart';
+import 'package:field_zoom_pro_web/core/notifiers/quick_filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/app_filter_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/get_region_widget.dart';
@@ -19,7 +19,7 @@ class CustomerUniverse extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final region = ref.watch(sessionNotifierProvider).region;
+    final region = ref.watch(quickfilterNotifierProvider).region;
     final agentCustomersProv = ref.watch(customersProviderProvider);
     return agentCustomersProv.when(
       data: (customers) {
@@ -53,9 +53,6 @@ class CustomerUniverse extends ConsumerWidget {
                   showStartDateFilter: false,
                 ),
                 const Divider(),
-                const SizedBox(
-                  height: 20,
-                ),
                 if (customers.isEmpty)
                   const Center(
                     child: NothingFoundAnimation(
@@ -129,9 +126,8 @@ class CustomerUniverse extends ConsumerWidget {
                                 ),
                                 Expanded(
                                   child: SfDonutChart(
-                                    chartData: customersPerDistrictChartData,
-                                    title: 'DISTRICTS',
-                                  ),
+                                      chartData: customersPerDistrictChartData,
+                                      title: 'DISTRICTS'),
                                 ),
                               ],
                             ),

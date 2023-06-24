@@ -21,7 +21,7 @@ class DateFilterWidget extends ConsumerWidget {
           context: context,
           builder: (_) => DatePickerDialog(
             helpText: title ?? "",
-            initialDate: ref.read(sessionNotifierProvider).startDate!,
+            initialDate: ref.read(sessionNotifierProvider).startDate,
             firstDate: DateTime(2023),
             lastDate: DateTime(2030),
           ),
@@ -39,8 +39,8 @@ class DateFilterWidget extends ConsumerWidget {
       },
       icon: const Icon(Icons.calendar_month),
       label: isStartDate
-          ? Text("FROM : ${dateFormat.format(filter.startDate!)}")
-          : Text("TO : ${dateFormat.format(filter.endDate!)}"),
+          ? Text("FROM : ${dateFormat.format(filter.startDate)}")
+          : Text("TO : ${dateFormat.format(filter.endDate)}"),
     );
   }
 }

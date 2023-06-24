@@ -102,7 +102,7 @@ class _AddSubCartegoryScreenState extends ConsumerState<AddSubCartegoryScreen> {
                                 if (confirm == null || !confirm) return;
                                 final companyId = ref
                                     .read(sessionNotifierProvider)
-                                    .loggedInuser!
+                                    .loggedInUser!
                                     .companyId;
                                 final success = await ref
                                     .read(subCartegoriesControllerProvider
@@ -200,7 +200,7 @@ class _AddSubCartegoryScreenState extends ConsumerState<AddSubCartegoryScreen> {
                                                 final companyId = ref
                                                     .read(
                                                         sessionNotifierProvider)
-                                                    .loggedInuser!
+                                                    .loggedInUser!
                                                     .companyId;
                                                 final subCartegory =
                                                     SubCartegoryModel(
@@ -305,7 +305,7 @@ class SubCartegoriesDataSourceModel extends DataTableSource {
                     .updateSubProductCartegory(
                       companyId: ref
                           .read(sessionNotifierProvider)
-                          .loggedInuser!
+                          .loggedInUser!
                           .companyId,
                       id: data[index].id,
                       subCartegoryModel: data[index]
@@ -327,7 +327,7 @@ class SubCartegoriesDataSourceModel extends DataTableSource {
               url: data[index].img!,
               onTap: () async {
                 final companyId =
-                    ref.watch(sessionNotifierProvider).loggedInuser!.companyId;
+                    ref.watch(sessionNotifierProvider).loggedInUser!.companyId;
                 final String? downloadUrl = await ref
                     .read(uploadImageControllerProvider.notifier)
                     .getUserDownloadUrl("PRODUCT_IMAGES");

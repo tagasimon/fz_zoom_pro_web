@@ -63,7 +63,6 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
                 showEndDateFilter: false,
               ),
               const Divider(),
-              const SizedBox(height: 10),
               if (state.isLoading) const LinearProgressIndicator(),
               data.isEmpty
                   ? const Center(child: Text("No users found"))

@@ -8,7 +8,7 @@ final regionsRepoProvider = Provider<RegionsRepository>((ref) {
 });
 
 final companyRegionsProvider = StreamProvider<List<RegionModel>>((ref) {
-  final companyId = ref.watch(sessionNotifierProvider).loggedInuser!.companyId;
+  final companyId = ref.watch(sessionNotifierProvider).loggedInUser!.companyId;
   return ref
       .watch(regionsRepoProvider)
       .getAllCompanyRegions(companyId: companyId);

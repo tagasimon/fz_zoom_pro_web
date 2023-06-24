@@ -10,7 +10,7 @@ final productsCartegoryProvider = Provider<CartegoryRepository>((ref) {
 
 final watchProductsCartegoriesProvider =
     StreamProvider<List<ProductCartegoryModel>>((ref) {
-  final companyId = ref.watch(sessionNotifierProvider).loggedInuser!.companyId;
+  final companyId = ref.watch(sessionNotifierProvider).loggedInUser!.companyId;
   return ref
       .watch(productsCartegoryProvider)
       .watchProductCatergories(companyId: companyId);
@@ -18,7 +18,7 @@ final watchProductsCartegoriesProvider =
 
 final productCartegoryByIdProvider =
     FutureProvider.family.autoDispose<ProductCartegoryModel, String>((ref, id) {
-  final companyId = ref.watch(sessionNotifierProvider).loggedInuser!.companyId;
+  final companyId = ref.watch(sessionNotifierProvider).loggedInUser!.companyId;
   return ref
       .watch(productsCartegoryProvider)
       .getProductCartegoryById(id: id, companyId: companyId);
@@ -31,7 +31,7 @@ final productsCartegoriesControllerProvider =
 
 final numOfProductsInCartegoryProvider =
     FutureProvider.family<int, String>((ref, cartId) async {
-  final companyId = ref.watch(sessionNotifierProvider).loggedInuser!.companyId;
+  final companyId = ref.watch(sessionNotifierProvider).loggedInUser!.companyId;
 
   return ref
       .watch(productsCartegoryProvider)

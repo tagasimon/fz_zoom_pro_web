@@ -9,44 +9,9 @@ final sessionNotifierProvider =
 
 class SessionNotifier extends StateNotifier<SessionModel> {
   SessionNotifier()
-      : super(
-          SessionModel(
-              startDate: DateHelpers.startDateOfMonth(),
-              endDate: DateHelpers.endOfTodayDate()),
-        );
-
-  void updateRegion({required String region}) {
-    state = SessionModel(
-      loggedInuser: state.loggedInuser,
-      region: region,
-      route: null,
-      selectedUserId: null,
-      startDate: state.startDate,
-      endDate: state.endDate,
-    );
-  }
-
-  void updateRoute({required String route}) {
-    state = SessionModel(
-      loggedInuser: state.loggedInuser,
-      region: state.region,
-      route: route,
-      selectedUserId: null,
-      startDate: state.startDate,
-      endDate: state.endDate,
-    );
-  }
-
-  void updateSelectedUser({required String selectedUserId}) {
-    state = SessionModel(
-      loggedInuser: state.loggedInuser,
-      region: state.region,
-      route: state.route,
-      selectedUserId: selectedUserId,
-      startDate: state.startDate,
-      endDate: state.endDate,
-    );
-  }
+      : super(SessionModel(
+            startDate: DateHelpers.startOfTheWeekDate(),
+            endDate: DateHelpers.endOfTodayDate()));
 
   void updateSession({
     UserModel? loggedInUser,
@@ -54,7 +19,7 @@ class SessionNotifier extends StateNotifier<SessionModel> {
     DateTime? endDate,
   }) {
     state = state.copyWith(
-      loggedInuser: loggedInUser,
+      loggedInUser: loggedInUser,
       startDate: startDate,
       endDate: endDate,
     );
@@ -63,7 +28,7 @@ class SessionNotifier extends StateNotifier<SessionModel> {
   // reset filter
   void resetSession() {
     state = SessionModel(
-      loggedInuser: state.loggedInuser,
+      loggedInUser: state.loggedInUser,
       startDate: DateHelpers.startDateOfMonth(),
       endDate: DateHelpers.endOfTodayDate(),
     );

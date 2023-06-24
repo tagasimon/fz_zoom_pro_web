@@ -9,7 +9,7 @@ final routesRepoProvider = Provider<RoutesRepository>((ref) {
 
 final routeByIdProvider =
     FutureProvider.family<RouteModel, String>((ref, routeId) async {
-  final companyId = ref.watch(sessionNotifierProvider).loggedInuser!.companyId;
+  final companyId = ref.watch(sessionNotifierProvider).loggedInUser!.companyId;
   return ref
       .read(routesRepoProvider)
       .getRouteByCompanyIdAndRouteId(companyId: companyId, routeId: routeId);

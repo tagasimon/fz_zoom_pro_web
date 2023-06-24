@@ -5,34 +5,22 @@ import 'package:fz_hooks/fz_hooks.dart';
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 class SessionModel {
-  final UserModel? loggedInuser;
-  final String? selectedUserId;
-  final String? region;
-  final String? route;
-  final DateTime? startDate;
-  final DateTime? endDate;
+  final UserModel? loggedInUser;
+  final DateTime startDate;
+  final DateTime endDate;
   SessionModel({
-    this.loggedInuser,
-    this.selectedUserId,
-    this.region,
-    this.route,
-    this.startDate,
-    this.endDate,
+    this.loggedInUser,
+    required this.startDate,
+    required this.endDate,
   });
 
   SessionModel copyWith({
-    UserModel? loggedInuser,
-    String? selectedUserId,
-    String? region,
-    String? route,
+    UserModel? loggedInUser,
     DateTime? startDate,
     DateTime? endDate,
   }) {
     return SessionModel(
-      loggedInuser: loggedInuser ?? this.loggedInuser,
-      selectedUserId: selectedUserId ?? this.selectedUserId,
-      region: region ?? this.region,
-      route: route ?? this.route,
+      loggedInUser: loggedInUser ?? this.loggedInUser,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
     );
@@ -40,31 +28,19 @@ class SessionModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'loggedInuser': loggedInuser?.toMap(),
-      'selectedUserId': selectedUserId,
-      'region': region,
-      'route': route,
-      'startDate': startDate?.millisecondsSinceEpoch,
-      'endDate': endDate?.millisecondsSinceEpoch,
+      'loggedInUser': loggedInUser?.toMap(),
+      'startDate': startDate.millisecondsSinceEpoch,
+      'endDate': endDate.millisecondsSinceEpoch,
     };
   }
 
   factory SessionModel.fromMap(Map<String, dynamic> map) {
     return SessionModel(
-      loggedInuser: map['loggedInUser'] != null
+      loggedInUser: map['loggedInUser'] != null
           ? UserModel.fromMap(map['loggedInUser'] as Map<String, dynamic>)
           : null,
-      selectedUserId: map['selectedUserId'] != null
-          ? map['selectedUserId'] as String
-          : null,
-      region: map['region'] != null ? map['region'] as String : null,
-      route: map['route'] != null ? map['route'] as String : null,
-      startDate: map['startDate'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['startDate'] as int)
-          : null,
-      endDate: map['endDate'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['endDate'] as int)
-          : null,
+      startDate: map['startDate'],
+      endDate: map['endDate'],
     );
   }
 
@@ -74,28 +50,19 @@ class SessionModel {
       SessionModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() {
-    return 'FilterModel(loggedInUser: $loggedInuser,selectedUserId: $selectedUserId, region: $region, route: $route, startDate: $startDate, endDate: $endDate)';
-  }
+  String toString() =>
+      'SessionModel(loggedInUser: $loggedInUser, startDate: $startDate, endDate: $endDate)';
 
   @override
   bool operator ==(covariant SessionModel other) {
     if (identical(this, other)) return true;
 
-    return other.loggedInuser == loggedInuser &&
-        other.selectedUserId == selectedUserId &&
-        other.region == region &&
-        other.route == route &&
+    return other.loggedInUser == loggedInUser &&
         other.startDate == startDate &&
         other.endDate == endDate;
   }
 
   @override
-  int get hashCode {
-    return loggedInuser.hashCode ^
-        region.hashCode ^
-        route.hashCode ^
-        startDate.hashCode ^
-        endDate.hashCode;
-  }
+  int get hashCode =>
+      loggedInUser.hashCode ^ startDate.hashCode ^ endDate.hashCode;
 }

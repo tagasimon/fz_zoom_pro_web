@@ -9,7 +9,7 @@ final productsRepoProvider = Provider<ProductRepository>((ref) {
 });
 
 final watchProductsProvider = StreamProvider<List<ProductModel>>((ref) {
-  final companyId = ref.watch(sessionNotifierProvider).loggedInuser!.companyId;
+  final companyId = ref.watch(sessionNotifierProvider).loggedInUser!.companyId;
   return ref
       .watch(productsRepoProvider)
       .watchProductsStream(companyId: companyId);

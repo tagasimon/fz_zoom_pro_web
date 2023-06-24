@@ -9,7 +9,7 @@ final companyInfoRepositoryProvider = Provider<CompanyInfoRepository>((ref) {
 
 final companyInfoStreamProvider =
     StreamProvider.autoDispose<CompanyModel>((ref) {
-  final companyId = ref.watch(sessionNotifierProvider).loggedInuser!.companyId;
+  final companyId = ref.watch(sessionNotifierProvider).loggedInUser!.companyId;
   return ref
       .watch(companyInfoRepositoryProvider)
       .getCompanyInfo(companyId: companyId);

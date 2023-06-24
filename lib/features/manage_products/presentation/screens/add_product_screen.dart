@@ -208,7 +208,7 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
                                                       name:
                                                           _nameController.text,
                                                       companyId: filter
-                                                          .loggedInuser!
+                                                          .loggedInUser!
                                                           .companyId,
                                                       cartegoryId:
                                                           selectedCartegory!.id,
@@ -224,7 +224,7 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
                                                           _varController.text,
                                                       createdAt: DateTime.now(),
                                                       addedBy: filter
-                                                          .loggedInuser!.id);
+                                                          .loggedInUser!.id);
                                                   final success = await ref
                                                       .watch(
                                                           productsControllerProvider

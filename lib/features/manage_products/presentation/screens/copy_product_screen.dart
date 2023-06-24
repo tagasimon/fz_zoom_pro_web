@@ -137,7 +137,7 @@ class _CopyProductScreenState extends ConsumerState<CopyProductScreen> {
                                       id: DateHelpers.dateTimeMillis(),
                                       systemCode: _sysCodeController.text,
                                       name: _nameController.text,
-                                      companyId: filter.loggedInuser!.companyId,
+                                      companyId: filter.loggedInUser!.companyId,
                                       cartegoryId: product.cartegoryId,
                                       subCartegoryId: product.subCartegoryId,
                                       sellingPrice:
@@ -146,7 +146,7 @@ class _CopyProductScreenState extends ConsumerState<CopyProductScreen> {
                                       productVar: _varController.text,
                                       productImg: product.productImg,
                                       createdAt: DateTime.now(),
-                                      addedBy: filter.loggedInuser!.id,
+                                      addedBy: filter.loggedInUser!.id,
                                     );
                                     final success = await ref
                                         .watch(

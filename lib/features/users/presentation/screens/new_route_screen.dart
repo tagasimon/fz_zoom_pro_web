@@ -139,7 +139,7 @@ class _NewRouteScreenState extends ConsumerState<NewRouteScreen> {
                                           }
                                           final companyId = ref
                                               .read(sessionNotifierProvider)
-                                              .loggedInuser!
+                                              .loggedInUser!
                                               .companyId;
                                           if (_formKey.currentState!
                                               .validate()) {

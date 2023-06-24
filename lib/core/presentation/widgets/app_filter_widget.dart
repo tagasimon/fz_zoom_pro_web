@@ -1,11 +1,13 @@
 // ignore: avoid_web_libraries_in_flutter
 
+import 'package:field_zoom_pro_web/core/notifiers/quick_filter_notifier.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:field_zoom_pro_web/core/notifiers/session_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/date_filter_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/region_filter_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/selected_user_filter_widget.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AppFilterWidget extends ConsumerWidget {
   final bool showRegionFilter;
@@ -24,8 +26,9 @@ class AppFilterWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final region = ref.watch(sessionNotifierProvider).region;
-    final selectedUserId = ref.watch(sessionNotifierProvider).selectedUserId;
+    final region = ref.watch(quickfilterNotifierProvider).region;
+    final selectedUserId =
+        ref.watch(quickfilterNotifierProvider).selectedUserId;
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(

@@ -8,7 +8,7 @@ final companyProvider = Provider<CompanyInfoRepository>((ref) {
 });
 
 final companyInfoProvider = StreamProvider<CompanyModel>((ref) {
-  final user = ref.watch(sessionNotifierProvider).loggedInuser;
+  final user = ref.watch(sessionNotifierProvider).loggedInUser;
   if (user == null) {
     return const Stream.empty();
   }

@@ -17,15 +17,15 @@ final sellOutRepoProvider = Provider<OrdersRepository>((ref) {
 
 final dashboardProvider = FutureProvider.autoDispose<List<dynamic>>((ref) {
   final filter = ref.watch(sessionNotifierProvider);
-  if (filter.loggedInuser == null) return Future.value([]);
+  if (filter.loggedInUser == null) return Future.value([]);
   return Future.wait([
     ref.watch(sellOutRepoProvider).nGetAllCompanyOrders(
-        companyId: filter.loggedInuser!.companyId,
-        startDate: filter.startDate!,
-        endDate: filter.endDate!),
+        companyId: filter.loggedInUser!.companyId,
+        startDate: filter.startDate,
+        endDate: filter.endDate),
     ref.watch(visitAdherenceProvider).nGetAllCompanyVisits(
-        companyId: filter.loggedInuser!.companyId,
-        startDate: filter.startDate!,
-        endDate: filter.endDate!),
+        companyId: filter.loggedInUser!.companyId,
+        startDate: filter.startDate,
+        endDate: filter.endDate),
   ]);
 });

@@ -10,7 +10,7 @@ final productsSubCartegoryProvider = Provider<SubCartegoryRepository>((ref) {
 
 final allSubCartegoriesProvider =
     FutureProvider.autoDispose<List<SubCartegoryModel>>((ref) async {
-  final companyId = ref.watch(sessionNotifierProvider).loggedInuser!.companyId;
+  final companyId = ref.watch(sessionNotifierProvider).loggedInUser!.companyId;
   return ref
       .watch(productsSubCartegoryProvider)
       .allSubCartegories(companyId: companyId);
@@ -18,7 +18,7 @@ final allSubCartegoriesProvider =
 
 final watchSubCartegoriesProvider =
     StreamProvider.autoDispose<List<SubCartegoryModel>>((ref) {
-  final companyId = ref.watch(sessionNotifierProvider).loggedInuser!.companyId;
+  final companyId = ref.watch(sessionNotifierProvider).loggedInUser!.companyId;
   return ref
       .watch(productsSubCartegoryProvider)
       .watchAllSubCartegories(companyId: companyId);
@@ -26,7 +26,7 @@ final watchSubCartegoriesProvider =
 
 final watchSubCartegoriesByCartegoryIdProvider = StreamProvider.autoDispose
     .family<List<SubCartegoryModel>, String>((ref, cartegoryId) {
-  final companyId = ref.watch(sessionNotifierProvider).loggedInuser!.companyId;
+  final companyId = ref.watch(sessionNotifierProvider).loggedInUser!.companyId;
   return ref
       .watch(productsSubCartegoryProvider)
       .watchSubCartegoriesByCartegoryId(
@@ -35,7 +35,7 @@ final watchSubCartegoriesByCartegoryIdProvider = StreamProvider.autoDispose
 
 final subCartegoryByIdProvider = FutureProvider.autoDispose
     .family<SubCartegoryModel, String>((ref, subCartegoryId) {
-  final companyId = ref.watch(sessionNotifierProvider).loggedInuser!.companyId;
+  final companyId = ref.watch(sessionNotifierProvider).loggedInUser!.companyId;
   return ref
       .watch(productsSubCartegoryProvider)
       .getSubCartegoryByIdAndCartegoryId(
@@ -50,7 +50,7 @@ final subCartegoriesControllerProvider =
 
 final numOfProductsInSubCartegoryProvider =
     FutureProvider.family<int, String>((ref, subCartId) async {
-  final companyId = ref.watch(sessionNotifierProvider).loggedInuser!.companyId;
+  final companyId = ref.watch(sessionNotifierProvider).loggedInUser!.companyId;
 
   return ref.watch(productsSubCartegoryProvider).numberOfProductsInSubCartegory(
       companyId: companyId, subCartId: subCartId);

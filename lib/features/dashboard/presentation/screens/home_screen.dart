@@ -1,3 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fz_hooks/fz_hooks.dart';
+
+import 'package:field_zoom_pro_web/core/notifiers/quick_filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/notifiers/session_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/app_filter_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/company_title_widget.dart';
@@ -10,16 +15,13 @@ import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/top_s
 import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/visit_adherence_map_widget.dart';
 import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/visits_summary_table_widget.dart';
 import 'package:field_zoom_pro_web/features/dashboard/providers/dashboard_provider.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fz_hooks/fz_hooks.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cUser = ref.watch(sessionNotifierProvider).loggedInuser;
+    final cUser = ref.watch(sessionNotifierProvider).loggedInUser;
     final dasboardProv = ref.watch(dashboardProvider);
 
     return Scaffold(
@@ -40,8 +42,9 @@ class HomeScreen extends ConsumerWidget {
           List<OrderModel> ordersList = data[0] as List<OrderModel>;
           List<VisitModel> visitsList = data[1] as List<VisitModel>;
 
-          final regionId = ref.watch(sessionNotifierProvider).region;
-          final userId = ref.watch(sessionNotifierProvider).selectedUserId;
+          final regionId = ref.watch(quickfilterNotifierProvider).region;
+          final selectedUserId =
+              ref.watch(quickfilterNotifierProvider).selectedUserId;
           if (regionId != null) {
             ordersList = ordersList
                 .where((element) => element.regionId == regionId)
@@ -50,22 +53,24 @@ class HomeScreen extends ConsumerWidget {
                 .where((element) => element.regionId == regionId)
                 .toList();
           }
-          if (userId != null) {
+          if (selectedUserId != null) {
             ordersList = ordersList
-                .where((element) => element.userId == userId)
+                .where((element) => element.userId == selectedUserId)
                 .toList();
             visitsList = visitsList
-                .where((element) => element.userId == userId)
+                .where((element) => element.userId == selectedUserId)
                 .toList();
           }
-          if (regionId != null && userId != null) {
+          if (regionId != null && selectedUserId != null) {
             ordersList = ordersList
                 .where((element) =>
-                    element.regionId == regionId && element.userId == userId)
+                    element.regionId == regionId &&
+                    element.userId == selectedUserId)
                 .toList();
             visitsList = visitsList
                 .where((element) =>
-                    element.regionId == regionId && element.userId == userId)
+                    element.regionId == regionId &&
+                    element.userId == selectedUserId)
                 .toList();
           }
 
@@ -111,7 +116,7 @@ class HomeScreen extends ConsumerWidget {
                         ),
                       ),
                       const VerticalDivider(
-                        thickness: 2,
+                        thickness: 1,
                         color: Colors.grey,
                       ),
                       Expanded(

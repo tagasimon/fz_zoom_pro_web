@@ -8,7 +8,7 @@ final routesRepoProvider = Provider<RoutesRepository>((ref) {
 });
 
 final watchCompanyRoutesProvider = StreamProvider<List<RouteModel>>((ref) {
-  final companyId = ref.watch(sessionNotifierProvider).loggedInuser!.companyId;
+  final companyId = ref.watch(sessionNotifierProvider).loggedInUser!.companyId;
   return ref
       .watch(routesRepoProvider)
       .watchAllCompanyRoutes(companyId: companyId);

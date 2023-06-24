@@ -108,7 +108,7 @@ class _AddProductCartegoryScreenState
                                   if (confirm == null || !confirm) return;
                                   final companyId = ref
                                       .read(sessionNotifierProvider)
-                                      .loggedInuser!
+                                      .loggedInUser!
                                       .companyId;
                                   final success = await ref
                                       .read(
@@ -174,7 +174,7 @@ class _AddProductCartegoryScreenState
 
                                       final companyId = ref
                                           .watch(sessionNotifierProvider)
-                                          .loggedInuser!
+                                          .loggedInUser!
                                           .companyId;
                                       final pdtCartegory =
                                           ProductCartegoryModel(
@@ -272,7 +272,7 @@ class CartegoriesDataSourceModel extends DataTableSource {
                       .updateProductCartegory(
                         companyId: ref
                             .read(sessionNotifierProvider)
-                            .loggedInuser!
+                            .loggedInUser!
                             .companyId,
                         id: data[index].id,
                         productCartegoryModel: data[index]
@@ -296,7 +296,7 @@ class CartegoriesDataSourceModel extends DataTableSource {
                 onTap: () async {
                   final companyId = ref
                       .watch(sessionNotifierProvider)
-                      .loggedInuser!
+                      .loggedInUser!
                       .companyId;
                   final String? downloadUrl = await ref
                       .read(uploadImageControllerProvider.notifier)
@@ -330,7 +330,7 @@ class CartegoriesDataSourceModel extends DataTableSource {
                     .updateProductCartegory(
                       companyId: ref
                           .read(sessionNotifierProvider)
-                          .loggedInuser!
+                          .loggedInUser!
                           .companyId,
                       id: data[index].id,
                       productCartegoryModel:

@@ -1,4 +1,4 @@
-import 'package:field_zoom_pro_web/core/notifiers/session_notifier.dart';
+import 'package:field_zoom_pro_web/core/notifiers/quick_filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/providers/regions_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,11 +17,11 @@ class RegionFilterWidget extends ConsumerWidget {
             const SizedBox(width: 8),
             DropdownButton<String?>(
                 hint: const Text('Select Region'),
-                value: ref.watch(sessionNotifierProvider).region,
+                value: ref.watch(quickfilterNotifierProvider).region,
                 onChanged: (String? value) {
                   if (value == null) return;
                   ref
-                      .read(sessionNotifierProvider.notifier)
+                      .read(quickfilterNotifierProvider.notifier)
                       .updateRegion(region: value);
                 },
                 items: regionsList

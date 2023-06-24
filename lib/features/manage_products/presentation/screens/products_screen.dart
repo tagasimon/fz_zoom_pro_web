@@ -95,7 +95,6 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
             children: [
               const ProductsFilterWidget(),
               const Divider(),
-              const SizedBox(height: 10),
               if (state.isLoading) const LinearProgressIndicator(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,7 +145,7 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
 
                                   final user = ref
                                       .read(sessionNotifierProvider)
-                                      .loggedInuser;
+                                      .loggedInUser;
                                   final success = await ref
                                       .read(productsControllerProvider.notifier)
                                       .deleteProductById(

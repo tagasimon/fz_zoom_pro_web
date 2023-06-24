@@ -25,7 +25,7 @@ class _NewUserScreenState extends ConsumerState<NewUserScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final admin = ref.watch(sessionNotifierProvider).loggedInuser!;
+    final admin = ref.watch(sessionNotifierProvider).loggedInUser!;
     final regionsProv = ref.watch(companyRegionsProv);
     final usersControllerState = ref.watch(usersControllerProvider);
     ref.listen<AsyncValue>(usersControllerProvider,

@@ -1,3 +1,4 @@
+import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/orders_bottom_sheet_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
@@ -48,7 +49,19 @@ class OrdersSummaryTable extends ConsumerWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              onPressed: () {},
+              onPressed: () async {
+                await showModalBottomSheet(
+                  isScrollControlled: true,
+                  isDismissible: false,
+                  showDragHandle: true,
+                  enableDrag: false,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  context: context,
+                  builder: (builder) => OrdersBottomSheetWidget(orders: orders),
+                );
+              },
               label: SelectableText('$totalOrders'),
               icon: const Icon(Icons.arrow_right_sharp),
             ),

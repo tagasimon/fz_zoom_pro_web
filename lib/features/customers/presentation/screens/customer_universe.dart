@@ -8,6 +8,8 @@ import 'package:field_zoom_pro_web/core/presentation/widgets/request_full_screen
 import 'package:field_zoom_pro_web/core/providers/routes_provider.dart';
 import 'package:field_zoom_pro_web/features/customers/presentation/widgets/customers_map_widget.dart';
 import 'package:field_zoom_pro_web/features/customers/providers/customer_provider.dart';
+import 'package:field_zoom_pro_web/features/orders/providers/orders_providers.dart';
+import 'package:field_zoom_pro_web/features/visits/providers/visits_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
@@ -114,15 +116,15 @@ class _CustomerUniverseState extends ConsumerState<CustomerUniverse> {
                               DataColumn(label: Text("#")),
                               DataColumn(label: Text("CONTACT NAME")),
                               DataColumn(label: Text("BUSINESS NAME")),
+                              DataColumn(label: Text("LAST VISIT DATE")),
+                              DataColumn(label: Text("LAST ORDER DATE")),
+                              DataColumn(label: Text("LAST ORDER AMOUNT")),
                               DataColumn(label: Text("BUSINESS TYPE")),
                               DataColumn(label: Text("REGION")),
                               DataColumn(label: Text("ROUTE")),
                               DataColumn(label: Text("PHONE 1")),
                               DataColumn(label: Text("DISTRICT")),
-                              DataColumn(label: Text("GPS")),
                               DataColumn(label: Text("DESC")),
-                              DataColumn(label: Text("LAST VISITED")),
-                              DataColumn(label: Text("LAST ORDERED")),
                             ],
                             source: myData,
                             header: region == null
@@ -250,15 +252,94 @@ class CustomerDataSourceModel extends DataTableSource {
         DataCell(Text(number.toString())),
         DataCell(Text(data[index].name)),
         DataCell(Text(data[index].businessName)),
+        DataCell(Consumer(
+          builder: (context, ref, child) {
+            final customerLastVisitProv =
+                ref.watch(customerLastVisitProvider(data[index].id));
+            return customerLastVisitProv.when(
+              data: (data) {
+                if (data == null) {
+                  return const Text("NEVER",
+                      style: TextStyle(fontSize: 12, color: Colors.red));
+                }
+                final visitDate = data.visitDate as DateTime;
+                final daysDiff = getDaysDifference(visitDate);
+                return daysDiff == 0
+                    ? const Text("TODAY",
+                        style: TextStyle(fontSize: 12, color: Colors.green))
+                    : Text(
+                        "$daysDiff days ago",
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: daysDiff > 30
+                                ? Colors.red
+                                : daysDiff > 15
+                                    ? Colors.orange
+                                    : Colors.black),
+                      );
+              },
+              error: (error, stk) => const SizedBox.shrink(),
+              loading: () => const Center(child: CircularProgressIndicator()),
+            );
+          },
+        )),
+        DataCell(Consumer(
+          builder: (context, ref, child) {
+            final customerLastOrderProv =
+                ref.watch(customerLastOrderProvider(data[index].id));
+            return customerLastOrderProv.when(
+              data: (data) {
+                if (data == null) {
+                  return const Text("NEVER",
+                      style: TextStyle(fontSize: 12, color: Colors.red));
+                }
+                final daysDiff = getDaysDifference(data.createdAt as DateTime);
+                return daysDiff == 0
+                    ? const Text("TODAY",
+                        style: TextStyle(fontSize: 12, color: Colors.green))
+                    : Text(
+                        "$daysDiff days ago",
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: daysDiff > 7
+                                ? Colors.red
+                                : daysDiff > 3
+                                    ? Colors.orange
+                                    : Colors.green),
+                      );
+              },
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (error, stk) => const SizedBox.shrink(),
+            );
+          },
+        )),
+        DataCell(Consumer(
+          builder: (context, ref, child) {
+            final customerLastOrderProv =
+                ref.watch(customerLastOrderProvider(data[index].id));
+            return customerLastOrderProv.when(
+              data: (data) {
+                final mFormat = NumberFormat("UGX #,###");
+                if (data == null) {
+                  return const Text("UGX 0.00",
+                      style: TextStyle(fontSize: 12, color: Colors.red));
+                }
+                return Text(
+                  mFormat.format(data.amount),
+                  style: const TextStyle(fontSize: 12),
+                );
+              },
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (error, stk) => const SizedBox.shrink(),
+            );
+          },
+        )),
         DataCell(Text(data[index].businessType)),
         DataCell(GetRegionWidget(regionId: data[index].regionId)),
         DataCell(GetRouteWidget(routeId: data[index].routeId)),
         DataCell(Text(data[index].phoneNumber)),
         DataCell(Text(data[index].district)),
-        DataCell(Text("${data[index].latitude} , ${data[index].longitude}")),
         DataCell(Text(data[index].locationDescription)),
-        const DataCell(Text("10 Days Ago")),
-        const DataCell(Text("20 Days Ago")),
       ],
       selected: selectedCustomers.contains(data[index]),
       onSelectChanged: (val) {
@@ -275,4 +356,10 @@ class CustomerDataSourceModel extends DataTableSource {
 
   @override
   int get selectedRowCount => selectedCustomers.length;
+}
+
+int getDaysDifference(DateTime date) {
+  final now = DateTime.now();
+  final diff = now.difference(date);
+  return diff.inDays;
 }

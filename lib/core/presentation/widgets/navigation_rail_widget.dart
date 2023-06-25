@@ -82,7 +82,7 @@ class _NavigationRailWidgetState extends ConsumerState<NavigationRailWidget> {
               NavigationRailDestination(
                 icon: Icon(Icons.settings_outlined),
                 selectedIcon: Icon(Icons.settings),
-                label: Text('SETTINGS'),
+                label: Text('MANAGE'),
               ),
             ],
           ),

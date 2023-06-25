@@ -40,23 +40,83 @@ class OrdersSummaryTable extends ConsumerWidget {
       rows: [
         DataRow(cells: [
           const DataCell(Text('TOTAL ORDERS')),
-          DataCell(SelectableText('$totalOrders')),
+          DataCell(
+            OutlinedButton.icon(
+              style: TextButton.styleFrom(
+                textStyle: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onPressed: () {},
+              label: SelectableText('$totalOrders'),
+              icon: const Icon(Icons.arrow_right_sharp),
+            ),
+          ),
         ]),
         DataRow(cells: [
           const DataCell(Text('PENDING ORDERS')),
-          DataCell(SelectableText('$numPendingOrders')),
+          DataCell(
+            OutlinedButton.icon(
+              style: TextButton.styleFrom(
+                textStyle: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onPressed: () {},
+              label: SelectableText('$numPendingOrders'),
+              icon: const Icon(Icons.arrow_right_sharp),
+            ),
+          ),
         ]),
         DataRow(cells: [
           const DataCell(Text('DELIVERED ORDERS')),
-          DataCell(SelectableText('$numDeliveredOrders')),
+          DataCell(
+            OutlinedButton.icon(
+              style: TextButton.styleFrom(
+                textStyle: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onPressed: () {},
+              label: SelectableText('$numDeliveredOrders'),
+              icon: const Icon(Icons.arrow_right_sharp),
+            ),
+          ),
         ]),
         DataRow(cells: [
           const DataCell(Text('CLOSED ORDERS')),
-          DataCell(SelectableText('$numClosedOrders')),
+          DataCell(
+            OutlinedButton.icon(
+              style: TextButton.styleFrom(
+                textStyle: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onPressed: () {},
+              label: SelectableText('$numClosedOrders'),
+              icon: const Icon(Icons.arrow_right_sharp),
+            ),
+          ),
         ]),
         DataRow(cells: [
           const DataCell(Text('CANCELLED ORDERS')),
-          DataCell(SelectableText('$numCancelledOrders')),
+          DataCell(
+            OutlinedButton.icon(
+              style: TextButton.styleFrom(
+                textStyle: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              onPressed: () {},
+              label: SelectableText('$numCancelledOrders'),
+              icon: const Icon(Icons.arrow_right_sharp),
+            ),
+          ),
         ]),
         DataRow(cells: [
           const DataCell(Text('AVG ORDER VALUE')),

@@ -35,19 +35,19 @@ Widget customersMapWidget({required List<CustomerModel> customers}) {
           ..title = customers[r].businessName
           // ..label = r.toString()
           ..icon =
-              'https://firebasestorage.googleapis.com/v0/b/field-zoom.appspot.com/o/FIELD%20ZOOM%2Flocation.png?alt=media&token=aef90470-dccd-455b-a454-d505c59884da',
+              'https://firebasestorage.googleapis.com/v0/b/field-zoom.appspot.com/o/FIELD%20ZOOM%2Fpin34.png?alt=media&token=a233ae27-d1d7-406b-888d-8a03bce62959',
       );
     }
 
     for (var i = 0; i < markerOptionsList.length; i++) {
-      var contentString = ''''
-          <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">${customers[i].businessName}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">${customers[i].phoneNumber}</h6>
-                <p class="card-text">${customers[i].locationDescription}</p>
-            </div>
-          </div>
+      var contentString = '''
+          <div>
+          <strong>
+            <p style="color: black">${customers[i].businessName}</p>
+          </strong>
+          <p style="color: black">${customers[i].phoneNumber}</p>
+          <p style="color: black">${customers[i].locationDescription}</p>
+        </div>
         ''';
       final infoWindow =
           InfoWindow(InfoWindowOptions()..content = contentString);

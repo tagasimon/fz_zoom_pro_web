@@ -13,9 +13,7 @@ class DateFilterWidget extends ConsumerWidget {
     final dateFormat = DateFormat("dd-MMMM-yyyy");
     final filter = ref.watch(sessionNotifierProvider);
     return TextButton.icon(
-      style: TextButton.styleFrom(
-        foregroundColor: Colors.white,
-      ),
+      style: TextButton.styleFrom(foregroundColor: Colors.white),
       onPressed: () async {
         final DateTime? pDate = await showDialog(
           context: context,
@@ -27,6 +25,7 @@ class DateFilterWidget extends ConsumerWidget {
           ),
         );
         if (pDate == null) return;
+        // TODO Look at these Date Selected Whether its Start of Day or End of Day
         if (isStartDate) {
           ref
               .read(sessionNotifierProvider.notifier)

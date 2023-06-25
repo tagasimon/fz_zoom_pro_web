@@ -13,16 +13,37 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 import 'package:intl/intl.dart';
 
-class CustomerUniverse extends ConsumerWidget {
+class CustomerUniverse extends ConsumerStatefulWidget {
   const CustomerUniverse({Key? key}) : super(key: key);
   static const routeName = "registered_customers";
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<CustomerUniverse> createState() => _CustomerUniverseState();
+}
+
+class _CustomerUniverseState extends ConsumerState<CustomerUniverse> {
+  String? searchTerm;
+  @override
+  Widget build(BuildContext context) {
     final region = ref.watch(quickfilterNotifierProvider).region;
     final agentCustomersProv = ref.watch(customersProviderProvider);
     return agentCustomersProv.when(
       data: (customers) {
+        if (region != null && region.isNotEmpty) {
+          customers =
+              customers.where((element) => element.regionId == region).toList();
+        }
+        if (searchTerm != null && searchTerm!.isNotEmpty) {
+          customers = customers
+              .where((element) =>
+                  element.businessName
+                      .toLowerCase()
+                      .contains(searchTerm!.toLowerCase()) ||
+                  element.name
+                      .toLowerCase()
+                      .contains(searchTerm!.toLowerCase()))
+              .toList();
+        }
         final myData = CustomerDataSourceModel(
           data: customers,
           selectedCustomers: {},
@@ -43,7 +64,7 @@ class CustomerUniverse extends ConsumerWidget {
               ],
             ),
             body: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const AppFilterWidget(
                   showRegionFilter: true,
@@ -87,9 +108,65 @@ class CustomerUniverse extends ConsumerWidget {
                               ],
                             ),
                           ),
-                          const SizedBox(
-                            height: 5,
+                          const SizedBox(height: 5),
+                          PaginatedDataTable(
+                            columns: const [
+                              DataColumn(label: Text("#")),
+                              DataColumn(label: Text("CONTACT NAME")),
+                              DataColumn(label: Text("BUSINESS NAME")),
+                              DataColumn(label: Text("BUSINESS TYPE")),
+                              DataColumn(label: Text("REGION")),
+                              DataColumn(label: Text("ROUTE")),
+                              DataColumn(label: Text("PHONE 1")),
+                              DataColumn(label: Text("DISTRICT")),
+                              DataColumn(label: Text("GPS")),
+                              DataColumn(label: Text("DESC")),
+                              DataColumn(label: Text("LAST VISITED")),
+                              DataColumn(label: Text("LAST ORDERED")),
+                            ],
+                            source: myData,
+                            header: region == null
+                                ? Text("CUSTOMERS (${customers.length})")
+                                : Text("$region (${customers.length})"),
+                            rowsPerPage: 10,
+                            sortColumnIndex: 0,
+                            sortAscending: false,
+                            actions: [
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.2,
+                                    child: TextField(
+                                      // controller: _searchController,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          searchTerm = value;
+                                        });
+                                      },
+                                      decoration: InputDecoration(
+                                        hintText:
+                                            "Search Customer Name or Business Name",
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                  // TextButton.icon(
+                                  //   onPressed: () {
+                                  //     Fluttertoast.showToast(
+                                  //         msg: "Coming Soon :)");
+                                  //   },
+                                  //   icon: const Icon(Icons.download),
+                                  //   label: const Text("Download"),
+                                  // )
+                                ],
+                              )
+                            ],
                           ),
+                          const SizedBox(height: 5),
                           SizedBox(
                             height: 400,
                             child: Row(
@@ -132,42 +209,6 @@ class CustomerUniverse extends ConsumerWidget {
                               ],
                             ),
                           ),
-                          PaginatedDataTable(
-                            columns: const [
-                              DataColumn(label: Text("")),
-                              DataColumn(label: Text("CONTACT NAME")),
-                              DataColumn(label: Text("BUSINESS NAME")),
-                              DataColumn(label: Text("BUSINESS TYPE")),
-                              DataColumn(label: Text("REGION")),
-                              DataColumn(label: Text("ROUTE")),
-                              DataColumn(label: Text("PHONE 1")),
-                              DataColumn(label: Text("DISTRICT")),
-                              DataColumn(label: Text("GPS")),
-                              DataColumn(label: Text("DESC")),
-                            ],
-                            source: myData,
-                            header: region == null
-                                ? Text("CUSTOMERS (${customers.length})")
-                                : Text("$region (${customers.length})"),
-                            rowsPerPage: 10,
-                            sortColumnIndex: 0,
-                            sortAscending: false,
-                            actions: const [
-                              // TODO Make this work
-                              // Row(
-                              //   children: [
-                              //     TextButton.icon(
-                              //       onPressed: () {
-                              //         Fluttertoast.showToast(
-                              //             msg: "Coming Soon :)");
-                              //       },
-                              //       icon: const Icon(Icons.download),
-                              //       label: const Text("Download"),
-                              //     )
-                              //   ],
-                              // )
-                            ],
-                          )
                         ],
                       ),
                     ),
@@ -216,6 +257,8 @@ class CustomerDataSourceModel extends DataTableSource {
         DataCell(Text(data[index].district)),
         DataCell(Text("${data[index].latitude} , ${data[index].longitude}")),
         DataCell(Text(data[index].locationDescription)),
+        const DataCell(Text("10 Days Ago")),
+        const DataCell(Text("20 Days Ago")),
       ],
       selected: selectedCustomers.contains(data[index]),
       onSelectChanged: (val) {

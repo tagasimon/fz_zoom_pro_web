@@ -22,7 +22,8 @@ class OrdersBottomSheetWidget extends ConsumerStatefulWidget {
 
 class _OrdersBottomSheetWidgetState
     extends ConsumerState<OrdersBottomSheetWidget> {
-  String? selectedUserId;
+  String? selectedOrderId;
+  OrderModel? selectedOrder;
   @override
   Widget build(BuildContext context) {
     final scrollController = ScrollController();
@@ -31,17 +32,25 @@ class _OrdersBottomSheetWidgetState
     }
     final customersData = OrdersDataSourceModel(
       data: widget.orders,
-      selectedUserId: selectedUserId,
-      onSelected: (user) async {
-        if (selectedUserId == null) {
-          setState(() => selectedUserId = user);
+      selectedOrderId: selectedOrderId,
+      onSelected: (order) async {
+        if (selectedOrder == null) {
+          setState(() {
+            selectedOrder = order;
+            selectedOrderId = order.id;
+          });
           return;
         }
-        setState(() => selectedUserId = null);
+        setState(() {
+          selectedOrder = null;
+          selectedOrderId = null;
+        });
       },
     );
     final ordersChartData =
         OrderChartUtils.computeTopProductsChartData(sales: widget.orders);
+    final selectedOrderChartData = OrderChartUtils.computeTopProductsChartData(
+        sales: selectedOrder != null ? [selectedOrder!] : []);
     return CallbackShortcuts(
       bindings: <ShortcutActivator, VoidCallback>{
         const SingleActivator(LogicalKeyboardKey.escape): () =>
@@ -93,42 +102,84 @@ class _OrdersBottomSheetWidgetState
                   ),
                   const VerticalDivider(),
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          child: SfBarChart(
-                            chartData: ordersChartData,
-                            axisTitle: 'Amt in Ugx',
-                            title: "TOP 10 PRODUCTS",
-                            height: 400,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        DataTable(
-                          border: TableBorder.all(
-                            color: Colors.grey.shade300,
-                            width: 1,
-                          ),
-                          columns: const [
-                            DataColumn(label: Text("PRODUCT")),
-                            DataColumn(label: Text("AMOUNT")),
-                          ],
-                          rows: [
-                            for (var r in ordersChartData)
-                              DataRow(
-                                cells: [
-                                  DataCell(Text(r.title)),
-                                  DataCell(
-                                    Text(NumberFormat("UGX #,##0.0")
-                                        .format(r.value)),
-                                  ),
+                    child: selectedOrder == null
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              DataTable(
+                                border: TableBorder.all(
+                                  color: Colors.grey.shade300,
+                                  width: 1,
+                                ),
+                                columns: const [
+                                  DataColumn(label: Text("PRODUCT")),
+                                  DataColumn(label: Text("AMOUNT")),
                                 ],
-                              )
-                          ],
-                        )
-                      ],
-                    ),
+                                rows: [
+                                  for (var r in ordersChartData)
+                                    DataRow(
+                                      cells: [
+                                        DataCell(Text(r.title)),
+                                        DataCell(
+                                          Text(NumberFormat("UGX #,##0.0")
+                                              .format(r.value)),
+                                        ),
+                                      ],
+                                    )
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              SizedBox(
+                                child: SfBarChart(
+                                  chartData: ordersChartData,
+                                  axisTitle: 'Amt in Ugx',
+                                  title: "TOP 10 PRODUCTS",
+                                  height: 400,
+                                ),
+                              ),
+                            ],
+                          )
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "ORDER DETAILS",
+                                style: Theme.of(context).textTheme.labelLarge,
+                              ),
+                              const SizedBox(height: 10),
+                              DataTable(
+                                border: TableBorder.all(
+                                  color: Colors.grey.shade300,
+                                  width: 1,
+                                ),
+                                columns: const [
+                                  DataColumn(label: Text("PRODUCT")),
+                                  DataColumn(label: Text("AMOUNT")),
+                                ],
+                                rows: [
+                                  for (var r in selectedOrderChartData)
+                                    DataRow(
+                                      cells: [
+                                        DataCell(Text(r.title)),
+                                        DataCell(
+                                          Text(NumberFormat("UGX #,##0.0")
+                                              .format(r.value)),
+                                        ),
+                                      ],
+                                    )
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              SizedBox(
+                                child: SfBarChart(
+                                  chartData: selectedOrderChartData,
+                                  axisTitle: 'Amt in Ugx',
+                                  title: "TOP 10 PRODUCTS",
+                                  height: 400,
+                                ),
+                              ),
+                            ],
+                          ),
                   ),
                 ],
               )
@@ -141,12 +192,12 @@ class _OrdersBottomSheetWidgetState
 
 class OrdersDataSourceModel extends DataTableSource {
   final List<OrderModel> data;
-  final String? selectedUserId;
-  final Function(String) onSelected;
+  final String? selectedOrderId;
+  final Function(OrderModel) onSelected;
 
   OrdersDataSourceModel({
     required this.data,
-    required this.selectedUserId,
+    required this.selectedOrderId,
     required this.onSelected,
   });
   @override
@@ -163,8 +214,8 @@ class OrdersDataSourceModel extends DataTableSource {
         DataCell(Text(data[index].status)),
         DataCell(Text(NumberFormat("#,###").format(data[index].amount))),
       ],
-      selected: selectedUserId == data[index].id,
-      onSelectChanged: (val) => onSelected(data[index].id),
+      selected: selectedOrderId == data[index].id,
+      onSelectChanged: (val) => onSelected(data[index]),
     );
   }
 
@@ -175,5 +226,5 @@ class OrdersDataSourceModel extends DataTableSource {
   int get rowCount => data.length;
 
   @override
-  int get selectedRowCount => selectedUserId == null ? 0 : 1;
+  int get selectedRowCount => selectedOrderId == null ? 0 : 1;
 }

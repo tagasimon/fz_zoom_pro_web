@@ -59,10 +59,13 @@ class OrdersSummaryTable extends ConsumerWidget {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   context: context,
-                  builder: (builder) => OrdersBottomSheetWidget(orders: orders),
+                  builder: (builder) => OrdersBottomSheetWidget(
+                    orderType: 'ALL',
+                    orders: orders,
+                  ),
                 );
               },
-              label: SelectableText('$totalOrders'),
+              label: Text('$totalOrders'),
               icon: const Icon(Icons.arrow_right_sharp),
             ),
           ),
@@ -77,8 +80,25 @@ class OrdersSummaryTable extends ConsumerWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              onPressed: () {},
-              label: SelectableText('$numPendingOrders'),
+              onPressed: () async {
+                await showModalBottomSheet(
+                  isScrollControlled: true,
+                  isDismissible: false,
+                  showDragHandle: true,
+                  enableDrag: false,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  context: context,
+                  builder: (builder) => OrdersBottomSheetWidget(
+                    orderType: 'PENDING',
+                    orders: orders
+                        .where((element) => element.status == 'PENDING')
+                        .toList(),
+                  ),
+                );
+              },
+              label: Text('$numPendingOrders'),
               icon: const Icon(Icons.arrow_right_sharp),
             ),
           ),
@@ -93,8 +113,25 @@ class OrdersSummaryTable extends ConsumerWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              onPressed: () {},
-              label: SelectableText('$numDeliveredOrders'),
+              onPressed: () async {
+                await showModalBottomSheet(
+                  isScrollControlled: true,
+                  isDismissible: false,
+                  showDragHandle: true,
+                  enableDrag: false,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  context: context,
+                  builder: (builder) => OrdersBottomSheetWidget(
+                    orderType: 'DELIVERED',
+                    orders: orders
+                        .where((element) => element.status == 'DELIVERED')
+                        .toList(),
+                  ),
+                );
+              },
+              label: Text('$numDeliveredOrders'),
               icon: const Icon(Icons.arrow_right_sharp),
             ),
           ),
@@ -109,8 +146,25 @@ class OrdersSummaryTable extends ConsumerWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              onPressed: () {},
-              label: SelectableText('$numClosedOrders'),
+              onPressed: () async {
+                await showModalBottomSheet(
+                  isScrollControlled: true,
+                  isDismissible: false,
+                  showDragHandle: true,
+                  enableDrag: false,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  context: context,
+                  builder: (builder) => OrdersBottomSheetWidget(
+                    orderType: 'CLOSED',
+                    orders: orders
+                        .where((element) => element.status == 'CLOSED')
+                        .toList(),
+                  ),
+                );
+              },
+              label: Text('$numClosedOrders'),
               icon: const Icon(Icons.arrow_right_sharp),
             ),
           ),
@@ -125,23 +179,40 @@ class OrdersSummaryTable extends ConsumerWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              onPressed: () {},
-              label: SelectableText('$numCancelledOrders'),
+              onPressed: () async {
+                await showModalBottomSheet(
+                  isScrollControlled: true,
+                  isDismissible: false,
+                  showDragHandle: true,
+                  enableDrag: false,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  context: context,
+                  builder: (builder) => OrdersBottomSheetWidget(
+                    orderType: 'CANCELLED',
+                    orders: orders
+                        .where((element) => element.status == 'CANCELLED')
+                        .toList(),
+                  ),
+                );
+              },
+              label: Text('$numCancelledOrders'),
               icon: const Icon(Icons.arrow_right_sharp),
             ),
           ),
         ]),
         DataRow(cells: [
           const DataCell(Text('AVG ORDER VALUE')),
-          DataCell(SelectableText(mFormat.format(avgOrderAmnt))),
+          DataCell(Text(mFormat.format(avgOrderAmnt))),
         ]),
         DataRow(cells: [
           const DataCell(Text('MEDIAN ORDER VALUE')),
-          DataCell(SelectableText(mFormat.format(medianOrderAmt))),
+          DataCell(Text(mFormat.format(medianOrderAmt))),
         ]),
         DataRow(cells: [
           const DataCell(Text('TOTAL ORDERS')),
-          DataCell(SelectableText(mFormat.format(totalOrderAmnt))),
+          DataCell(Text(mFormat.format(totalOrderAmnt))),
         ]),
       ],
     );

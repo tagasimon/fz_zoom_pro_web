@@ -9,6 +9,7 @@ import 'dart:ui' as ui;
 
 Widget ordersMapWidget({required List<OrderModel> orders}) {
   final dateFormat = DateFormat('dd-MM-yyyy hh:mm a');
+  final mFormat = NumberFormat("UGX #,###");
   String htmlId = "${orders[0].id}-${orders.length}";
 
   // ignore: undefined_prefixed_name
@@ -43,14 +44,13 @@ Widget ordersMapWidget({required List<OrderModel> orders}) {
     }
 
     for (var i = 0; i < markerOptionsList.length; i++) {
-      var contentString =
-          ''''
-          <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">${orders[i].customerId}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">${orders[i].customerId}</h6>
-                <h6 class="card-subtitle mb-2 text-muted">${dateFormat.format(orders[i].createdAt as DateTime)}</h6>
-            </div>
+      var contentString = '''
+          <div>
+            // <strong>
+            //   <p style="color: black"> <h5 class="card-title">${orders[i].customerId}</h5></p>
+            // </strong>
+            <p style="color: black">${mFormat.format(orders[i].amount)}</p>
+            <p style="color: black">${dateFormat.format(orders[i].createdAt as DateTime)}</p>
           </div>
         ''';
       final infoWindow =

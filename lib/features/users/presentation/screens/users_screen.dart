@@ -120,22 +120,26 @@ class UsersDataSourceModel extends DataTableSource {
         DataCell(SelectableText(data[index].phoneNumber)),
         DataCell(Text(data[index].role)),
         DataCell(GetRegionWidget(regionId: data[index].regionId)),
-        DataCell(Consumer(builder: (context, ref, _) {
-          final state = ref.watch(usersControllerProvider);
-          return state.isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : Switch(
-                  value: data[index].isActive,
-                  onChanged: (val) async {
-                    final nUser = data[index].copyWith(isActive: val);
-                    await ref
-                        .read(usersControllerProvider.notifier)
-                        .updateUser(user: nUser);
-                  },
-                  activeColor: Colors.green,
-                  inactiveThumbColor: Colors.red,
-                );
-        })),
+        DataCell(
+          Consumer(
+            builder: (context, ref, _) {
+              final state = ref.watch(usersControllerProvider);
+              return state.isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : Switch(
+                      value: data[index].isActive,
+                      onChanged: (val) async {
+                        final nUser = data[index].copyWith(isActive: val);
+                        await ref
+                            .read(usersControllerProvider.notifier)
+                            .updateUser(user: nUser);
+                      },
+                      activeColor: Colors.green,
+                      inactiveThumbColor: Colors.red,
+                    );
+            },
+          ),
+        ),
         DataCell(Consumer(builder: (context, ref, _) {
           final state = ref.watch(usersControllerProvider);
           return state.isLoading
@@ -153,22 +157,27 @@ class UsersDataSourceModel extends DataTableSource {
                   inactiveThumbColor: Colors.red,
                 );
         })),
-        DataCell(Consumer(builder: (context, ref, _) {
-          final state = ref.watch(usersControllerProvider);
-          return state.isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : Switch(
-                  value: data[index].isStockRequired ?? true,
-                  onChanged: (val) async {
-                    final nUser = data[index].copyWith(isStockRequired: val);
-                    await ref
-                        .read(usersControllerProvider.notifier)
-                        .updateUser(user: nUser);
-                  },
-                  activeColor: Colors.green,
-                  inactiveThumbColor: Colors.red,
-                );
-        })),
+        DataCell(
+          Consumer(
+            builder: (context, ref, _) {
+              final state = ref.watch(usersControllerProvider);
+              return state.isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : Switch(
+                      value: data[index].isStockRequired ?? true,
+                      onChanged: (val) async {
+                        final nUser =
+                            data[index].copyWith(isStockRequired: val);
+                        await ref
+                            .read(usersControllerProvider.notifier)
+                            .updateUser(user: nUser);
+                      },
+                      activeColor: Colors.green,
+                      inactiveThumbColor: Colors.red,
+                    );
+            },
+          ),
+        ),
       ],
       selected: selectedUserId == data[index].id,
       onSelectChanged: (val) => onSelected(data[index].id),

@@ -43,14 +43,13 @@ Widget visitAdherenceMapWidget({required List<VisitModel> visits}) {
     }
 
     for (var i = 0; i < markerOptionsList.length; i++) {
-      var contentString = ''''
-          <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">${visits[i].customerId}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">${visits[i].customerId}</h6>
-                <h6 class="card-subtitle mb-2 text-muted">${dateFormat.format(visits[i].visitDate as DateTime)}</h6>
-            </div>
-          </div>
+      var contentString = '''
+        <div>
+            // <strong>
+            //   <p style="color: black">${visits[i].customerId}</p>
+            // </strong>
+            <p style="color: black">${dateFormat.format(visits[i].visitDate as DateTime)}</p>
+        </div>
         ''';
       final infoWindow =
           InfoWindow(InfoWindowOptions()..content = contentString);

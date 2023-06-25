@@ -29,3 +29,11 @@ final watchUserProvider =
     StreamProvider.autoDispose.family<UserModel, String>((ref, id) {
   return ref.watch(userRepoProvider).watchUser(id: id);
 });
+
+final getUserNamesByUserIdProvider =
+    FutureProvider.autoDispose.family<UserModel, String>((ref, id) {
+  final companyId = ref.watch(sessionNotifierProvider).loggedInUser!.companyId;
+  return ref
+      .watch(userRepoProvider)
+      .nGetUserNamesByUserId(companyId: companyId, id: id);
+});

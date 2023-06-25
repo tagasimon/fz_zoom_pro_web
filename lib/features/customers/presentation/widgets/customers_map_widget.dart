@@ -42,12 +42,12 @@ Widget customersMapWidget({required List<CustomerModel> customers}) {
     for (var i = 0; i < markerOptionsList.length; i++) {
       var contentString = '''
           <div>
-          <strong>
-            <p style="color: black">${customers[i].businessName}</p>
-          </strong>
-          <p style="color: black">${customers[i].phoneNumber}</p>
-          <p style="color: black">${customers[i].locationDescription}</p>
-        </div>
+            <strong>
+              <p style="color: black">${customers[i].businessName}</p>
+            </strong>
+            <p style="color: black">${customers[i].phoneNumber}</p>
+            <p style="color: black">${customers[i].locationDescription}</p>
+          </div>
         ''';
       final infoWindow =
           InfoWindow(InfoWindowOptions()..content = contentString);

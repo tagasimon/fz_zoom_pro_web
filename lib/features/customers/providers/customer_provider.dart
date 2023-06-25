@@ -13,3 +13,17 @@ final customersProviderProvider = FutureProvider<List<CustomerModel>>((ref) {
       .watch(customersRepoProvider)
       .getAllCompanyCustomers(companyId: session.loggedInUser!.companyId);
 });
+
+final customerByIdProvider =
+    FutureProvider.family<CustomerModel, String>((ref, customerId) async {
+  final companyId = ref.watch(sessionNotifierProvider).loggedInUser!.companyId;
+  return ref
+      .watch(customersRepoProvider)
+      .nGetCustomerByCustomerId(customerId: customerId, companyId: companyId);
+});
+
+// final getCustomerProvider =
+//     Provider.family<CustomerModel, String>((ref, customerId) async {
+//   final cust = await ref.read(customerByIdProvider(customerId).future);
+//   return cust;
+// });

@@ -1,9 +1,3 @@
-import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/collections_by_sales_person.dart';
-import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/orders_by_person_table.dart';
-import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/orders_map_widget.dart';
-import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/orders_summary_table.dart';
-import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/visit_adherence_map_widget.dart';
-import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/visits_summary_table_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
@@ -15,6 +9,12 @@ import 'package:field_zoom_pro_web/core/presentation/widgets/company_title_widge
 import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/nothing_found_animation.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/request_full_screen_widget.dart';
+import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/collections_by_sales_person.dart';
+import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/orders_by_person_table.dart';
+import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/orders_map_widget.dart';
+import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/orders_summary_table.dart';
+import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/visit_adherence_map_widget.dart';
+import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/visits_summary_table_widget.dart';
 import 'package:field_zoom_pro_web/features/dashboard/providers/dashboard_provider.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -99,10 +99,10 @@ class HomeScreen extends ConsumerWidget {
                 const Divider(),
                 const SizedBox(height: 10),
 
-                if (ordersList.isEmpty &&
-                    visitsList.isEmpty &&
-                    paymentsList.isEmpty)
-                  const Center(child: NothingFoundAnimation()),
+                // if (ordersList.isEmpty &&
+                //     visitsList.isEmpty &&
+                //     paymentsList.isEmpty)
+                //   const Center(child: NothingFoundAnimation()),
 
                 // MAPS ROW WIDGET
                 Row(
@@ -239,9 +239,14 @@ class HomeScreen extends ConsumerWidget {
         },
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, s) {
-          debugPrint(e.toString());
-          debugPrint(s.toString());
-          return null;
+          debugPrint("Error : $e");
+          debugPrint("Stack : $s");
+          return Center(
+            child: Text(
+              'Error: ${e.toString()}',
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
+          );
         },
       ),
     );

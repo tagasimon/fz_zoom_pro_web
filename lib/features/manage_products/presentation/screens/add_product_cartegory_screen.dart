@@ -292,7 +292,7 @@ class CartegoriesDataSourceModel extends DataTableSource {
           Consumer(
             builder: (context, ref, child) {
               return CircleImageWidget(
-                url: data[index].cartegoryImg,
+                url: data[index].cartegoryImg!,
                 onTap: () async {
                   final companyId = ref
                       .watch(sessionNotifierProvider)

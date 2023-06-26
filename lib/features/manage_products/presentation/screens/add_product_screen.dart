@@ -18,7 +18,10 @@ class AddProductScreen extends ConsumerStatefulWidget {
 class _AddProductScreenState extends ConsumerState<AddProductScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
-  final _pxController = TextEditingController();
+  final _retailPxController = TextEditingController();
+  final _wholesalePxController = TextEditingController();
+  final _universePxController = TextEditingController();
+
   final _sysCodeController = TextEditingController();
   final _varController = TextEditingController();
   ProductCartegoryModel? selectedCartegory;
@@ -28,7 +31,9 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
   void dispose() {
     _nameController.dispose();
     _varController.dispose();
-    _pxController.dispose();
+    _retailPxController.dispose();
+    _wholesalePxController.dispose();
+    _universePxController.dispose();
     _sysCodeController.dispose();
     super.dispose();
   }
@@ -140,7 +145,20 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
                                         ),
                                         const SizedBox(height: 10),
                                         TextFormField(
-                                          controller: _pxController,
+                                          controller: _universePxController,
+                                          decoration: const InputDecoration(
+                                            labelText: "Universe Product Price",
+                                            border: OutlineInputBorder(),
+                                          ),
+                                          keyboardType: TextInputType.number,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter
+                                                .digitsOnly
+                                          ],
+                                        ),
+                                        const SizedBox(height: 10),
+                                        TextFormField(
+                                          controller: _retailPxController,
                                           decoration: const InputDecoration(
                                             labelText: "Product Price",
                                             border: OutlineInputBorder(),
@@ -157,6 +175,20 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
                                             }
                                             return null;
                                           },
+                                        ),
+                                        const SizedBox(height: 10),
+                                        TextFormField(
+                                          controller: _wholesalePxController,
+                                          decoration: const InputDecoration(
+                                            labelText:
+                                                "Product Wholesale Price",
+                                            border: OutlineInputBorder(),
+                                          ),
+                                          keyboardType: TextInputType.number,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter
+                                                .digitsOnly
+                                          ],
                                         ),
                                         const SizedBox(height: 10),
                                         TextFormField(
@@ -215,16 +247,21 @@ class _AddProductScreenState extends ConsumerState<AddProductScreen> {
                                                       subCartegoryId:
                                                           selectedSubCartegory!
                                                               .id,
-                                                      sellingPrice:
-                                                          double.parse(
-                                                              _pxController
-                                                                  .text),
+                                                      sellingPrice: double.parse(
+                                                          _retailPxController
+                                                              .text),
+                                                      wholesalePrice:
+                                                          _wholesalePxController
+                                                                      .text ==
+                                                                  ""
+                                                              ? double.parse(
+                                                                  _retailPxController.text)
+                                                              : double.parse(_wholesalePxController.text),
+                                                      universePrice: _universePxController.text == "" ? double.parse(_retailPxController.text) : double.parse(_universePxController.text),
                                                       isActive: true,
-                                                      productVar:
-                                                          _varController.text,
+                                                      productVar: _varController.text,
                                                       createdAt: DateTime.now(),
-                                                      addedBy: filter
-                                                          .loggedInUser!.id);
+                                                      addedBy: filter.loggedInUser!.id);
                                                   final success = await ref
                                                       .watch(
                                                           productsControllerProvider

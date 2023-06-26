@@ -19,21 +19,24 @@ final payementsProvider = Provider<PaymentsRepository>((ref) {
   return PaymentsRepository(ref.watch(firestoreInstanceProvider));
 });
 
-final dashboardProvider = FutureProvider.autoDispose<List<dynamic>>((ref) {
-  final filter = ref.watch(sessionNotifierProvider);
-  if (filter.loggedInUser == null) return Future.value([]);
-  return Future.wait([
-    ref.watch(sellOutRepoProvider).nGetAllCompanyOrders(
-        companyId: filter.loggedInUser!.companyId,
-        startDate: filter.startDate,
-        endDate: filter.endDate),
-    ref.watch(visitAdherenceProvider).nGetAllCompanyVisits(
-        companyId: filter.loggedInUser!.companyId,
-        startDate: filter.startDate,
-        endDate: filter.endDate),
-    ref.watch(payementsProvider).getAllCompanyCollections(
-        companyId: filter.loggedInUser!.companyId,
-        startDate: filter.startDate,
-        endDate: filter.endDate)
-  ]);
-});
+final dashboardProvider = FutureProvider.autoDispose<List<dynamic>>(
+  (ref) {
+    final filter = ref.watch(sessionNotifierProvider);
+    if (filter.loggedInUser == null) return Future.value([]);
+
+    return Future.wait([
+      ref.watch(sellOutRepoProvider).nGetAllCompanyOrders(
+          companyId: filter.loggedInUser!.companyId,
+          startDate: filter.startDate,
+          endDate: filter.endDate),
+      ref.watch(visitAdherenceProvider).nGetAllCompanyVisits(
+          companyId: filter.loggedInUser!.companyId,
+          startDate: filter.startDate,
+          endDate: filter.endDate),
+      ref.watch(payementsProvider).getAllCompanyCollections(
+          companyId: filter.loggedInUser!.companyId,
+          startDate: filter.startDate,
+          endDate: filter.endDate)
+    ]);
+  },
+);

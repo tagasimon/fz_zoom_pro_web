@@ -22,7 +22,10 @@ class ProductDetailsScreen extends ConsumerStatefulWidget {
 class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   final _key = GlobalKey<FormState>();
   final _nameController = TextEditingController();
-  final _priceController = TextEditingController();
+
+  final _retailPxController = TextEditingController();
+  final _wholesalePxController = TextEditingController();
+  final _universePxController = TextEditingController();
   final _varController = TextEditingController();
   final _sysCodeController = TextEditingController();
   final _cartController = TextEditingController();
@@ -32,7 +35,9 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
   @override
   void dispose() {
     _nameController.dispose();
-    _priceController.dispose();
+    _retailPxController.dispose();
+    _wholesalePxController.dispose();
+    _universePxController.dispose();
     _varController.dispose();
     _sysCodeController.dispose();
     _cartController.dispose();
@@ -58,9 +63,11 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
         autofocus: true,
         child: productProv.when(
             data: (product) {
-              _sysCodeController.text = product.systemCode;
               _nameController.text = product.name;
-              _priceController.text = product.sellingPrice.toString();
+              _sysCodeController.text = product.systemCode;
+              _retailPxController.text = product.sellingPrice.toString();
+              _wholesalePxController.text = product.wholesalePrice.toString();
+              _universePxController.text = product.universePrice.toString();
               _varController.text = product.productVar.toString();
               _cartController.text = product.cartegoryId.toString();
               _subCartController.text = product.subCartegoryId.toString();
@@ -136,9 +143,18 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                 const SizedBox(height: 10),
                                 TextFormField(
                                   autofocus: true,
-                                  controller: _priceController,
+                                  controller: _universePxController,
                                   decoration: const InputDecoration(
-                                    labelText: "Selling Price",
+                                    labelText: "Universe Price",
+                                    border: OutlineInputBorder(),
+                                  ),
+                                ),
+                                const SizedBox(height: 10),
+                                TextFormField(
+                                  autofocus: true,
+                                  controller: _retailPxController,
+                                  decoration: const InputDecoration(
+                                    labelText: "Sales Price",
                                     border: OutlineInputBorder(),
                                   ),
                                   validator: (value) {
@@ -150,6 +166,15 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                     }
                                     return null;
                                   },
+                                ),
+                                const SizedBox(height: 10),
+                                TextFormField(
+                                  autofocus: true,
+                                  controller: _wholesalePxController,
+                                  decoration: const InputDecoration(
+                                    labelText: "Wholesale Price",
+                                    border: OutlineInputBorder(),
+                                  ),
                                 ),
                                 const SizedBox(height: 10),
                                 TextFormField(
@@ -184,21 +209,34 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
                                             return;
                                           }
                                           // TODO Change this to use a Product Model with copyWith
+                                          final nProduct = product.copyWith(
+                                            name: _nameController.text,
+                                            sellingPrice: double.parse(
+                                                _retailPxController.text),
+                                            wholesalePrice:
+                                                _wholesalePxController
+                                                            .text ==
+                                                        ""
+                                                    ? double.parse(
+                                                        _retailPxController
+                                                            .text)
+                                                    : double.parse(
+                                                        _wholesalePxController
+                                                            .text),
+                                            universePrice: _universePxController
+                                                        .text ==
+                                                    ""
+                                                ? double.parse(
+                                                    _retailPxController.text)
+                                                : double.parse(
+                                                    _universePxController.text),
+                                            productVar: _varController.text,
+                                          );
                                           final success = await ref
                                               .read(productsControllerProvider
                                                   .notifier)
-                                              .editProductVariable(
-                                            productId: widget.id,
-                                            newInfo: {
-                                              'systemCode': _sysCodeController
-                                                  .text
-                                                  .trim(),
-                                              'name': _nameController.text,
-                                              'sellingPrice': double.parse(
-                                                  _priceController.text),
-                                              'productVar': _varController.text
-                                            },
-                                          );
+                                              .updateProductByCompanyId(
+                                                  product: nProduct);
                                           if (success) {
                                             scaf.showSnackBar(
                                               const SnackBar(

@@ -19,7 +19,10 @@ class CopyProductScreen extends ConsumerStatefulWidget {
 class _CopyProductScreenState extends ConsumerState<CopyProductScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
-  final _pxController = TextEditingController();
+  final _retailPxController = TextEditingController();
+  final _wholeSalePxController = TextEditingController();
+  final _universePxController = TextEditingController();
+
   final _sysCodeController = TextEditingController();
   final _varController = TextEditingController();
 
@@ -27,7 +30,9 @@ class _CopyProductScreenState extends ConsumerState<CopyProductScreen> {
   void dispose() {
     _nameController.dispose();
     _varController.dispose();
-    _pxController.dispose();
+    _retailPxController.dispose();
+    _wholeSalePxController.dispose();
+    _universePxController.dispose();
     _sysCodeController.dispose();
     super.dispose();
   }
@@ -41,7 +46,9 @@ class _CopyProductScreenState extends ConsumerState<CopyProductScreen> {
     return productProv.when(
       data: (product) {
         _nameController.text = product.name;
-        _pxController.text = product.sellingPrice.toString();
+        _wholeSalePxController.text = product.sellingPrice.toString();
+        _retailPxController.text = product.wholesalePrice.toString();
+        _universePxController.text = product.universePrice.toString();
         _varController.text = product.productVar;
         return Padding(
           padding: const EdgeInsets.all(10.0),
@@ -86,19 +93,39 @@ class _CopyProductScreenState extends ConsumerState<CopyProductScreen> {
                     ),
                     const SizedBox(height: 10),
                     TextFormField(
-                      controller: _pxController,
+                      controller: _universePxController,
                       decoration: const InputDecoration(
-                        labelText: "Product Price",
+                        labelText: "Universe Price",
+                        border: OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    ),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      controller: _retailPxController,
+                      decoration: const InputDecoration(
+                        labelText: "Sales Price",
                         border: OutlineInputBorder(),
                       ),
                       keyboardType: TextInputType.number,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return "Product price is required";
+                          return "Product Sale Price is required";
                         }
                         return null;
                       },
+                    ),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      controller: _wholeSalePxController,
+                      decoration: const InputDecoration(
+                        labelText: "Wholesale Price",
+                        border: OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                     ),
                     const SizedBox(height: 10),
                     TextFormField(
@@ -140,8 +167,20 @@ class _CopyProductScreenState extends ConsumerState<CopyProductScreen> {
                                       companyId: filter.loggedInUser!.companyId,
                                       cartegoryId: product.cartegoryId,
                                       subCartegoryId: product.subCartegoryId,
-                                      sellingPrice:
-                                          double.parse(_pxController.text),
+                                      sellingPrice: double.parse(
+                                          _retailPxController.text),
+                                      wholesalePrice:
+                                          _wholeSalePxController.text == ""
+                                              ? double.parse(
+                                                  _retailPxController.text)
+                                              : double.parse(
+                                                  _wholeSalePxController.text),
+                                      universePrice:
+                                          _universePxController.text == ""
+                                              ? double.parse(
+                                                  _retailPxController.text)
+                                              : double.parse(
+                                                  _universePxController.text),
                                       isActive: true,
                                       productVar: _varController.text,
                                       productImg: product.productImg,

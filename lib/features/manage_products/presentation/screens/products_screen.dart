@@ -31,6 +31,7 @@ class ProductsScreen extends ConsumerStatefulWidget {
 class _ProductsScreenState extends ConsumerState<ProductsScreen> {
   String? selectedProductId;
   ProductScreenActions? selectedAction;
+  String? searchValue;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +63,13 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
           products = products
               .where(
                   (element) => element.subCartegoryId == filteredSubCartegory)
+              .toList();
+        }
+
+        if (searchValue != null) {
+          products = products
+              .where((element) =>
+                  element.name.toLowerCase().contains(searchValue!))
               .toList();
         }
 
@@ -106,11 +114,12 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                         DataColumn(label: Text("#")),
                         DataColumn(label: Text("SYS CODE")),
                         DataColumn(label: Text("NAME")),
-                        DataColumn(label: Text("CARTEGORY")),
                         DataColumn(label: Text("SUB CARTEGORY")),
-                        DataColumn(label: Text("VAR")),
-                        DataColumn(label: Text("SELLING PRICE")),
-                        // DataColumn(label: Text("IMG")),
+                        DataColumn(label: Text("CARTEGORY")),
+                        DataColumn(label: Text("VARIATION")),
+                        DataColumn(label: Text("UNIVERSE PRICE")),
+                        DataColumn(label: Text("SALES PRICE")),
+                        DataColumn(label: Text("WHOLESALE PRICE")),
                         DataColumn(label: Text("IS ACTIVE")),
                       ],
                       source: myData,
@@ -119,7 +128,11 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                           ref.watch(productFilterNotifierProvider).itemCount,
                       actions: selectedProductId == null
                           ? [
-                              const ProductsTableOptionsWidget(),
+                              ProductsTableOptionsWidget(
+                                onChanged: (search) {
+                                  setState(() => searchValue = search);
+                                },
+                              ),
                             ]
                           : [
                               ActiveProductWidget(
@@ -225,11 +238,12 @@ class ProductDataSourceModel extends DataTableSource {
         DataCell(Text("${index + 1}")),
         DataCell(Text(data[index].systemCode)),
         DataCell(Text(data[index].name)),
-        DataCell(ProductCartegoryWidget(cartegoryId: data[index].cartegoryId)),
         DataCell(ProductSubCartegoryWidget(id: data[index].subCartegoryId)),
+        DataCell(ProductCartegoryWidget(cartegoryId: data[index].cartegoryId)),
         DataCell(Text(data[index].productVar)),
+        DataCell(Text(data[index].universePrice.toString())),
         DataCell(Text(data[index].sellingPrice.toString())),
-        // DataCell(CircleImageWidget(url: data[index].productImg!)),
+        DataCell(Text(data[index].wholesalePrice.toString())),
         DataCell(
           Consumer(
             builder: (context, ref, child) {
@@ -251,9 +265,7 @@ class ProductDataSourceModel extends DataTableSource {
         )
       ],
       selected: selectedProductId == data[index].id,
-      onSelectChanged: (val) {
-        onSelected(data[index].id);
-      },
+      onSelectChanged: (val) => onSelected(data[index].id),
     );
   }
 

@@ -70,12 +70,6 @@ class _CopyProductScreenState extends ConsumerState<CopyProductScreen> {
                         labelText: "System Code",
                         border: OutlineInputBorder(),
                       ),
-                      // validator: (value) {
-                      //   if (value == null || value.isEmpty) {
-                      //     return "System code is required";
-                      //   }
-                      //   return null;
-                      // },
                     ),
                     const SizedBox(height: 10),
                     TextFormField(

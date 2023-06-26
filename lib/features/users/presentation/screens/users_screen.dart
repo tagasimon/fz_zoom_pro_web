@@ -5,6 +5,7 @@ import 'package:field_zoom_pro_web/core/presentation/widgets/get_region_widget.d
 import 'package:field_zoom_pro_web/core/presentation/widgets/request_full_screen_widget.dart';
 import 'package:field_zoom_pro_web/features/users/presentation/controllers/users_controller.dart';
 import 'package:field_zoom_pro_web/features/users/presentation/widgets/users_table_actions_widget.dart';
+import 'package:field_zoom_pro_web/features/users/presentation/widgets/users_table_switch_widget.dart';
 import 'package:field_zoom_pro_web/features/users/providers/user_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -64,25 +65,33 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
                   : SizedBox(
                       width: double.infinity,
                       child: PaginatedDataTable(
-                          columns: const [
-                            DataColumn(label: Text("#")),
-                            DataColumn(label: Text("NAME")),
-                            DataColumn(label: Text("EMAIL")),
-                            DataColumn(label: Text("PHONE")),
-                            DataColumn(label: Text("ROLE")),
-                            DataColumn(label: Text("REGION")),
-                            DataColumn(label: Text("IS ACTIVE")),
-                            DataColumn(label: Text("COLLECT MONEY")),
-                            DataColumn(label: Text("REQUIRE STOCK")),
-                          ],
-                          source: userData,
-                          header: const Text("USERS"),
-                          rowsPerPage: 10,
-                          showCheckboxColumn: true,
-                          showFirstLastButtons: true,
-                          actions: const [
-                            UsersTableActionsWidget(),
-                          ]),
+                        columns: const [
+                          DataColumn(label: Text("#")),
+                          DataColumn(label: Text("NAME")),
+                          DataColumn(label: Text("EMAIL")),
+                          DataColumn(label: Text("PHONE")),
+                          DataColumn(label: Text("ROLE")),
+                          DataColumn(label: Text("REGION")),
+                          DataColumn(label: Text("ACTIVE")),
+                          DataColumn(label: Text("REQUIRE STOCK")),
+                          DataColumn(label: Text("COLLECT MONEY")),
+                          DataColumn(label: Text("CAN REGISTER CUSTOMERS")),
+                          DataColumn(label: Text("CAN DELIVER")),
+                          DataColumn(label: Text("CAN GIVE DISCOUNT")),
+                          DataColumn(label: Text("CAN SELL WHOLESALE")),
+                          DataColumn(label: Text("CAN CREATE ROUTES")),
+                        ],
+                        source: userData,
+                        header: const Text("USERS"),
+                        rowsPerPage: 10,
+                        showCheckboxColumn: true,
+                        showFirstLastButtons: true,
+                        actions: [
+                          if (state.isLoading)
+                            const CircularProgressIndicator(),
+                          const UsersTableActionsWidget(),
+                        ],
+                      ),
                     ),
             ],
           );
@@ -121,61 +130,58 @@ class UsersDataSourceModel extends DataTableSource {
         DataCell(Text(data[index].role)),
         DataCell(GetRegionWidget(regionId: data[index].regionId)),
         DataCell(
-          Consumer(
-            builder: (context, ref, _) {
-              final state = ref.watch(usersControllerProvider);
-              return state.isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : Switch(
-                      value: data[index].isActive,
-                      onChanged: (val) async {
-                        final nUser = data[index].copyWith(isActive: val);
-                        await ref
-                            .read(usersControllerProvider.notifier)
-                            .updateUser(user: nUser);
-                      },
-                      activeColor: Colors.green,
-                      inactiveThumbColor: Colors.red,
-                    );
-            },
+          UsersTableSwitchWidget(
+            nUser: data[index].copyWith(isActive: !data[index].isActive),
+            value: data[index].isActive,
           ),
         ),
-        DataCell(Consumer(builder: (context, ref, _) {
-          final state = ref.watch(usersControllerProvider);
-          return state.isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : Switch(
-                  value: data[index].isCollectionsRequired ?? true,
-                  onChanged: (val) async {
-                    final nUser =
-                        data[index].copyWith(isCollectionsRequired: val);
-                    await ref
-                        .read(usersControllerProvider.notifier)
-                        .updateUser(user: nUser);
-                  },
-                  activeColor: Colors.green,
-                  inactiveThumbColor: Colors.red,
-                );
-        })),
         DataCell(
-          Consumer(
-            builder: (context, ref, _) {
-              final state = ref.watch(usersControllerProvider);
-              return state.isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : Switch(
-                      value: data[index].isStockRequired ?? true,
-                      onChanged: (val) async {
-                        final nUser =
-                            data[index].copyWith(isStockRequired: val);
-                        await ref
-                            .read(usersControllerProvider.notifier)
-                            .updateUser(user: nUser);
-                      },
-                      activeColor: Colors.green,
-                      inactiveThumbColor: Colors.red,
-                    );
-            },
+          UsersTableSwitchWidget(
+            nUser: data[index]
+                .copyWith(isStockRequired: !data[index].isStockRequired!),
+            value: data[index].isStockRequired!,
+          ),
+        ),
+        DataCell(
+          UsersTableSwitchWidget(
+            nUser: data[index].copyWith(
+                isCollectionsRequired: !data[index].isCollectionsRequired!),
+            value: data[index].isCollectionsRequired!,
+          ),
+        ),
+        DataCell(
+          UsersTableSwitchWidget(
+            nUser: data[index].copyWith(
+                canRegisterCustomers: !data[index].canRegisterCustomers!),
+            value: data[index].canRegisterCustomers!,
+          ),
+        ),
+        DataCell(
+          UsersTableSwitchWidget(
+            nUser: data[index].copyWith(
+                canConfirmOrderDelivery: !data[index].canConfirmOrderDelivery!),
+            value: data[index].canConfirmOrderDelivery!,
+          ),
+        ),
+        DataCell(
+          UsersTableSwitchWidget(
+            nUser: data[index]
+                .copyWith(canGiveDiscount: !data[index].canGiveDiscount!),
+            value: data[index].canGiveDiscount!,
+          ),
+        ),
+        DataCell(
+          UsersTableSwitchWidget(
+            nUser: data[index]
+                .copyWith(canSellAtWholesale: !data[index].canSellAtWholesale!),
+            value: data[index].canSellAtWholesale!,
+          ),
+        ),
+        DataCell(
+          UsersTableSwitchWidget(
+            nUser: data[index]
+                .copyWith(canCreateRoutes: !data[index].canCreateRoutes!),
+            value: data[index].canCreateRoutes!,
           ),
         ),
       ],

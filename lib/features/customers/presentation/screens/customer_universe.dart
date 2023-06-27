@@ -156,14 +156,6 @@ class _CustomerUniverseState extends ConsumerState<CustomerUniverse> {
                                       ),
                                     ),
                                   )
-                                  // TextButton.icon(
-                                  //   onPressed: () {
-                                  //     Fluttertoast.showToast(
-                                  //         msg: "Coming Soon :)");
-                                  //   },
-                                  //   icon: const Icon(Icons.download),
-                                  //   label: const Text("Download"),
-                                  // )
                                 ],
                               )
                             ],
@@ -275,7 +267,7 @@ class CustomerDataSourceModel extends DataTableSource {
                                 ? Colors.red
                                 : daysDiff > 15
                                     ? Colors.orange
-                                    : Colors.black),
+                                    : Colors.green),
                       );
               },
               error: (e, s) => const SizedBox.shrink(),

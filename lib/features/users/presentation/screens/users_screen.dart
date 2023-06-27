@@ -66,7 +66,6 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
                       width: double.infinity,
                       child: PaginatedDataTable(
                         columns: const [
-                          DataColumn(label: Text("#")),
                           DataColumn(label: Text("NAME")),
                           DataColumn(label: Text("EMAIL")),
                           DataColumn(label: Text("PHONE")),
@@ -76,7 +75,7 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
                           DataColumn(label: Text("REQUIRE STOCK")),
                           DataColumn(label: Text("COLLECT MONEY")),
                           DataColumn(label: Text("CAN REGISTER CUSTOMERS")),
-                          DataColumn(label: Text("CAN DELIVER")),
+                          DataColumn(label: Text("CAN DELIVER ORDER")),
                           DataColumn(label: Text("CAN GIVE DISCOUNT")),
                           DataColumn(label: Text("CAN SELL WHOLESALE")),
                           DataColumn(label: Text("CAN CREATE ROUTES")),
@@ -97,12 +96,7 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) {
-          debugPrint("Error: $error");
-          debugPrint("Stack: $stack");
-
-          return const Center(child: Text("Error"));
-        },
+        error: (e, s) => const Center(child: Text("Something went wrong :(")),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
@@ -121,13 +115,43 @@ class UsersDataSourceModel extends DataTableSource {
   });
   @override
   DataRow? getRow(int index) {
+    final List<Map<String, String>> roles = [
+      {"role": "Sales Rep", "level": "1"},
+      {"role": "Manager", "level": "2"},
+      {"role": "Admin", "level": "3"},
+      {"role": "Super Admin", "level": "5"},
+    ];
     return DataRow(
       cells: [
-        DataCell(Text("${index + 1}")),
         DataCell(Text(data[index].name)),
         DataCell(Text(data[index].email)),
         DataCell(SelectableText(data[index].phoneNumber)),
-        DataCell(Text(data[index].role)),
+        DataCell(Consumer(
+          builder: (context, ref, _) {
+            // return dropdown menu for roles
+            return DropdownButton<String>(
+              value: data[index].role,
+              onChanged: (String? newValue) async {
+                if (newValue == null) return;
+                final selected = roles.firstWhere((e) => e["role"] == newValue);
+                final nUser = data[index].copyWith(
+                  role: selected["role"],
+                  level: int.parse(selected["level"]!),
+                );
+                await ref
+                    .read(usersControllerProvider.notifier)
+                    .updateUser(user: nUser);
+              },
+              items:
+                  roles.map<DropdownMenuItem<String>>((Map<String, String> e) {
+                return DropdownMenuItem<String>(
+                  value: e["role"],
+                  child: Text(e["role"]!),
+                );
+              }).toList(),
+            );
+          },
+        )),
         DataCell(GetRegionWidget(regionId: data[index].regionId)),
         DataCell(
           UsersTableSwitchWidget(

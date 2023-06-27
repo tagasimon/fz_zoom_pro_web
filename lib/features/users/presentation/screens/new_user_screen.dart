@@ -148,10 +148,8 @@ class _NewUserScreenState extends ConsumerState<NewUserScreen> {
                                             if (_formKey.currentState!
                                                 .validate()) {
                                               final user = UserModel(
-                                                id: DateTime.now()
-                                                    .microsecondsSinceEpoch
-                                                    .toString(),
-                                                role: "Sales Associate",
+                                                id: DateHelpers
+                                                    .dateTimeMillis(),
                                                 name: _name,
                                                 phoneNumber: _phoneNumber,
                                                 email: _email,

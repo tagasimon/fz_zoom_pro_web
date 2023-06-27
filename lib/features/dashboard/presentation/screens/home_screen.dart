@@ -32,9 +32,14 @@ class HomeScreen extends ConsumerWidget {
         title: cUser?.companyId == null
             ? const Text("Home Screen")
             : const CompanyTitleWidget(),
-        actions: const [
-          CustomSwitchWidget(),
-          RequestFullScreenWidget(),
+        actions: [
+          const CustomSwitchWidget(),
+          const RequestFullScreenWidget(),
+          if (cUser != null)
+            Center(
+              child: Text(cUser.role,
+                  style: Theme.of(context).textTheme.labelLarge),
+            )
         ],
       ),
       body: dasboardProv.when(

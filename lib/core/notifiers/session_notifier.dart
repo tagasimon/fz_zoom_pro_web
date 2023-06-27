@@ -9,9 +9,11 @@ final sessionNotifierProvider =
 
 class SessionNotifier extends StateNotifier<SessionModel> {
   SessionNotifier()
-      : super(SessionModel(
-            startDate: DateHelpers.startOfTheWeekDate(),
-            endDate: DateHelpers.endOfTodayDate()));
+      : super(
+          SessionModel(
+              startDate: DateHelpers.startOfTheWeekDate(),
+              endDate: DateHelpers.endOfTodayDate()),
+        );
 
   void updateSession({
     UserModel? loggedInUser,
@@ -29,7 +31,7 @@ class SessionNotifier extends StateNotifier<SessionModel> {
   void resetSession() {
     state = SessionModel(
       loggedInUser: state.loggedInUser,
-      startDate: DateHelpers.startDateOfMonth(),
+      startDate: DateHelpers.startOfTheWeekDate(),
       endDate: DateHelpers.endOfTodayDate(),
     );
   }

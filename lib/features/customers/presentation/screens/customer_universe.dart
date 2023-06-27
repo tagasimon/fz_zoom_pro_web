@@ -278,7 +278,7 @@ class CustomerDataSourceModel extends DataTableSource {
                                     : Colors.black),
                       );
               },
-              error: (error, stk) => const SizedBox.shrink(),
+              error: (e, s) => const SizedBox.shrink(),
               loading: () => const Center(child: CircularProgressIndicator()),
             );
           },
@@ -309,7 +309,7 @@ class CustomerDataSourceModel extends DataTableSource {
                       );
               },
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, stk) => const SizedBox.shrink(),
+              error: (e, s) => const SizedBox.shrink(),
             );
           },
         )),
@@ -330,7 +330,7 @@ class CustomerDataSourceModel extends DataTableSource {
                 );
               },
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, stk) => const SizedBox.shrink(),
+              error: (e, s) => const SizedBox.shrink(),
             );
           },
         )),

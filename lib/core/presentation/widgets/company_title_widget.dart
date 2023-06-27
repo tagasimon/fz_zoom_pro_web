@@ -10,11 +10,8 @@ class CompanyTitleWidget extends ConsumerWidget {
     final companyInfoProv = ref.watch(companyInfoProvider);
     return companyInfoProv.when(
       data: (data) => Text(data.companyName),
-      error: (error, stackTrace) {
-        debugPrintStack(stackTrace: stackTrace, label: error.toString());
-        return const Text("Error");
-      },
-      loading: () => const Text("Loading ..."),
+      error: (e, s) => const Text("Errorr"),
+      loading: () => const Center(child: CircularProgressIndicator()),
     );
   }
 }

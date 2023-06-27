@@ -42,12 +42,12 @@ class _NavigationRailWidgetState extends ConsumerState<NavigationRailWidget> {
               setState(() => _selectedIndex = index);
             },
             labelType: NavigationRailLabelType.none,
-            // trailing: const CustomSwitchWidget(),
             leading: Row(
               children: [
                 IconButton(
-                    onPressed: () => setState(() => isExtended = !isExtended),
-                    icon: const Icon(Icons.menu_sharp)),
+                  onPressed: () => setState(() => isExtended = !isExtended),
+                  icon: const Icon(Icons.menu_sharp),
+                ),
               ],
             ),
             selectedLabelTextStyle: TextStyle(
@@ -95,7 +95,7 @@ class _NavigationRailWidgetState extends ConsumerState<NavigationRailWidget> {
                 UsersScreen(),
                 CustomerUniverse(),
                 ProductsScreen(),
-                CompanyHomeScreen()
+                CompanyHomeScreen(),
               ],
             ),
           )

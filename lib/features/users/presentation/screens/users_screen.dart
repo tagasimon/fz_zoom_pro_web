@@ -3,12 +3,14 @@ import 'package:field_zoom_pro_web/core/presentation/widgets/company_title_widge
 import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/get_region_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/request_full_screen_widget.dart';
+import 'package:field_zoom_pro_web/core/providers/regions_provider.dart';
 import 'package:field_zoom_pro_web/features/users/presentation/controllers/users_controller.dart';
 import 'package:field_zoom_pro_web/features/users/presentation/widgets/users_table_actions_widget.dart';
 import 'package:field_zoom_pro_web/features/users/presentation/widgets/users_table_switch_widget.dart';
 import 'package:field_zoom_pro_web/features/users/providers/user_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
 class UsersScreen extends ConsumerStatefulWidget {
@@ -152,7 +154,44 @@ class UsersDataSourceModel extends DataTableSource {
             );
           },
         )),
-        DataCell(GetRegionWidget(regionId: data[index].regionId)),
+        DataCell(Consumer(
+          builder: (context, ref, child) {
+            final regionsProv = ref.watch(allRegionsProvider);
+            return regionsProv.when(
+              data: (regionsList) {
+                return Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GetRegionWidget(regionId: data[index].regionId),
+                    DropdownButton<String?>(
+                        value: null,
+                        onChanged: (String? value) async {
+                          if (value == null) return;
+                          final nUser = data[index].copyWith(regionId: value);
+                          final success = await ref
+                              .read(usersControllerProvider.notifier)
+                              .updateUser(user: nUser);
+                          if (success) {
+                            Fluttertoast.showToast(msg: "SUCCESS :)");
+                          }
+                        },
+                        items: regionsList
+                            .map(
+                              (e) => DropdownMenuItem<String>(
+                                value: e.id,
+                                child: Text(e.name),
+                              ),
+                            )
+                            .toList())
+                  ],
+                );
+              },
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (error, stackTrace) => const SizedBox.shrink(),
+            );
+          },
+        )),
         DataCell(
           UsersTableSwitchWidget(
             nUser: data[index].copyWith(isActive: !data[index].isActive),

@@ -7,7 +7,7 @@ final regionsProvider = Provider<RegionsRepository>((ref) {
   return RegionsRepository(ref.watch(firestoreInstanceProvider));
 });
 
-final allRegionProvider = FutureProvider<List<RegionModel>>((ref) async {
+final allRegionsProvider = FutureProvider<List<RegionModel>>((ref) async {
   final user = ref.watch(sessionNotifierProvider).loggedInUser!;
   return ref
       .watch(regionsProvider)

@@ -8,7 +8,7 @@ class RegionFilterWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final regionsProv = ref.watch(allRegionProvider);
+    final regionsProv = ref.watch(allRegionsProvider);
     return regionsProv.when(
       data: (regionsList) {
         return Row(

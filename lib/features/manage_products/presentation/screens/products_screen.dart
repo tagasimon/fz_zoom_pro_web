@@ -236,7 +236,7 @@ class ProductDataSourceModel extends DataTableSource {
     return DataRow(
       cells: [
         DataCell(Text("${index + 1}")),
-        DataCell(Text(data[index].systemCode)),
+        DataCell(Text(data[index].systemCode ?? "")),
         DataCell(Text(data[index].name)),
         DataCell(ProductSubCartegoryWidget(id: data[index].subCartegoryId)),
         DataCell(ProductCartegoryWidget(cartegoryId: data[index].cartegoryId)),

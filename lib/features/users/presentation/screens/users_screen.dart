@@ -136,6 +136,10 @@ class UsersDataSourceModel extends DataTableSource {
               onChanged: (String? newValue) async {
                 if (newValue == null) return;
                 final selected = roles.firstWhere((e) => e["role"] == newValue);
+                if (selected["level"] == "5") {
+                  Fluttertoast.showToast(msg: "You can't set this role");
+                  return;
+                }
                 final nUser = data[index].copyWith(
                   role: selected["role"],
                   level: int.parse(selected["level"]!),

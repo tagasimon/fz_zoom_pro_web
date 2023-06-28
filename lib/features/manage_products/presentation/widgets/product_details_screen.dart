@@ -64,7 +64,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
         child: productProv.when(
             data: (product) {
               _nameController.text = product.name;
-              _sysCodeController.text = product.systemCode;
+              _sysCodeController.text = product.systemCode ?? "";
               _retailPxController.text = product.sellingPrice.toString();
               _wholesalePxController.text = product.wholesalePrice.toString();
               _universePxController.text = product.universePrice.toString();
@@ -343,7 +343,7 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
               );
             },
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (error, stack) =>
+            error: (e, s) =>
                 const Center(child: Text("Something went wrong :("))),
       ),
     );

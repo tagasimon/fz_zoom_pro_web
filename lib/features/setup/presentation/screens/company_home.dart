@@ -119,20 +119,6 @@ class _CompanyHomeScreenState extends ConsumerState<CompanyHomeScreen> {
                           const SizedBox(height: 10),
                           TextFormField(
                             enabled: false,
-                            controller: _countryController,
-                            decoration: const InputDecoration(
-                              labelText: "Country",
-                              hintText: "Country",
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter Country';
-                              }
-                              return null;
-                            },
-                          ),
-                          TextFormField(
-                            enabled: false,
                             controller: _companyIndustryController,
                             decoration: const InputDecoration(
                               labelText: "Industry",
@@ -156,6 +142,20 @@ class _CompanyHomeScreenState extends ConsumerState<CompanyHomeScreen> {
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return 'Please enter Admin Email';
+                              }
+                              return null;
+                            },
+                          ),
+                          TextFormField(
+                            // enabled: false,
+                            controller: _countryController,
+                            decoration: const InputDecoration(
+                              labelText: "Country",
+                              hintText: "Country",
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please enter Country';
                               }
                               return null;
                             },
@@ -281,6 +281,9 @@ class _CompanyHomeScreenState extends ConsumerState<CompanyHomeScreen> {
                                               _countryController.text.trim(),
                                           email2: _companyEmail2Controller.text
                                               .trim(),
+                                          phoneNumber: _companyPhoneController
+                                              .text
+                                              .trim(),
                                           phoneNumber2: _companyPhone2Controller
                                               .text
                                               .trim(),
@@ -374,9 +377,9 @@ class _CompanyHomeScreenState extends ConsumerState<CompanyHomeScreen> {
                                                     companyInfoControllerProvider
                                                         .notifier)
                                                 .updateCompanyInfo(
-                                                    company.copyWith(
-                                                  logoUrl: downloadUrl,
-                                                ));
+                                                  company.copyWith(
+                                                      logoUrl: downloadUrl),
+                                                );
                                             if (success) {
                                               Fluttertoast.showToast(
                                                   msg: "SUCCESS");

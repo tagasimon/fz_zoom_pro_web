@@ -21,7 +21,7 @@ class ActiveProductWidget extends ConsumerWidget {
           icon: const Icon(Icons.copy),
           label: state.isLoading
               ? const CircularProgressIndicator()
-              : const Text("Copy"),
+              : const Text("Clone"),
         ),
         const VerticalDivider(),
         TextButton.icon(

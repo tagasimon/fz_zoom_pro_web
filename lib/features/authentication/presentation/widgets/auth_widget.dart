@@ -19,9 +19,7 @@ class AuthWidget extends ConsumerWidget {
       },
       loading: () =>
           const Scaffold(body: Center(child: CircularProgressIndicator())),
-      error: (error, stackTrace) {
-        return Scaffold(body: Center(child: Text('Error: $error')));
-      },
+      error: (e, s) => Scaffold(body: Center(child: Text('Error: $e'))),
     );
   }
 }

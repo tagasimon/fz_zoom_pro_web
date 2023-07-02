@@ -1,3 +1,4 @@
+import 'package:field_zoom_pro_web/core/notifiers/product_filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/notifiers/quick_filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/app_filter_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widget.dart';
@@ -8,6 +9,7 @@ import 'package:field_zoom_pro_web/core/presentation/widgets/request_full_screen
 import 'package:field_zoom_pro_web/core/providers/routes_provider.dart';
 import 'package:field_zoom_pro_web/features/customers/presentation/widgets/customers_map_widget.dart';
 import 'package:field_zoom_pro_web/features/customers/providers/customer_provider.dart';
+import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/item_per_page_widget.dart';
 import 'package:field_zoom_pro_web/features/orders/providers/orders_providers.dart';
 import 'package:field_zoom_pro_web/features/visits/providers/visits_providers.dart';
 import 'package:flutter/material.dart';
@@ -62,18 +64,26 @@ class _CustomerUniverseState extends ConsumerState<CustomerUniverse> {
               title: const Text("CUSTOMERS"),
               actions: const [
                 CustomSwitchWidget(),
+                VerticalDivider(),
                 RequestFullScreenWidget(),
               ],
             ),
             body: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const AppFilterWidget(
-                  showRegionFilter: true,
-                  showRouteFilter: true,
-                  showSelectedUserFilter: false,
-                  showEndDateFilter: false,
-                  showStartDateFilter: false,
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ItemPerPageWidget(),
+                    SizedBox(width: 10),
+                    AppFilterWidget(
+                      showRegionFilter: true,
+                      showRouteFilter: true,
+                      showSelectedUserFilter: false,
+                      showEndDateFilter: false,
+                      showStartDateFilter: false,
+                    ),
+                  ],
                 ),
                 const Divider(),
                 if (customers.isEmpty)
@@ -113,7 +123,7 @@ class _CustomerUniverseState extends ConsumerState<CustomerUniverse> {
                           const SizedBox(height: 5),
                           PaginatedDataTable(
                             columns: const [
-                              DataColumn(label: Text("#")),
+                              // DataColumn(label: Text("#")),
                               DataColumn(label: Text("CONTACT NAME")),
                               DataColumn(label: Text("BUSINESS NAME")),
                               DataColumn(label: Text("LAST VISIT DATE")),
@@ -130,7 +140,9 @@ class _CustomerUniverseState extends ConsumerState<CustomerUniverse> {
                             header: region == null
                                 ? Text("CUSTOMERS (${customers.length})")
                                 : Text("$region (${customers.length})"),
-                            rowsPerPage: 10,
+                            rowsPerPage: ref
+                                .watch(productFilterNotifierProvider)
+                                .itemCount,
                             sortColumnIndex: 0,
                             sortAscending: false,
                             actions: [
@@ -140,20 +152,12 @@ class _CustomerUniverseState extends ConsumerState<CustomerUniverse> {
                                     width:
                                         MediaQuery.of(context).size.width * 0.2,
                                     child: TextField(
-                                      // controller: _searchController,
                                       onChanged: (value) {
-                                        setState(() {
-                                          searchTerm = value;
-                                        });
+                                        setState(() => searchTerm = value);
                                       },
-                                      decoration: InputDecoration(
-                                        hintText:
-                                            "Search Customer Name or Business Name",
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                        ),
-                                      ),
+                                      decoration: const InputDecoration(
+                                          hintText:
+                                              "Search Customer Name or Business Name"),
                                     ),
                                   )
                                 ],
@@ -180,18 +184,17 @@ class _CustomerUniverseState extends ConsumerState<CustomerUniverse> {
                                           routesByIdProvider(
                                               customersPerRouteChartData));
                                       return getRouteByIdProv.when(
-                                        data: (routesChartData) {
-                                          return SfDonutChart(
-                                            chartData: routesChartData,
-                                            title: 'ROUTES',
-                                          );
-                                        },
-                                        loading: () => const Center(
-                                          child: CircularProgressIndicator(),
-                                        ),
-                                        error: (e, s) =>
-                                            const SizedBox.shrink(),
-                                      );
+                                          data: (routesChartData) {
+                                            return SfDonutChart(
+                                              chartData: routesChartData,
+                                              title: 'ROUTES',
+                                            );
+                                          },
+                                          loading: () => const Center(
+                                              child:
+                                                  CircularProgressIndicator()),
+                                          error: (e, s) =>
+                                              const SizedBox.shrink());
                                     },
                                   ),
                                 ),
@@ -238,94 +241,101 @@ class CustomerDataSourceModel extends DataTableSource {
   });
   @override
   DataRow? getRow(int index) {
-    final number = index + 1;
+    // final number = index + 1;
     return DataRow(
       cells: [
-        DataCell(Text(number.toString())),
+        // DataCell(Text(number.toString())),
         DataCell(Text(data[index].name)),
         DataCell(Text(data[index].businessName)),
-        DataCell(Consumer(
-          builder: (context, ref, child) {
-            final customerLastVisitProv =
-                ref.watch(customerLastVisitProvider(data[index].id));
-            return customerLastVisitProv.when(
-              data: (data) {
-                if (data == null) {
-                  return const Text("NEVER",
-                      style: TextStyle(fontSize: 12, color: Colors.red));
-                }
-                final visitDate = data.visitDate as DateTime;
-                final daysDiff = getDaysDifference(visitDate);
-                return daysDiff == 0
-                    ? const Text("TODAY",
-                        style: TextStyle(fontSize: 12, color: Colors.green))
-                    : Text(
-                        "$daysDiff days ago",
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: daysDiff > 30
-                                ? Colors.red
-                                : daysDiff > 15
-                                    ? Colors.orange
-                                    : Colors.green),
-                      );
-              },
-              error: (e, s) => const SizedBox.shrink(),
-              loading: () => const Center(child: CircularProgressIndicator()),
-            );
-          },
-        )),
-        DataCell(Consumer(
-          builder: (context, ref, child) {
-            final customerLastOrderProv =
-                ref.watch(customerLastOrderProvider(data[index].id));
-            return customerLastOrderProv.when(
-              data: (data) {
-                if (data == null) {
-                  return const Text("NEVER",
-                      style: TextStyle(fontSize: 12, color: Colors.red));
-                }
-                final daysDiff = getDaysDifference(data.createdAt as DateTime);
-                return daysDiff == 0
-                    ? const Text("TODAY",
-                        style: TextStyle(fontSize: 12, color: Colors.green))
-                    : Text(
-                        "$daysDiff days ago",
-                        style: TextStyle(
-                            fontSize: 12,
-                            color: daysDiff > 7
-                                ? Colors.red
-                                : daysDiff > 3
-                                    ? Colors.orange
-                                    : Colors.green),
-                      );
-              },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, s) => const SizedBox.shrink(),
-            );
-          },
-        )),
-        DataCell(Consumer(
-          builder: (context, ref, child) {
-            final customerLastOrderProv =
-                ref.watch(customerLastOrderProvider(data[index].id));
-            return customerLastOrderProv.when(
-              data: (data) {
-                final mFormat = NumberFormat("UGX #,###");
-                if (data == null) {
-                  return const Text("UGX 0.00",
-                      style: TextStyle(fontSize: 12, color: Colors.red));
-                }
-                return Text(
-                  mFormat.format(data.amount),
-                  style: const TextStyle(fontSize: 12),
-                );
-              },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, s) => const SizedBox.shrink(),
-            );
-          },
-        )),
+        DataCell(
+          Consumer(
+            builder: (context, ref, child) {
+              final customerLastVisitProv =
+                  ref.watch(customerLastVisitProvider(data[index].id));
+              return customerLastVisitProv.when(
+                data: (data) {
+                  if (data == null) {
+                    return const Text("NEVER",
+                        style: TextStyle(fontSize: 12, color: Colors.red));
+                  }
+                  final visitDate = data.visitEndDate as DateTime;
+                  final daysDiff = getDaysDifference(visitDate);
+                  return daysDiff == 0
+                      ? const Text("TODAY",
+                          style: TextStyle(fontSize: 12, color: Colors.green))
+                      : Text(
+                          "$daysDiff days ago",
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: daysDiff > 30
+                                  ? Colors.red
+                                  : daysDiff > 15
+                                      ? Colors.orange
+                                      : Colors.green),
+                        );
+                },
+                error: (e, s) => const SizedBox.shrink(),
+                loading: () => const Center(child: CircularProgressIndicator()),
+              );
+            },
+          ),
+        ),
+        DataCell(
+          Consumer(
+            builder: (context, ref, child) {
+              final customerLastOrderProv =
+                  ref.watch(customerLastOrderProvider(data[index].id));
+              return customerLastOrderProv.when(
+                data: (data) {
+                  if (data == null) {
+                    return const Text("NEVER",
+                        style: TextStyle(fontSize: 12, color: Colors.red));
+                  }
+                  final daysDiff =
+                      getDaysDifference(data.createdAt as DateTime);
+                  return daysDiff == 0
+                      ? const Text("TODAY",
+                          style: TextStyle(fontSize: 12, color: Colors.green))
+                      : Text(
+                          "$daysDiff days ago",
+                          style: TextStyle(
+                              fontSize: 12,
+                              color: daysDiff > 7
+                                  ? Colors.red
+                                  : daysDiff > 3
+                                      ? Colors.orange
+                                      : Colors.green),
+                        );
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (e, s) => const SizedBox.shrink(),
+              );
+            },
+          ),
+        ),
+        DataCell(
+          Consumer(
+            builder: (context, ref, child) {
+              final customerLastOrderProv =
+                  ref.watch(customerLastOrderProvider(data[index].id));
+              return customerLastOrderProv.when(
+                data: (data) {
+                  final mFormat = NumberFormat("UGX #,###");
+                  if (data == null) {
+                    return const Text("UGX 0.00",
+                        style: TextStyle(fontSize: 12, color: Colors.red));
+                  }
+                  return Text(
+                    mFormat.format(data.amount),
+                    style: const TextStyle(fontSize: 12),
+                  );
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (e, s) => const SizedBox.shrink(),
+              );
+            },
+          ),
+        ),
         DataCell(Text(data[index].businessType)),
         DataCell(GetRegionWidget(regionId: data[index].regionId)),
         DataCell(GetRouteWidget(routeId: data[index].routeId)),

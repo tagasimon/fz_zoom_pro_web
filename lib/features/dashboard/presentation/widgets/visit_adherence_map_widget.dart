@@ -29,8 +29,8 @@ Widget visitAdherenceMapWidget({required List<VisitModel> visits}) {
     List<MarkerOptions> markerOptionsList = [];
 
     for (var r = 0; r < visits.length; r++) {
-      final lat = visits[r].latitude;
-      final lng = visits[r].longitude;
+      final lat = visits[r].endLatitude;
+      final lng = visits[r].endLongitude;
       markerOptionsList.add(
         MarkerOptions()
           ..position = LatLng(lat, lng)
@@ -45,10 +45,10 @@ Widget visitAdherenceMapWidget({required List<VisitModel> visits}) {
     for (var i = 0; i < markerOptionsList.length; i++) {
       var contentString = '''
         <div>
-            // <strong>
-            //   <p style="color: black">${visits[i].customerId}</p>
-            // </strong>
-            <p style="color: black">${dateFormat.format(visits[i].visitDate as DateTime)}</p>
+            <!-- <strong>
+              <p style="color: black">${visits[i].customerId}</p>
+            </strong> -->
+            <p style="color: black">${dateFormat.format(visits[i].visitEndDate as DateTime)}</p>
         </div>
         ''';
       final infoWindow =

@@ -10,7 +10,8 @@ class GetCustomerWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userProv = ref.watch(customerByIdProvider(customerId));
     return userProv.when(
-      data: (customer) => Text("${customer.name} - ${customer.businessName}"),
+      data: (customer) => Text(
+          "${customer.name} | ${customer.businessName} | ${customer.town}"),
       loading: () => const CircularProgressIndicator(),
       error: (error, stackTrace) => const Text('Error'),
     );

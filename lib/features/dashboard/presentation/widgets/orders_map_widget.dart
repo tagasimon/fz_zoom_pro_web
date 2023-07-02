@@ -46,9 +46,9 @@ Widget ordersMapWidget({required List<OrderModel> orders}) {
     for (var i = 0; i < markerOptionsList.length; i++) {
       var contentString = '''
           <div>
-            // <strong>
-            //   <p style="color: black"> <h5 class="card-title">${orders[i].customerId}</h5></p>
-            // </strong>
+            <!-- <strong> 
+              <p style="color: black"> <h5 class="card-title">${orders[i].customerId}</h5></p>
+            </strong> -->
             <p style="color: black">${mFormat.format(orders[i].amount)}</p>
             <p style="color: black">${dateFormat.format(orders[i].createdAt as DateTime)}</p>
           </div>

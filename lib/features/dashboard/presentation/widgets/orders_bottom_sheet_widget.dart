@@ -26,10 +26,6 @@ class _OrdersBottomSheetWidgetState
   OrderModel? selectedOrder;
   @override
   Widget build(BuildContext context) {
-    final scrollController = ScrollController();
-    if (scrollController.hasClients) {
-      scrollController.jumpTo(50.0);
-    }
     final customersData = OrdersDataSourceModel(
       data: widget.orders,
       selectedOrderId: selectedOrderId,
@@ -78,6 +74,7 @@ class _OrdersBottomSheetWidgetState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
+                    flex: 3,
                     child: SizedBox(
                       width: double.infinity,
                       child: PaginatedDataTable(
@@ -93,7 +90,7 @@ class _OrdersBottomSheetWidgetState
                         ],
                         source: customersData,
                         header: Text(
-                            "${widget.orderType} ORDERS LIST (${customersData.rowCount})"),
+                            "${widget.orderType} ORDERS (${customersData.rowCount})"),
                         rowsPerPage: 10,
                         showCheckboxColumn: true,
                         showFirstLastButtons: true,
@@ -102,9 +99,10 @@ class _OrdersBottomSheetWidgetState
                   ),
                   const VerticalDivider(),
                   Expanded(
+                    flex: 2,
                     child: selectedOrder == null
                         ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               DataTable(
                                 border: TableBorder.all(
@@ -128,19 +126,10 @@ class _OrdersBottomSheetWidgetState
                                     )
                                 ],
                               ),
-                              const SizedBox(height: 10),
-                              SizedBox(
-                                child: SfBarChart(
-                                  chartData: ordersChartData,
-                                  axisTitle: 'Amt in Ugx',
-                                  title: "TOP 10 PRODUCTS",
-                                  height: 400,
-                                ),
-                              ),
                             ],
                           )
                         : Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
                                 "ORDER DETAILS",
@@ -153,7 +142,7 @@ class _OrdersBottomSheetWidgetState
                                   width: 1,
                                 ),
                                 columns: const [
-                                  DataColumn(label: Text("PRODUCT")),
+                                  DataColumn(label: Text("PRODUCTS")),
                                   DataColumn(label: Text("AMOUNT")),
                                 ],
                                 rows: [
@@ -168,15 +157,6 @@ class _OrdersBottomSheetWidgetState
                                       ],
                                     )
                                 ],
-                              ),
-                              const SizedBox(height: 10),
-                              SizedBox(
-                                child: SfBarChart(
-                                  chartData: selectedOrderChartData,
-                                  axisTitle: 'Amt in Ugx',
-                                  title: "TOP 10 PRODUCTS",
-                                  height: 400,
-                                ),
                               ),
                             ],
                           ),

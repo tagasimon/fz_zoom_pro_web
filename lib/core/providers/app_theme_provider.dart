@@ -8,7 +8,7 @@ final appThemeProvider = StateNotifierProvider<AppThemeProvider, ThemeData>(
 );
 
 class AppThemeProvider extends StateNotifier<ThemeData> {
-  AppThemeProvider() : super(_darkTheme);
+  AppThemeProvider() : super(_lightTheme);
 
   static final _lightTheme = ThemeData(
     colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),

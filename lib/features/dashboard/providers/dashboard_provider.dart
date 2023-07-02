@@ -1,14 +1,11 @@
 import 'package:field_zoom_pro_web/core/notifiers/session_notifier.dart';
 import 'package:field_zoom_pro_web/core/providers/firebase_providers.dart';
+import 'package:field_zoom_pro_web/features/visits/providers/visits_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
 final sellOutOrdersProvider = Provider<OrdersRepository>((ref) {
   return OrdersRepository(ref.watch(firestoreInstanceProvider));
-});
-
-final visitAdherenceProvider = Provider<VisitRepository>((ref) {
-  return VisitRepository(ref.watch(firestoreInstanceProvider));
 });
 
 final sellOutRepoProvider = Provider<OrdersRepository>((ref) {

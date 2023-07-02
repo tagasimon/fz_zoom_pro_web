@@ -118,14 +118,35 @@ class UsersDataSourceModel extends DataTableSource {
   @override
   DataRow? getRow(int index) {
     final List<Map<String, String>> roles = [
-      {"role": "Sales Rep", "level": "1"},
-      {"role": "Manager", "level": "2"},
-      {"role": "Admin", "level": "3"},
       {"role": "Super Admin", "level": "5"},
+      {"role": "Admin", "level": "3"},
+      {"role": "Manager", "level": "2"},
+      {"role": "Sales Rep", "level": "1"},
     ];
     return DataRow(
       cells: [
-        DataCell(Text(data[index].name)),
+        DataCell(Consumer(
+          builder: (context, ref, _) {
+            return TextField(
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                suffix: Icon(Icons.edit, size: 16, color: Colors.grey),
+              ),
+              controller: TextEditingController(text: data[index].name),
+              onSubmitted: (value) async {
+                final newName = value.trim();
+                if (newName.isEmpty) return;
+                final nUser = data[index].copyWith(name: newName);
+                final success = await ref
+                    .read(usersControllerProvider.notifier)
+                    .updateUser(user: nUser);
+                if (success) {
+                  Fluttertoast.showToast(msg: "SUCCESS :)");
+                }
+              },
+            );
+          },
+        )),
         DataCell(Text(data[index].email)),
         DataCell(SelectableText(data[index].phoneNumber)),
         DataCell(Consumer(

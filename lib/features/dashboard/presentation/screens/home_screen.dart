@@ -34,12 +34,15 @@ class HomeScreen extends ConsumerWidget {
             : const CompanyTitleWidget(),
         actions: [
           const CustomSwitchWidget(),
+          const VerticalDivider(),
           const RequestFullScreenWidget(),
+          const VerticalDivider(),
           if (cUser != null)
             Center(
               child: Text(cUser.role,
                   style: Theme.of(context).textTheme.labelLarge),
-            )
+            ),
+          const SizedBox(width: 10),
         ],
       ),
       body: dasboardProv.when(
@@ -91,155 +94,164 @@ class HomeScreen extends ConsumerWidget {
                 .toList();
           }
 
-          return SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              children: [
-                const AppFilterWidget(
-                  showRegionFilter: true,
-                  showSelectedUserFilter: true,
-                  showStartDateFilter: true,
-                  showEndDateFilter: true,
-                ),
-                const Divider(),
-                const SizedBox(height: 10),
-
-                // if (ordersList.isEmpty &&
-                //     visitsList.isEmpty &&
-                //     paymentsList.isEmpty)
-                //   const Center(child: NothingFoundAnimation()),
-
-                // MAPS ROW WIDGET
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
+          return Column(
+            children: [
+              const AppFilterWidget(
+                showRegionFilter: true,
+                showSelectedUserFilter: true,
+                showStartDateFilter: true,
+                showEndDateFilter: true,
+              ),
+              const Divider(),
+              const SizedBox(height: 5),
+              Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                    children: [
+                      Row(
                         children: [
-                          const Text(
-                            'Visits Map',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.5,
+                          Expanded(
+                            child: Column(
+                              children: [
+                                const Text(
+                                  'Visits Map',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 1.5,
+                                  ),
+                                ),
+                                if (visitsList.isNotEmpty)
+                                  SizedBox(
+                                    height: 400,
+                                    child: visitAdherenceMapWidget(
+                                        visits: visitsList),
+                                  )
+                                else
+                                  Center(
+                                    child: Text(
+                                      'No Visits Found',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge,
+                                    ),
+                                  ),
+                              ],
                             ),
                           ),
-                          if (visitsList.isNotEmpty)
-                            SizedBox(
-                              height: 400,
-                              child:
-                                  visitAdherenceMapWidget(visits: visitsList),
-                            )
-                          else
-                            Center(
-                              child: Text(
-                                'No Visits Found',
-                                style: Theme.of(context).textTheme.labelLarge,
-                              ),
+                          const SizedBox(width: 5),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                const Text(
+                                  'Orders Map',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 1.5,
+                                  ),
+                                ),
+                                if (ordersList.isNotEmpty)
+                                  SizedBox(
+                                    height: 400,
+                                    child: ordersMapWidget(orders: ordersList),
+                                  )
+                                else
+                                  Center(
+                                    child: Text(
+                                      'No Orders Found',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelLarge,
+                                    ),
+                                  ),
+                              ],
                             ),
+                          ),
                         ],
                       ),
-                    ),
-                    const SizedBox(width: 5),
-                    Expanded(
-                      child: Column(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Orders Map',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1.5,
-                            ),
+                          Column(
+                            children: [
+                              const SizedBox(height: 10),
+                              Text(
+                                "ORDERS SUMMARY",
+                                style: Theme.of(context).textTheme.labelLarge,
+                              ),
+                              Card(
+                                child: SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.4,
+                                  child: OrdersSummaryTable(orders: ordersList),
+                                ),
+                              ),
+                              Text(
+                                "VISIT SUMMARY",
+                                style: Theme.of(context).textTheme.labelLarge,
+                              ),
+                              Card(
+                                child: SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.4,
+                                  child: VisitsSummaryTableWidget(
+                                      visits: visitsList),
+                                ),
+                              ),
+                            ],
                           ),
+                          if (ordersList.isEmpty) const SizedBox.shrink(),
                           if (ordersList.isNotEmpty)
-                            SizedBox(
-                              height: 400,
-                              child: ordersMapWidget(orders: ordersList),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                const SizedBox(height: 10),
+                                Text(
+                                  "TOTAL ORDERS BY SALES PERSON",
+                                  style: Theme.of(context).textTheme.labelLarge,
+                                ),
+                                Card(
+                                  child: SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.4,
+                                    child: OrdersBySalesRep(orders: ordersList),
+                                  ),
+                                ),
+                                Text(
+                                  "COLLECTIONS BY SALES PERSON",
+                                  style: Theme.of(context).textTheme.labelLarge,
+                                ),
+                                Card(
+                                  child: SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.4,
+                                    child: CollectionsBySalesPerson(
+                                        collections: paymentsList),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.4,
+                                  height: 400,
+                                  child: SfPieChart(
+                                    chartData: OrderChartUtils
+                                        .sellOutAndOrdersTopProducts(
+                                            orders: ordersList),
+                                    title: 'TOP PRODUCTS',
+                                  ),
+                                ),
+                              ],
                             )
-                          else
-                            Center(
-                              child: Text(
-                                'No Orders Found',
-                                style: Theme.of(context).textTheme.labelLarge,
-                              ),
-                            ),
                         ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      children: [
-                        const SizedBox(height: 10),
-                        Text(
-                          "ORDERS SUMMARY",
-                          style: Theme.of(context).textTheme.labelLarge,
-                        ),
-                        Card(
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            child: OrdersSummaryTable(orders: ordersList),
-                          ),
-                        ),
-                        Text(
-                          "VISIT SUMMARY",
-                          style: Theme.of(context).textTheme.labelLarge,
-                        ),
-                        Card(
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            child: VisitsSummaryTableWidget(visits: visitsList),
-                          ),
-                        ),
-                      ],
-                    ),
-                    if (ordersList.isEmpty) const SizedBox.shrink(),
-                    if (ordersList.isNotEmpty)
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const SizedBox(height: 10),
-                          Text(
-                            "TOTAL ORDERS BY SALES PERSON",
-                            style: Theme.of(context).textTheme.labelLarge,
-                          ),
-                          Card(
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.4,
-                              child: OrdersBySalesRep(orders: ordersList),
-                            ),
-                          ),
-                          Text(
-                            "COLLECTIONS BY SALES PERSON",
-                            style: Theme.of(context).textTheme.labelLarge,
-                          ),
-                          Card(
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.4,
-                              child: CollectionsBySalesPerson(
-                                  collections: paymentsList),
-                            ),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            height: 400,
-                            child: SfPieChart(
-                              chartData:
-                                  OrderChartUtils.sellOutAndOrdersTopProducts(
-                                      orders: ordersList),
-                              title: 'TOP PRODUCTS',
-                            ),
-                          ),
-                        ],
-                      )
-                  ],
-                ),
-              ],
-            ),
+              ),
+            ],
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),

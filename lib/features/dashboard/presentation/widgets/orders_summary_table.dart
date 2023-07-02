@@ -6,10 +6,7 @@ import 'package:intl/intl.dart';
 
 class OrdersSummaryTable extends ConsumerWidget {
   final List<OrderModel> orders;
-  const OrdersSummaryTable({
-    super.key,
-    required this.orders,
-  });
+  const OrdersSummaryTable({super.key, required this.orders});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -31,9 +31,7 @@ class OrdersBySalesRep extends ConsumerWidget {
               Consumer(builder: (context, ref, _) {
                 final salesManProv = ref.watch(findUserByIdProvider(entry.key));
                 return salesManProv.when(
-                  data: (data) {
-                    return Text(data.name);
-                  },
+                  data: (data) => Text(data.name),
                   loading: () =>
                       const Center(child: CircularProgressIndicator()),
                   error: (e, s) => const Center(child: Text("Error")),

@@ -25,7 +25,7 @@ class VisitsScreen extends ConsumerWidget {
         ref.watch(quickfilterNotifierProvider).selectedUserId;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('VISITS/CALLS'),
+        title: const Text('VISITS'),
         actions: const [
           CustomSwitchWidget(),
           VerticalDivider(),

@@ -37,7 +37,7 @@ class OrdersSummaryTable extends ConsumerWidget {
       ],
       rows: [
         DataRow(cells: [
-          const DataCell(Text('TOTAL ORDERS')),
+          const DataCell(Text('ALL ORDERS')),
           DataCell(
             OutlinedButton.icon(
               style: TextButton.styleFrom(

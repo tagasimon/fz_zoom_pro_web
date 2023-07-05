@@ -142,7 +142,7 @@ class _AddSubCartegoryScreenState extends ConsumerState<AddSubCartegoryScreen> {
                             return Form(
                               key: _formKey,
                               child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: context.paddingLow,
                                 child: Column(
                                   children: [
                                     DropdownButton<ProductCartegoryModel>(

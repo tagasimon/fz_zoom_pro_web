@@ -43,7 +43,7 @@ class _NewUserScreenState extends ConsumerState<NewUserScreen> {
             data: (data) {
               return Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: context.paddingLow,
                   child: SizedBox(
                     width: MediaQuery.sizeOf(context).width * 0.5,
                     child: Column(

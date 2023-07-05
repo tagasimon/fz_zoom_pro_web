@@ -58,7 +58,7 @@ class _AddProductCartegoryScreenState
           autofocus: true,
           child: Center(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: context.paddingLow,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -139,7 +139,7 @@ class _AddProductCartegoryScreenState
                     flex: 1,
                     child: Card(
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: context.paddingLow,
                         child: Column(
                           children: [
                             Text(

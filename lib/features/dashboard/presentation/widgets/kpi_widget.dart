@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fz_hooks/fz_hooks.dart';
 
 class KpiWidget extends StatelessWidget {
   const KpiWidget({super.key});
@@ -9,7 +10,7 @@ class KpiWidget extends StatelessWidget {
       child: SizedBox(
         width: MediaQuery.sizeOf(context).width * 0.3,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: context.paddingLow,
           child: DataTable(
             showBottomBorder: true,
             border: TableBorder.all(

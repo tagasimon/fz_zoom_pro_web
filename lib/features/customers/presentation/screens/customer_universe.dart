@@ -105,11 +105,11 @@ class _CustomerUniverseState extends ConsumerState<CustomerUniverse> {
                             child: Stack(
                               children: [
                                 customersMapWidget(customers: customers),
-                                const Align(
+                                Align(
                                   alignment: Alignment.topCenter,
                                   child: Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Text(
+                                      padding: context.paddingLow,
+                                      child: const Text(
                                         ' Customers Map',
                                         style: TextStyle(
                                           fontSize: 20,
@@ -149,8 +149,7 @@ class _CustomerUniverseState extends ConsumerState<CustomerUniverse> {
                               Row(
                                 children: [
                                   SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.2,
+                                    width: context.screenWidth * 0.2,
                                     child: TextField(
                                       onChanged: (value) {
                                         setState(() => searchTerm = value);

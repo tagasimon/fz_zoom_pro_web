@@ -184,8 +184,7 @@ class HomeScreen extends ConsumerWidget {
                               ),
                               Card(
                                 child: SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.4,
+                                  width: context.screenWidth * 0.4,
                                   child: OrdersSummaryTable(orders: ordersList),
                                 ),
                               ),
@@ -195,8 +194,7 @@ class HomeScreen extends ConsumerWidget {
                               ),
                               Card(
                                 child: SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.4,
+                                  width: context.screenWidth * 0.4,
                                   child: VisitsSummaryTableWidget(
                                       visits: visitsList),
                                 ),
@@ -215,8 +213,7 @@ class HomeScreen extends ConsumerWidget {
                                 ),
                                 Card(
                                   child: SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.4,
+                                    width: context.screenWidth * 0.4,
                                     child: OrdersBySalesRep(orders: ordersList),
                                   ),
                                 ),
@@ -226,15 +223,13 @@ class HomeScreen extends ConsumerWidget {
                                 ),
                                 Card(
                                   child: SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.4,
+                                    width: context.screenWidth * 0.4,
                                     child: CollectionsBySalesPerson(
                                         collections: paymentsList),
                                   ),
                                 ),
                                 SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.4,
+                                  width: context.screenWidth * 0.4,
                                   height: 400,
                                   child: SfPieChart(
                                     chartData: OrderChartUtils

@@ -10,6 +10,7 @@ import 'package:field_zoom_pro_web/features/visits/presentation/screens/visits_s
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fz_hooks/fz_hooks.dart';
 
 class NavRailWidget extends ConsumerStatefulWidget {
   const NavRailWidget({super.key});
@@ -43,7 +44,7 @@ class _NavRailWidgetState extends ConsumerState<NavRailWidget> {
                     NavigationRail(
                       extended: isExtended,
                       useIndicator: true,
-                      indicatorColor: Theme.of(context).primaryColorLight,
+                      indicatorColor: context.primaryColorLight,
                       selectedIndex: _selectedIndex,
                       onDestinationSelected: (int index) {
                         setState(() => _selectedIndex = index);

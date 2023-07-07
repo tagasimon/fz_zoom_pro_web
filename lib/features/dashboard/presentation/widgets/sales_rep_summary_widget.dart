@@ -4,11 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 import 'package:intl/intl.dart';
 
-class OrdersBySalesRep extends ConsumerWidget {
+class SalesRepSummaryWidget extends ConsumerWidget {
   final List<OrderModel> orders;
   final List<PayementModel> collections;
   final List<VisitModel> visits;
-  const OrdersBySalesRep(
+  const SalesRepSummaryWidget(
       {super.key,
       required this.orders,
       required this.collections,
@@ -30,7 +30,7 @@ class OrdersBySalesRep extends ConsumerWidget {
           DataColumn(label: Text('tDELIVERED')),
           DataColumn(label: Text('tCANCELLED')),
           DataColumn(label: Text('tCOLLECTIONS')),
-          DataColumn(label: Text('#VISITS')),
+          DataColumn(label: Text('tVISITS')),
         ],
         rows: [
           for (final salesRep in salesRepSummaryList)

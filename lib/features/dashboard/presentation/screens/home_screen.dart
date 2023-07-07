@@ -6,7 +6,7 @@ import 'package:field_zoom_pro_web/core/notifiers/quick_filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/app_filter_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/company_app_bar_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/nothing_found_animation.dart';
-import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/orders_by_person_table.dart';
+import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/sales_rep_summary_widget.dart';
 import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/orders_map_widget.dart';
 import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/orders_summary_table.dart';
 import 'package:field_zoom_pro_web/features/dashboard/providers/dashboard_provider.dart';
@@ -141,7 +141,7 @@ class HomeScreen extends ConsumerWidget {
                         Row(
                           children: [
                             Expanded(
-                              child: OrdersBySalesRep(
+                              child: SalesRepSummaryWidget(
                                 orders: ordersList,
                                 collections: paymentsList,
                                 visits: visitsList,
@@ -165,10 +165,10 @@ class HomeScreen extends ConsumerWidget {
                                 ),
                               ),
                               const Expanded(
-                                child: SizedBox(child: Text("Widget 2")),
+                                child: SizedBox(child: Icon(Icons.bar_chart)),
                               ),
                               const Expanded(
-                                child: SizedBox(child: Text("Widget 3")),
+                                child: SizedBox(child: Icon(Icons.pie_chart)),
                               ),
                             ],
                           ),

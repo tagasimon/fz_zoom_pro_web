@@ -6,7 +6,7 @@ import 'package:field_zoom_pro_web/core/presentation/widgets/get_region_widget.d
 import 'package:field_zoom_pro_web/core/presentation/widgets/get_user_names_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/nothing_found_animation.dart';
 import 'package:field_zoom_pro_web/features/customers/presentation/widgets/customers_map_widget.dart';
-import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/visit_adherence_map_widget.dart';
+import 'package:field_zoom_pro_web/features/visits/presentation/widgets/visit_adherence_map_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/item_per_page_widget.dart';
 import 'package:field_zoom_pro_web/features/visits/providers/visits_providers.dart';
 import 'package:flutter/material.dart';

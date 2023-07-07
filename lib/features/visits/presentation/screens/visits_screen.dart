@@ -4,7 +4,8 @@ import 'package:field_zoom_pro_web/core/presentation/widgets/app_filter_widget.d
 import 'package:field_zoom_pro_web/core/presentation/widgets/company_app_bar_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/get_region_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/get_user_names_widget.dart';
-import 'package:field_zoom_pro_web/features/customers/presentation/widgets/get_customer_widget.dart';
+import 'package:field_zoom_pro_web/core/presentation/widgets/nothing_found_animation.dart';
+import 'package:field_zoom_pro_web/features/customers/presentation/widgets/customers_map_widget.dart';
 import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/visit_adherence_map_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/item_per_page_widget.dart';
 import 'package:field_zoom_pro_web/features/visits/providers/visits_providers.dart';
@@ -18,33 +19,48 @@ class VisitsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final visitsProv = ref.watch(companyVisitsProvider);
+    final visitsProv = ref.watch(companyVisitsAndCustomersProvider);
     final regionId = ref.watch(quickfilterNotifierProvider).region;
     final selectedUserId =
         ref.watch(quickfilterNotifierProvider).selectedUserId;
     return Scaffold(
       appBar: const CompanyAppBarWidget(title: "VISITS"),
       body: visitsProv.when(
-        data: (data) {
+        data: (visitsAndCustomers) {
+          List<VisitModel> visits = visitsAndCustomers[0] as List<VisitModel>;
+          List<CustomerModel> customers =
+              visitsAndCustomers[1] as List<CustomerModel>;
+          List<String> customerIds =
+              visits.map((e) => e.customerId).toSet().toList();
+          List<CustomerModel> filteredCustomers = customers
+              .where((element) => customerIds.contains(element.id))
+              .toList();
           if (regionId != null) {
-            data =
-                data.where((element) => element.regionId == regionId).toList();
+            visits = visits
+                .where((element) => element.regionId == regionId)
+                .toList();
           }
           if (selectedUserId != null) {
-            data = data
+            visits = visits
                 .where((element) => element.userId == selectedUserId)
                 .toList();
           }
           if (regionId != null && selectedUserId != null) {
-            data = data
+            visits = visits
                 .where((element) =>
                     element.regionId == regionId &&
                     element.userId == selectedUserId)
                 .toList();
           }
+          // replace customerId with CustomerName from the filteredCustomers List
+          visits = visits.map((e) {
+            final customer = filteredCustomers
+                .firstWhere((element) => element.id == e.customerId);
+            return e.copyWith(customerId: customer.name);
+          }).toList();
 
           final myData = VisitDataSourceModel(
-            data: data,
+            data: visits,
             selectedVisits: {},
             onSelected: (visit) {},
           );
@@ -63,16 +79,62 @@ class VisitsScreen extends ConsumerWidget {
               ),
               const Divider(),
               const SizedBox(height: 5),
-              data.isEmpty
-                  ? const Center(child: Text('No data found'))
+              visits.isEmpty
+                  ? const Center(child: NothingFoundAnimation())
                   : Expanded(
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
-                            SizedBox(
-                              height: 400,
-                              width: double.infinity,
-                              child: visitAdherenceMapWidget(visits: data),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                SizedBox(
+                                  height: 400,
+                                  width: context.screenWidth * 0.45,
+                                  child: Stack(
+                                    children: [
+                                      visitAdherenceMapWidget(visits: visits),
+                                      Align(
+                                        alignment: Alignment.topCenter,
+                                        child: Padding(
+                                          padding: context.paddingLow,
+                                          child: const Text(
+                                            'Visits Map',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const VerticalDivider(),
+                                SizedBox(
+                                  height: 400,
+                                  width: context.screenWidth * 0.45,
+                                  child: Stack(
+                                    children: [
+                                      customersMapWidget(
+                                          customers: filteredCustomers),
+                                      Align(
+                                        alignment: Alignment.topCenter,
+                                        child: Padding(
+                                          padding: context.paddingLow,
+                                          child: const Text(
+                                            'Customers Visited Locations',
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                             Row(
                               children: [
@@ -87,7 +149,7 @@ class VisitsScreen extends ConsumerWidget {
                                       DataColumn(label: Text("VISIT DURATION")),
                                     ],
                                     source: myData,
-                                    header: Text("VISITS (${data.length})"),
+                                    header: Text("VISITS (${visits.length})"),
                                     rowsPerPage: ref
                                         .watch(productFilterNotifierProvider)
                                         .itemCount,
@@ -131,7 +193,7 @@ class VisitDataSourceModel extends DataTableSource {
       cells: [
         DataCell(GetUserNamesWidget(userId: data[index].userId)),
         DataCell(GetRegionWidget(regionId: data[index].regionId)),
-        DataCell(GetCustomerWidget(customerId: data[index].customerId)),
+        DataCell(Text(data[index].customerId)),
         DataCell(
             Text(timeFormat.format(data[index].visitStartDate as DateTime))),
         DataCell(Text(timeFormat.format(data[index].visitEndDate as DateTime))),

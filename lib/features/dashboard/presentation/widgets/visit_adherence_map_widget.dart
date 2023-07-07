@@ -25,9 +25,9 @@ Widget visitAdherenceMapWidget({required List<VisitModel> visits}) {
       ..style.border = 'none';
 
     final map = GMap(elem, mapOptions);
-
     List<MarkerOptions> markerOptionsList = [];
 
+    // VISITS
     for (var r = 0; r < visits.length; r++) {
       final lat = visits[r].endLatitude;
       final lng = visits[r].endLongitude;
@@ -41,13 +41,12 @@ Widget visitAdherenceMapWidget({required List<VisitModel> visits}) {
               'https://firebasestorage.googleapis.com/v0/b/field-zoom.appspot.com/o/FIELD%20ZOOM%2Fred-flag.png?alt=media&token=bf7cdb22-2f0c-4f9d-b0f6-5ff9f526f5ca',
       );
     }
-
     for (var i = 0; i < markerOptionsList.length; i++) {
       var contentString = '''
         <div>
-            <!-- <strong>
+            <strong>
               <p style="color: black">${visits[i].customerId}</p>
-            </strong> -->
+            </strong>
             <p style="color: black">${dateFormat.format(visits[i].visitEndDate as DateTime)}</p>
         </div>
         ''';
@@ -56,7 +55,6 @@ Widget visitAdherenceMapWidget({required List<VisitModel> visits}) {
       final marker = Marker(markerOptionsList[i]);
       marker.onClick.listen((event) => infoWindow.open(map, marker));
     }
-
     return elem;
   });
 

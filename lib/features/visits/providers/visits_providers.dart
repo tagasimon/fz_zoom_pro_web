@@ -1,5 +1,6 @@
 import 'package:field_zoom_pro_web/core/notifiers/session_notifier.dart';
 import 'package:field_zoom_pro_web/core/providers/firebase_providers.dart';
+import 'package:field_zoom_pro_web/features/customers/providers/customer_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
@@ -15,6 +16,21 @@ final companyVisitsProvider =
       companyId: filter.loggedInUser!.companyId,
       startDate: filter.startDate,
       endDate: filter.endDate);
+});
+
+final companyVisitsAndCustomersProvider =
+    FutureProvider.autoDispose<List<dynamic>>((ref) async {
+  final filter = ref.watch(sessionNotifierProvider);
+  if (filter.loggedInUser == null) return Future.value([]);
+  return Future.wait([
+    ref.watch(visitAdherenceProvider).nGetAllCompanyVisits(
+        companyId: filter.loggedInUser!.companyId,
+        startDate: filter.startDate,
+        endDate: filter.endDate),
+    ref
+        .watch(customersRepoProvider)
+        .getAllCompanyCustomers(companyId: filter.loggedInUser!.companyId),
+  ]);
 });
 
 final customerLastVisitProvider = FutureProvider.family

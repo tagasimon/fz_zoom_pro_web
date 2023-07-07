@@ -114,27 +114,37 @@ class HomeScreen extends ConsumerWidget {
                                 Expanded(
                                   child: Card(
                                     child: SizedBox(
-                                      width: context.screenWidth * 0.4,
-                                      // height: 400,
-                                      child:
-                                          ordersMapWidget(orders: ordersList),
-                                    ),
+                                        width: context.screenWidth * 0.4,
+                                        child: Stack(
+                                          children: [
+                                            ordersMapWidget(orders: ordersList),
+                                            Align(
+                                              alignment: Alignment.topCenter,
+                                              child: Padding(
+                                                  padding: context.paddingLow,
+                                                  child: const Text(
+                                                    'Orders Map',
+                                                    style: TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  )),
+                                            ),
+                                          ],
+                                        )),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        const SizedBox(height: 10),
                         Row(
                           children: [
                             Expanded(
-                              child: SizedBox(
-                                width: context.screenWidth * 0.4,
-                                child: OrdersBySalesRep(
-                                  orders: ordersList,
-                                  collections: paymentsList,
-                                  visits: visitsList,
-                                ),
+                              child: OrdersBySalesRep(
+                                orders: ordersList,
+                                collections: paymentsList,
+                                visits: visitsList,
                               ),
                             ),
                           ],
@@ -155,10 +165,10 @@ class HomeScreen extends ConsumerWidget {
                                 ),
                               ),
                               const Expanded(
-                                child: SizedBox(child: Text("#")),
+                                child: SizedBox(child: Text("Widget 2")),
                               ),
                               const Expanded(
-                                child: SizedBox(child: Text("#")),
+                                child: SizedBox(child: Text("Widget 3")),
                               ),
                             ],
                           ),

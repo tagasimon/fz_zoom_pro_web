@@ -3,12 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
 import 'package:field_zoom_pro_web/core/notifiers/quick_filter_notifier.dart';
-import 'package:field_zoom_pro_web/core/notifiers/session_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/app_filter_widget.dart';
-import 'package:field_zoom_pro_web/core/presentation/widgets/company_title_widget.dart';
-import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widget.dart';
+import 'package:field_zoom_pro_web/core/presentation/widgets/company_app_bar_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/nothing_found_animation.dart';
-import 'package:field_zoom_pro_web/core/presentation/widgets/request_full_screen_widget.dart';
 import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/collections_by_sales_person.dart';
 import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/orders_by_person_table.dart';
 import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/orders_map_widget.dart';
@@ -22,29 +19,12 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cUser = ref.watch(sessionNotifierProvider).loggedInUser;
     final dasboardProv = ref.watch(dashboardProvider);
     final regionId = ref.watch(quickfilterNotifierProvider).region;
     final selectedUserId =
         ref.watch(quickfilterNotifierProvider).selectedUserId;
     return Scaffold(
-      appBar: AppBar(
-        title: cUser?.companyId == null
-            ? const Text("Home Screen")
-            : const CompanyTitleWidget(),
-        actions: [
-          const CustomSwitchWidget(),
-          const VerticalDivider(),
-          const RequestFullScreenWidget(),
-          const VerticalDivider(),
-          if (cUser != null)
-            Center(
-              child: Text(cUser.role,
-                  style: Theme.of(context).textTheme.labelLarge),
-            ),
-          const SizedBox(width: 10),
-        ],
-      ),
+      appBar: const CompanyAppBarWidget(),
       body: dasboardProv.when(
         data: (data) {
           if (data.isEmpty) {

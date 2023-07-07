@@ -1,11 +1,10 @@
 import 'package:field_zoom_pro_web/core/notifiers/product_filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/notifiers/quick_filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/app_filter_widget.dart';
-import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widget.dart';
+import 'package:field_zoom_pro_web/core/presentation/widgets/company_app_bar_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/get_region_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/get_route_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/nothing_found_animation.dart';
-import 'package:field_zoom_pro_web/core/presentation/widgets/request_full_screen_widget.dart';
 import 'package:field_zoom_pro_web/core/providers/routes_provider.dart';
 import 'package:field_zoom_pro_web/features/customers/presentation/widgets/customers_map_widget.dart';
 import 'package:field_zoom_pro_web/features/customers/providers/customer_provider.dart';
@@ -60,14 +59,7 @@ class _CustomerUniverseState extends ConsumerState<CustomerUniverse> {
         final customersPerDistrictChartData =
             CustomerChartUtils.customersPerDistrict(customers: customers);
         return Scaffold(
-            appBar: AppBar(
-              title: const Text("CUSTOMERS"),
-              actions: const [
-                CustomSwitchWidget(),
-                VerticalDivider(),
-                RequestFullScreenWidget(),
-              ],
-            ),
+            appBar: const CompanyAppBarWidget(title: "CUSTOMERS"),
             body: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [

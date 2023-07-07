@@ -1,10 +1,9 @@
 import 'package:field_zoom_pro_web/core/notifiers/product_filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/notifiers/quick_filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/app_filter_widget.dart';
-import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widget.dart';
+import 'package:field_zoom_pro_web/core/presentation/widgets/company_app_bar_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/get_region_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/get_user_names_widget.dart';
-import 'package:field_zoom_pro_web/core/presentation/widgets/request_full_screen_widget.dart';
 import 'package:field_zoom_pro_web/features/customers/presentation/widgets/get_customer_widget.dart';
 import 'package:field_zoom_pro_web/features/dashboard/presentation/widgets/visit_adherence_map_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/item_per_page_widget.dart';
@@ -24,14 +23,7 @@ class VisitsScreen extends ConsumerWidget {
     final selectedUserId =
         ref.watch(quickfilterNotifierProvider).selectedUserId;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('VISITS'),
-        actions: const [
-          CustomSwitchWidget(),
-          VerticalDivider(),
-          RequestFullScreenWidget(),
-        ],
-      ),
+      appBar: const CompanyAppBarWidget(title: "VISITS"),
       body: visitsProv.when(
         data: (data) {
           if (regionId != null) {

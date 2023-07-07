@@ -8,7 +8,7 @@ class ItemPerPageWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final List<int> dropDownItems =
-        List.generate(20, (index) => (index + 1) * 2);
+        List.generate(12, (index) => (index + 1) * 1);
     final itemsPerPage = ref.watch(productFilterNotifierProvider).itemCount;
     return DropdownButton<int>(
       hint: Text('$itemsPerPage items per page'),

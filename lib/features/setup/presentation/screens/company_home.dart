@@ -1,9 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:field_zoom_pro_web/core/extensions/async_value_extensions.dart';
 import 'package:field_zoom_pro_web/core/presentation/controllers/upload_image_controller.dart';
-import 'package:field_zoom_pro_web/core/presentation/widgets/company_title_widget.dart';
-import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widget.dart';
-import 'package:field_zoom_pro_web/core/presentation/widgets/request_full_screen_widget.dart';
+import 'package:field_zoom_pro_web/core/presentation/widgets/company_app_bar_widget.dart';
 import 'package:field_zoom_pro_web/features/authentication/repositories/auth_repository.dart';
 import 'package:field_zoom_pro_web/features/setup/presentation/controllers/company_info_controller.dart';
 import 'package:field_zoom_pro_web/features/setup/repositories/company_info_provider.dart';
@@ -67,13 +65,15 @@ class _CompanyHomeScreenState extends ConsumerState<CompanyHomeScreen> {
     ref.listen<AsyncValue>(uploadImageControllerProvider,
         (_, state) => state.showSnackBarOnError(context));
     return Scaffold(
-      appBar: AppBar(
-        title: const CompanyTitleWidget(),
-        actions: const [
-          CustomSwitchWidget(),
-          RequestFullScreenWidget(),
-        ],
-      ),
+      appBar: const CompanyAppBarWidget(title: "COMPANY SETUP")
+          as PreferredSizeWidget?,
+      // AppBar(
+      //   title: const CompanyAppBarWidget(),
+      //   actions: const [
+      //     CustomSwitchWidget(),
+      //     RequestFullScreenWidget(),
+      //   ],
+      // ),
       body: companyInfoProv.when(
         data: (company) {
           _companyNameController.text = company.companyName;

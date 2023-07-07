@@ -2,6 +2,7 @@ import 'package:field_zoom_pro_web/features/authentication/presentation/screens/
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
 class SignInScreen extends ConsumerStatefulWidget {
@@ -40,6 +41,27 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
       appBar: AppBar(
         title: const Text("FZ PRO"),
         elevation: 0,
+        centerTitle: true,
+        actions: [
+          TextButton(
+            onPressed: () {
+              Fluttertoast.showToast(msg: "Whats New?");
+            },
+            child: const Text(
+              "Whats New?",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Fluttertoast.showToast(msg: "Whats New?");
+            },
+            child: const Text(
+              "Learn More",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
       ),
       body: SafeArea(
         child: Center(

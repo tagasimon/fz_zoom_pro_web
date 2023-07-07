@@ -1,8 +1,6 @@
 import 'package:field_zoom_pro_web/core/presentation/widgets/app_filter_widget.dart';
-import 'package:field_zoom_pro_web/core/presentation/widgets/company_title_widget.dart';
-import 'package:field_zoom_pro_web/core/presentation/widgets/custom_switch_widget.dart';
+import 'package:field_zoom_pro_web/core/presentation/widgets/company_app_bar_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/get_region_widget.dart';
-import 'package:field_zoom_pro_web/core/presentation/widgets/request_full_screen_widget.dart';
 import 'package:field_zoom_pro_web/core/providers/regions_provider.dart';
 import 'package:field_zoom_pro_web/features/users/presentation/controllers/users_controller.dart';
 import 'package:field_zoom_pro_web/features/users/presentation/widgets/users_table_actions_widget.dart';
@@ -31,13 +29,14 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
     ref.listen(usersControllerProvider,
         (_, state) => state.showSnackBarOnError(context));
     return Scaffold(
-      appBar: AppBar(
-        title: const CompanyTitleWidget(),
-        actions: const [
-          CustomSwitchWidget(),
-          RequestFullScreenWidget(),
-        ],
-      ),
+      appBar: const CompanyAppBarWidget(title: "USERS") as PreferredSizeWidget?,
+      // AppBar(
+      //   title: const CompanyAppBarWidget(),
+      //   actions: const [
+      //     CustomSwitchWidget(),
+      //     RequestFullScreenWidget(),
+      //   ],
+      // ),
       body: niceTwoUsersProv.when(
         data: (data) {
           final userData = UsersDataSourceModel(

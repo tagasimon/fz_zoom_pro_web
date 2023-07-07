@@ -14,35 +14,34 @@ class CollectionsBySalesPerson extends ConsumerWidget {
     final Map<String, double> topSalesMan =
         PayementsUtils.getCollectionsByPerson(payements: collections);
 
-    final scrollController = ScrollController();
-    if (scrollController.hasClients) {
-      scrollController.jumpTo(50.0);
-    }
-    return DataTable(
-      showBottomBorder: true,
-      columns: const [
-        DataColumn(label: Text('SALES REP')),
-        DataColumn(label: Text('AMOUNT')),
-      ],
-      rows: [
-        for (final entry in topSalesMan.entries)
-          DataRow(cells: [
-            DataCell(
-              Consumer(builder: (context, ref, _) {
-                final salesManProv = ref.watch(findUserByIdProvider(entry.key));
-                return salesManProv.when(
-                  data: (data) {
-                    return Text(data.name);
-                  },
-                  loading: () =>
-                      const Center(child: CircularProgressIndicator()),
-                  error: (e, s) => const Center(child: Text("Error")),
-                );
-              }),
-            ),
-            DataCell(SelectableText(mFormat.format(entry.value))),
-          ]),
-      ],
+    return Card(
+      child: DataTable(
+        showBottomBorder: true,
+        columns: const [
+          DataColumn(label: Text('SALES REP')),
+          DataColumn(label: Text('TOTAL COLLECTIONS')),
+        ],
+        rows: [
+          for (final entry in topSalesMan.entries)
+            DataRow(cells: [
+              DataCell(
+                Consumer(builder: (context, ref, _) {
+                  final salesManProv =
+                      ref.watch(findUserByIdProvider(entry.key));
+                  return salesManProv.when(
+                    data: (data) {
+                      return Text(data.name);
+                    },
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    error: (e, s) => const Center(child: Text("Error")),
+                  );
+                }),
+              ),
+              DataCell(SelectableText(mFormat.format(entry.value))),
+            ]),
+        ],
+      ),
     );
   }
 }

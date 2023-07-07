@@ -11,22 +11,24 @@ class VisitsSummaryTableWidget extends ConsumerWidget {
     final totalVisits = VisitAdherenceUtils.totalNumberOfVisits(data: visits);
     final totalDistictCustomers =
         VisitAdherenceUtils.totalDistictCustomersVisits(data: visits);
-    return DataTable(
-      showBottomBorder: true,
-      columns: const [
-        DataColumn(label: Text('KPI')),
-        DataColumn(label: Text('VALUE')),
-      ],
-      rows: [
-        DataRow(cells: [
-          const DataCell(Text('TOTAL VISITS')),
-          DataCell(Text('$totalVisits')),
-        ]),
-        DataRow(cells: [
-          const DataCell(Text('UNUQUE VISITS')),
-          DataCell(Text('$totalDistictCustomers')),
-        ]),
-      ],
+    return Card(
+      child: DataTable(
+        showBottomBorder: true,
+        columns: const [
+          DataColumn(label: Text('KPI')),
+          DataColumn(label: Text('VALUE')),
+        ],
+        rows: [
+          DataRow(cells: [
+            const DataCell(Text('TOTAL VISITS')),
+            DataCell(Text('$totalVisits')),
+          ]),
+          DataRow(cells: [
+            const DataCell(Text('UNUQUE VISITS')),
+            DataCell(Text('$totalDistictCustomers')),
+          ]),
+        ],
+      ),
     );
   }
 }

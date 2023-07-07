@@ -3,6 +3,7 @@ import 'package:field_zoom_pro_web/core/notifiers/product_filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/company_app_bar_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/screens/copy_product_screen.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/alert_dialog_widget.dart';
+import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/item_per_page_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/product_cartegory_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/product_details_screen.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/product_sub_cartegory_widget.dart';
@@ -89,16 +90,7 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
           },
         );
         return Scaffold(
-          appBar: const CompanyAppBarWidget(title: "PRODUCTS")
-              as PreferredSizeWidget?,
-
-          //  AppBar(
-          //   title: const CompanyAppBarWidget(),
-          //   actions: const [
-          //     CustomSwitchWidget(),
-          //     RequestFullScreenWidget(),
-          //   ],
-          // ),
+          appBar: const CompanyAppBarWidget(title: "PRODUCTS"),
           body: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -129,6 +121,8 @@ class _ProductsScreenState extends ConsumerState<ProductsScreen> {
                           ref.watch(productFilterNotifierProvider).itemCount,
                       actions: selectedProductId == null
                           ? [
+                              const ItemPerPageWidget(),
+                              const SizedBox(width: 10),
                               ProductsTableOptionsWidget(
                                 onChanged: (search) {
                                   setState(() => searchValue = search);

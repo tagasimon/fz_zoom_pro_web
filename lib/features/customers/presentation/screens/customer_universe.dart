@@ -66,8 +66,6 @@ class _CustomerUniverseState extends ConsumerState<CustomerUniverse> {
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ItemPerPageWidget(),
-                    SizedBox(width: 10),
                     AppFilterWidget(
                       showRegionFilter: true,
                       showRouteFilter: true,
@@ -118,8 +116,8 @@ class _CustomerUniverseState extends ConsumerState<CustomerUniverse> {
                               // DataColumn(label: Text("#")),
                               DataColumn(label: Text("CONTACT NAME")),
                               DataColumn(label: Text("BUSINESS NAME")),
-                              DataColumn(label: Text("LAST VISIT DATE")),
-                              DataColumn(label: Text("LAST ORDER DATE")),
+                              DataColumn(label: Text("LAST VISITED")),
+                              DataColumn(label: Text("LAST ORDERED")),
                               DataColumn(label: Text("LAST ORDER AMOUNT")),
                               DataColumn(label: Text("BUSINESS TYPE")),
                               DataColumn(label: Text("REGION")),
@@ -138,6 +136,8 @@ class _CustomerUniverseState extends ConsumerState<CustomerUniverse> {
                             sortColumnIndex: 0,
                             sortAscending: false,
                             actions: [
+                              const ItemPerPageWidget(),
+                              const SizedBox(width: 10),
                               Row(
                                 children: [
                                   SizedBox(

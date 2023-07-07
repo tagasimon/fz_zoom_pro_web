@@ -42,13 +42,12 @@ class AppFilterWidget extends ConsumerWidget {
           if (showSelectedUserFilter) const SelectedUserFilterWidget(),
           if (showSelectedUserFilter) const VerticalDivider(),
           if (region != null || selectedUserId != null)
-            TextButton.icon(
+            TextButton(
               style: TextButton.styleFrom(foregroundColor: Colors.redAccent),
               onPressed: () => ref
                   .read(quickfilterNotifierProvider.notifier)
                   .resetQuickFilter(),
-              label: const Text("Reset"),
-              icon: const Icon(Icons.refresh),
+              child: const Text("reset"),
             )
         ],
       ),

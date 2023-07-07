@@ -1,7 +1,6 @@
 import 'package:field_zoom_pro_web/core/notifiers/product_filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/product_cartegory_filter_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/sub_cartegory_filter_widget.dart';
-import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/item_per_page_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,8 +16,6 @@ class ProductsFilterWidget extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const ItemPerPageWidget(),
-        const VerticalDivider(),
         const ProductCartegoryFilterWidget(),
         const VerticalDivider(),
         const SubProductCartegoryFilterWidget(),

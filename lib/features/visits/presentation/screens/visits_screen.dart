@@ -42,9 +42,7 @@ class VisitsScreen extends ConsumerWidget {
                     element.userId == selectedUserId)
                 .toList();
           }
-          if (data.isEmpty) {
-            return const Center(child: Text('No data found'));
-          }
+
           final myData = VisitDataSourceModel(
             data: data,
             selectedVisits: {},
@@ -55,8 +53,6 @@ class VisitsScreen extends ConsumerWidget {
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ItemPerPageWidget(),
-                  SizedBox(width: 10),
                   AppFilterWidget(
                     showRegionFilter: true,
                     showSelectedUserFilter: true,
@@ -67,43 +63,46 @@ class VisitsScreen extends ConsumerWidget {
               ),
               const Divider(),
               const SizedBox(height: 5),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 400,
-                        width: double.infinity,
-                        child: visitAdherenceMapWidget(visits: data),
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: PaginatedDataTable(
-                              columns: const [
-                                DataColumn(label: Text("USER")),
-                                DataColumn(label: Text("REGION")),
-                                DataColumn(label: Text("CUSTOMER")),
-                                DataColumn(label: Text("START TIME")),
-                                DataColumn(label: Text("END TIME")),
-                                DataColumn(label: Text("VISIT DURATION")),
-                              ],
-                              source: myData,
-                              header: Text("VISITS (${data.length})"),
-                              rowsPerPage: ref
-                                  .watch(productFilterNotifierProvider)
-                                  .itemCount,
-                              sortColumnIndex: 0,
-                              sortAscending: false,
-                              showCheckboxColumn: false,
+              data.isEmpty
+                  ? const Center(child: Text('No data found'))
+                  : Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 400,
+                              width: double.infinity,
+                              child: visitAdherenceMapWidget(visits: data),
                             ),
-                          ),
-                        ],
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: PaginatedDataTable(
+                                    columns: const [
+                                      DataColumn(label: Text("USER")),
+                                      DataColumn(label: Text("REGION")),
+                                      DataColumn(label: Text("CUSTOMER")),
+                                      DataColumn(label: Text("START TIME")),
+                                      DataColumn(label: Text("END TIME")),
+                                      DataColumn(label: Text("VISIT DURATION")),
+                                    ],
+                                    source: myData,
+                                    header: Text("VISITS (${data.length})"),
+                                    rowsPerPage: ref
+                                        .watch(productFilterNotifierProvider)
+                                        .itemCount,
+                                    sortColumnIndex: 0,
+                                    sortAscending: false,
+                                    showCheckboxColumn: false,
+                                    actions: const [ItemPerPageWidget()],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
+                    ),
             ],
           );
         },

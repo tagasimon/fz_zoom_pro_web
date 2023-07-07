@@ -44,9 +44,8 @@ Widget visitAdherenceMapWidget({required List<VisitModel> visits}) {
     for (var i = 0; i < markerOptionsList.length; i++) {
       var contentString = '''
         <div>
-            <strong>
-              <p style="color: black">${visits[i].customerId}</p>
-            </strong>
+            <i> <p style="color: black">${visits[i].userId}</p> </i> 
+            <i><p style="color: black">${visits[i].customerId}</p></i>
             <p style="color: black">${dateFormat.format(visits[i].visitEndDate as DateTime)}</p>
         </div>
         ''';

@@ -3,7 +3,6 @@ import 'package:field_zoom_pro_web/core/notifiers/quick_filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/app_filter_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/company_app_bar_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/get_region_widget.dart';
-import 'package:field_zoom_pro_web/core/presentation/widgets/get_user_names_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/nothing_found_animation.dart';
 import 'package:field_zoom_pro_web/features/customers/presentation/widgets/customers_map_widget.dart';
 import 'package:field_zoom_pro_web/features/visits/presentation/widgets/visit_adherence_map_widget.dart';
@@ -30,6 +29,7 @@ class VisitsScreen extends ConsumerWidget {
           List<VisitModel> visits = visitsAndCustomers[0] as List<VisitModel>;
           List<CustomerModel> customers =
               visitsAndCustomers[1] as List<CustomerModel>;
+          List<UserModel> users = visitsAndCustomers[2] as List<UserModel>;
           List<String> customerIds =
               visits.map((e) => e.customerId).toSet().toList();
           List<CustomerModel> filteredCustomers = customers
@@ -56,7 +56,13 @@ class VisitsScreen extends ConsumerWidget {
           visits = visits.map((e) {
             final customer = filteredCustomers
                 .firstWhere((element) => element.id == e.customerId);
-            return e.copyWith(customerId: customer.name);
+            return e.copyWith(customerId: customer.businessName);
+          }).toList();
+
+          // replace userId with CustomerName from the users List
+          visits = visits.map((e) {
+            final user = users.firstWhere((element) => element.id == e.userId);
+            return e.copyWith(userId: user.name);
           }).toList();
 
           final myData = VisitDataSourceModel(
@@ -99,9 +105,9 @@ class VisitsScreen extends ConsumerWidget {
                                         child: Padding(
                                           padding: context.paddingLow,
                                           child: const Text(
-                                            'Visits Map',
+                                            'Users Locations at Visit Time',
                                             style: TextStyle(
-                                              fontSize: 20,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -123,9 +129,9 @@ class VisitsScreen extends ConsumerWidget {
                                         child: Padding(
                                           padding: context.paddingLow,
                                           child: const Text(
-                                            'Customers Visited Locations',
+                                            'Customers Visited Physical Locations',
                                             style: TextStyle(
-                                              fontSize: 20,
+                                              fontSize: 16,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -191,7 +197,7 @@ class VisitDataSourceModel extends DataTableSource {
   DataRow? getRow(int index) {
     return DataRow(
       cells: [
-        DataCell(GetUserNamesWidget(userId: data[index].userId)),
+        DataCell(Text(data[index].userId)),
         DataCell(GetRegionWidget(regionId: data[index].regionId)),
         DataCell(Text(data[index].customerId)),
         DataCell(

@@ -24,20 +24,13 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
   String? selectedUserId;
   @override
   Widget build(BuildContext context) {
-    final niceTwoUsersProv = ref.watch(getUsersByCompanyAndRegionProvider);
+    final companyUsersProv = ref.watch(getUsersByCompanyAndRegionProvider);
     final state = ref.watch(usersControllerProvider);
     ref.listen(usersControllerProvider,
         (_, state) => state.showSnackBarOnError(context));
     return Scaffold(
-      appBar: const CompanyAppBarWidget(title: "USERS") as PreferredSizeWidget?,
-      // AppBar(
-      //   title: const CompanyAppBarWidget(),
-      //   actions: const [
-      //     CustomSwitchWidget(),
-      //     RequestFullScreenWidget(),
-      //   ],
-      // ),
-      body: niceTwoUsersProv.when(
+      appBar: const CompanyAppBarWidget(title: "USERS"),
+      body: companyUsersProv.when(
         data: (data) {
           final userData = UsersDataSourceModel(
             data: data,

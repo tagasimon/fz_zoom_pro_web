@@ -98,14 +98,15 @@ class _CustomerUniverseState extends ConsumerState<CustomerUniverse> {
                                 Align(
                                   alignment: Alignment.topCenter,
                                   child: Padding(
-                                      padding: context.paddingLow,
-                                      child: const Text(
-                                        ' Customers Map',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      )),
+                                    padding: context.paddingLow,
+                                    child: const Text(
+                                      'ALL CUSTOMERS MAP',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),

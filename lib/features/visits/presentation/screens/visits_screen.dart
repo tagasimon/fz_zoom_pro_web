@@ -11,6 +11,7 @@ import 'package:field_zoom_pro_web/features/visits/providers/visits_providers.da
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 
 class VisitsScreen extends ConsumerWidget {
@@ -153,6 +154,7 @@ class VisitsScreen extends ConsumerWidget {
                                       DataColumn(label: Text("START TIME")),
                                       DataColumn(label: Text("END TIME")),
                                       DataColumn(label: Text("VISIT DURATION")),
+                                      DataColumn(label: Text("VISIT RADIUS")),
                                     ],
                                     source: myData,
                                     header: Text("VISITS (${visits.length})"),
@@ -187,7 +189,6 @@ class VisitDataSourceModel extends DataTableSource {
   final Function(VisitModel visit) onSelected;
 
   final timeFormat = DateFormat("hh:mm a");
-
   VisitDataSourceModel({
     required this.data,
     required this.selectedVisits,
@@ -195,6 +196,10 @@ class VisitDataSourceModel extends DataTableSource {
   });
   @override
   DataRow? getRow(int index) {
+    double startLat = double.parse(data[index].startLatitude!.toString());
+    double startLong = double.parse(data[index].startLongitude!.toString());
+    double endLat = double.parse(data[index].endLatitude!.toString());
+    double endLong = double.parse(data[index].endLongitude!.toString());
     return DataRow(
       cells: [
         DataCell(Text(data[index].userId)),
@@ -206,6 +211,15 @@ class VisitDataSourceModel extends DataTableSource {
         DataCell(
           Text(
             "${visitDuration(startDate: data[index].visitStartDate as DateTime, endDate: data[index].visitEndDate as DateTime)} Minutes",
+          ),
+        ),
+        DataCell(
+          Text(
+            distanceBetween(
+                startLat: startLat,
+                startLong: startLong,
+                endLat: endLat,
+                endLong: endLong),
           ),
         ),
       ],
@@ -235,4 +249,18 @@ int getDaysDifference(DateTime date) {
 int visitDuration({required DateTime startDate, required DateTime endDate}) {
   final diff = endDate.difference(startDate);
   return diff.inMinutes + (diff.inSeconds % 60 == 0 ? 0 : 1);
+}
+
+String distanceBetween(
+    {required double startLat,
+    required double startLong,
+    required double endLat,
+    required double endLong}) {
+  final distance =
+      Geolocator.distanceBetween(startLat, startLong, endLat, endLong)
+          .toStringAsFixed(2);
+  // convert to KM if distance is greater than 1000 meters
+  return double.parse(distance) > 1000
+      ? "${(double.parse(distance) / 1000).toStringAsFixed(2)} KM"
+      : "$distance M";
 }

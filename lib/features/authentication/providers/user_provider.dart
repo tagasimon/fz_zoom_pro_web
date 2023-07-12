@@ -1,4 +1,3 @@
-import 'package:field_zoom_pro_web/core/providers/firebase_providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 

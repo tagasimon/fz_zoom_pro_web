@@ -1,5 +1,4 @@
 import 'package:field_zoom_pro_web/core/notifiers/session_notifier.dart';
-import 'package:field_zoom_pro_web/core/providers/firebase_providers.dart';
 import 'package:field_zoom_pro_web/features/authentication/providers/user_provider.dart';
 import 'package:field_zoom_pro_web/features/customers/providers/customer_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

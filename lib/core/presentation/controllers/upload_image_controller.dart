@@ -1,8 +1,8 @@
-import 'package:field_zoom_pro_web/core/providers/firebase_providers.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fz_hooks/fz_hooks.dart';
 
 final uploadImageControllerProvider =
     StateNotifierProvider<UploadImageController, AsyncValue>((ref) {

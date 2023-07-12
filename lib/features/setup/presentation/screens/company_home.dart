@@ -65,15 +65,7 @@ class _CompanyHomeScreenState extends ConsumerState<CompanyHomeScreen> {
     ref.listen<AsyncValue>(uploadImageControllerProvider,
         (_, state) => state.showSnackBarOnError(context));
     return Scaffold(
-      appBar: const CompanyAppBarWidget(title: "COMPANY SETUP")
-          as PreferredSizeWidget?,
-      // AppBar(
-      //   title: const CompanyAppBarWidget(),
-      //   actions: const [
-      //     CustomSwitchWidget(),
-      //     RequestFullScreenWidget(),
-      //   ],
-      // ),
+      appBar: const CompanyAppBarWidget(title: "COMPANY SETUP"),
       body: companyInfoProv.when(
         data: (company) {
           _companyNameController.text = company.companyName;

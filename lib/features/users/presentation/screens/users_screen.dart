@@ -1,6 +1,7 @@
 import 'package:field_zoom_pro_web/core/presentation/widgets/app_filter_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/company_app_bar_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/get_region_widget.dart';
+import 'package:field_zoom_pro_web/core/presentation/widgets/nothing_found_animation.dart';
 import 'package:field_zoom_pro_web/core/providers/regions_provider.dart';
 import 'package:field_zoom_pro_web/features/users/presentation/controllers/users_controller.dart';
 import 'package:field_zoom_pro_web/features/users/presentation/widgets/users_table_actions_widget.dart';
@@ -43,50 +44,52 @@ class _UsersScreenState extends ConsumerState<UsersScreen> {
               setState(() => selectedUserId = null);
             },
           );
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const AppFilterWidget(
-                showRegionFilter: true,
-                showSelectedUserFilter: false,
-                showStartDateFilter: false,
-                showEndDateFilter: false,
-              ),
-              const Divider(),
-              if (state.isLoading) const LinearProgressIndicator(),
-              data.isEmpty
-                  ? const Center(child: Text("No users found"))
-                  : SizedBox(
-                      width: double.infinity,
-                      child: PaginatedDataTable(
-                        columns: const [
-                          DataColumn(label: Text("NAME")),
-                          DataColumn(label: Text("EMAIL")),
-                          DataColumn(label: Text("PHONE")),
-                          DataColumn(label: Text("ROLE")),
-                          DataColumn(label: Text("REGION")),
-                          DataColumn(label: Text("ACTIVE")),
-                          DataColumn(label: Text("REQUIRE STOCK")),
-                          DataColumn(label: Text("COLLECT MONEY")),
-                          DataColumn(label: Text("CAN REGISTER CUSTOMERS")),
-                          DataColumn(label: Text("CAN DELIVER ORDER")),
-                          DataColumn(label: Text("CAN GIVE DISCOUNT")),
-                          DataColumn(label: Text("CAN SELL WHOLESALE")),
-                          DataColumn(label: Text("CAN CREATE ROUTES")),
-                        ],
-                        source: userData,
-                        header: const Text("USERS"),
-                        rowsPerPage: 10,
-                        showCheckboxColumn: true,
-                        showFirstLastButtons: true,
-                        actions: [
-                          if (state.isLoading)
-                            const CircularProgressIndicator(),
-                          const UsersTableActionsWidget(),
-                        ],
+          return SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const AppFilterWidget(
+                  showRegionFilter: true,
+                  showSelectedUserFilter: false,
+                  showStartDateFilter: false,
+                  showEndDateFilter: false,
+                ),
+                const Divider(),
+                if (state.isLoading) const LinearProgressIndicator(),
+                data.isEmpty
+                    ? const Center(child: NothingFoundAnimation())
+                    : SizedBox(
+                        width: double.infinity,
+                        child: PaginatedDataTable(
+                          columns: const [
+                            DataColumn(label: Text("NAME")),
+                            DataColumn(label: Text("EMAIL")),
+                            DataColumn(label: Text("PHONE")),
+                            DataColumn(label: Text("ROLE")),
+                            DataColumn(label: Text("REGION")),
+                            DataColumn(label: Text("ACTIVE")),
+                            DataColumn(label: Text("REQUIRE STOCK")),
+                            DataColumn(label: Text("COLLECT MONEY")),
+                            DataColumn(label: Text("CAN REGISTER CUSTOMERS")),
+                            DataColumn(label: Text("CAN DELIVER ORDER")),
+                            DataColumn(label: Text("CAN GIVE DISCOUNT")),
+                            DataColumn(label: Text("CAN SELL WHOLESALE")),
+                            DataColumn(label: Text("CAN CREATE ROUTES")),
+                          ],
+                          source: userData,
+                          header: const Text("USERS"),
+                          rowsPerPage: 10,
+                          showCheckboxColumn: true,
+                          showFirstLastButtons: true,
+                          actions: [
+                            if (state.isLoading)
+                              const CircularProgressIndicator(),
+                            const UsersTableActionsWidget(),
+                          ],
+                        ),
                       ),
-                    ),
-            ],
+              ],
+            ),
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),

@@ -1,3 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fz_hooks/fz_hooks.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
+
 import 'package:field_zoom_pro_web/core/notifiers/product_filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/notifiers/quick_filter_notifier.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/app_filter_widget.dart';
@@ -5,14 +11,9 @@ import 'package:field_zoom_pro_web/core/presentation/widgets/company_app_bar_wid
 import 'package:field_zoom_pro_web/core/presentation/widgets/get_region_widget.dart';
 import 'package:field_zoom_pro_web/core/presentation/widgets/nothing_found_animation.dart';
 import 'package:field_zoom_pro_web/features/customers/presentation/widgets/customers_map_widget.dart';
-import 'package:field_zoom_pro_web/features/visits/presentation/widgets/visit_adherence_map_widget.dart';
 import 'package:field_zoom_pro_web/features/manage_products/presentation/widgets/item_per_page_widget.dart';
+import 'package:field_zoom_pro_web/features/visits/presentation/widgets/visit_adherence_map_widget.dart';
 import 'package:field_zoom_pro_web/features/visits/providers/visits_providers.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fz_hooks/fz_hooks.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:intl/intl.dart';
 
 class VisitsScreen extends ConsumerWidget {
   const VisitsScreen({super.key});

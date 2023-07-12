@@ -8,17 +8,8 @@ class SettingsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final cUser = ref.watch(sessionNotifierProvider).loggedInUser;
-
     return Scaffold(
-      appBar:
-          const CompanyAppBarWidget(title: "PRODUCTS") as PreferredSizeWidget?,
-
-      // AppBar(
-      //   title: cUser?.companyId == null
-      //       ? const Text("SETTINGS")
-      //       : const CompanyAppBarWidget(),
-      // ),
+      appBar: const CompanyAppBarWidget(title: "PRODUCTS"),
       body: Center(
         child: TextButton.icon(
             onPressed: () => ref.read(authRepositoryProvider).signOut(),

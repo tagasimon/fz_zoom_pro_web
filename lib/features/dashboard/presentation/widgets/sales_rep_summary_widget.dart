@@ -24,13 +24,13 @@ class SalesRepSummaryWidget extends ConsumerWidget {
       child: DataTable(
         showBottomBorder: true,
         columns: const [
-          DataColumn(label: Text('SALES REP')),
-          DataColumn(label: Text('tORDERS')),
-          DataColumn(label: Text('tPENDING')),
-          DataColumn(label: Text('tDELIVERED')),
-          DataColumn(label: Text('tCANCELLED')),
-          DataColumn(label: Text('tCOLLECTIONS')),
-          DataColumn(label: Text('tVISITS')),
+          DataColumn(label: Text('SALES REP (TOTALS)')),
+          DataColumn(label: Text('ORDERS')),
+          DataColumn(label: Text('PENDING')),
+          DataColumn(label: Text('DELIVERED')),
+          DataColumn(label: Text('CANCELLED')),
+          DataColumn(label: Text('COLLECTIONS')),
+          DataColumn(label: Text('VISITS')),
         ],
         rows: [
           for (final salesRep in salesRepSummaryList)

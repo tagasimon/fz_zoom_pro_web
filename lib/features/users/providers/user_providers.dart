@@ -19,11 +19,6 @@ final getUsersByCompanyAndRegionProvider =
       .getAllCompanyUsersByRegionId(companyId: companyId, regionId: region);
 });
 
-final companyUsersProvider = StreamProvider.autoDispose<List<UserModel>>((ref) {
-  final companyId = ref.watch(sessionNotifierProvider).loggedInUser!.companyId;
-  return ref.watch(userRepoProvider).getAllCompanyUsers(companyId: companyId);
-});
-
 final getUserNamesByUserIdProvider =
     FutureProvider.autoDispose.family<UserModel, String>((ref, id) {
   final companyId = ref.watch(sessionNotifierProvider).loggedInUser!.companyId;

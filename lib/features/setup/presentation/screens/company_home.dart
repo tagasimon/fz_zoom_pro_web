@@ -4,7 +4,7 @@ import 'package:field_zoom_pro_web/core/presentation/controllers/upload_image_co
 import 'package:field_zoom_pro_web/core/presentation/widgets/company_app_bar_widget.dart';
 import 'package:field_zoom_pro_web/features/authentication/repositories/auth_repository.dart';
 import 'package:field_zoom_pro_web/features/setup/presentation/controllers/company_info_controller.dart';
-import 'package:field_zoom_pro_web/features/setup/repositories/company_info_provider.dart';
+import 'package:field_zoom_pro_web/features/setup/providers/company_info_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

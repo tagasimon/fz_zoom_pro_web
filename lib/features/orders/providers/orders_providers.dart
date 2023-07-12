@@ -13,11 +13,3 @@ final customerLastOrderProvider = FutureProvider.family
       .watch(ordersRepositoryProvider)
       .getLastOrder(companyId: companyId, customerId: customerId);
 });
-
-final getCustomerLastOrderProvider =
-    FutureProvider.family<OrderModel?, String>((ref, customerId) async {
-  final companyId = ref.watch(sessionNotifierProvider).loggedInUser!.companyId;
-  return ref
-      .watch(ordersRepositoryProvider)
-      .getLastOrder(companyId: companyId, customerId: customerId);
-});

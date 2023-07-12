@@ -20,9 +20,3 @@ final customerByIdProvider =
       .watch(customersRepoProvider)
       .nGetCustomerByCustomerId(customerId: customerId, companyId: companyId);
 });
-
-// final getCustomerProvider =
-//     Provider.family<CustomerModel, String>((ref, customerId) async {
-//   final cust = await ref.read(customerByIdProvider(customerId).future);
-//   return cust;
-// });

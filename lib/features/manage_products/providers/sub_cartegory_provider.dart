@@ -7,14 +7,6 @@ final productsSubCartegoryProvider = Provider<SubCartegoryRepository>((ref) {
   return SubCartegoryRepository(ref.watch(firestoreInstanceProvider));
 });
 
-final allSubCartegoriesProvider =
-    FutureProvider.autoDispose<List<SubCartegoryModel>>((ref) async {
-  final companyId = ref.watch(sessionNotifierProvider).loggedInUser!.companyId;
-  return ref
-      .watch(productsSubCartegoryProvider)
-      .allSubCartegories(companyId: companyId);
-});
-
 final watchSubCartegoriesProvider =
     StreamProvider.autoDispose<List<SubCartegoryModel>>((ref) {
   final companyId = ref.watch(sessionNotifierProvider).loggedInUser!.companyId;

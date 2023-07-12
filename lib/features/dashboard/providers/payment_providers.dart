@@ -3,8 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fz_hooks/fz_hooks.dart';
 
 final paymentsProvider = Provider<PaymentsRepository>((ref) {
-  final firestore = ref.watch(firestoreInstanceProvider);
-  return PaymentsRepository(firestore);
+  return PaymentsRepository(ref.watch(firestoreInstanceProvider));
 });
 
 final orderPayementsProvider = FutureProvider.family

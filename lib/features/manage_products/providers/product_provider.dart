@@ -21,6 +21,5 @@ final watchProductProvider =
 
 final productsControllerProvider =
     StateNotifierProvider.autoDispose<ProductsController, AsyncValue>((ref) {
-  final firestore = ref.watch(firestoreInstanceProvider);
-  return ProductsController(firestore);
+  return ProductsController(ref.watch(firestoreInstanceProvider));
 });

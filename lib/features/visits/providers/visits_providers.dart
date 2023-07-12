@@ -8,16 +8,6 @@ final visitAdherenceProvider = Provider<VisitRepository>((ref) {
   return VisitRepository(ref.watch(firestoreInstanceProvider));
 });
 
-final companyVisitsProvider =
-    FutureProvider.autoDispose<List<VisitModel>>((ref) async {
-  final filter = ref.watch(sessionNotifierProvider);
-  if (filter.loggedInUser == null) return Future.value([]);
-  return ref.watch(visitAdherenceProvider).nGetAllCompanyVisits(
-      companyId: filter.loggedInUser!.companyId,
-      startDate: filter.startDate,
-      endDate: filter.endDate);
-});
-
 final companyVisitsAndCustomersProvider =
     FutureProvider.autoDispose<List<dynamic>>((ref) async {
   final filter = ref.watch(sessionNotifierProvider);
